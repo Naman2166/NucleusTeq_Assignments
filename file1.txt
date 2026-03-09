@@ -1,1 +1,2 @@
-This is new File Created By Naman Patel
+Modifing the file "file1.txt" in "feature1" branch
+Name :- Naman Patel 
