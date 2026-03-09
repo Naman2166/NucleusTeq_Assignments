@@ -1,2 +1,2 @@
-Modifing the file "file1.txt" in "feature1" branch
+Modifing the file "file1.txt" in "feature2" branch
 Name :- Naman Patel 
