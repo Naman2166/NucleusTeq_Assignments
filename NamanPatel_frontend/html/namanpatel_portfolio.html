@@ -265,6 +265,78 @@
 
 
 
+    <!-- Contact section with form -->
+    <section>
+
+        <h2>Contact Me</h2>
+
+        <p>
+            I m always open to new opportunities and interesting projects. Feel free to connect with me!
+        </p>
+
+
+        <!-- Contact Form -->
+        <form>
+
+            <!-- Name input -->
+            <strong> <label for="name">Name:</label> </strong>
+            <input type="text" id="name" required>
+
+            <br><br>
+
+            <!-- Email input -->
+            <strong> <label for="email">Email:</label> </strong>
+            <input type="email" id="email" required>
+
+            <br><br>
+
+            <!-- Dropdown to know who is contacting -->
+            <strong><label for="role">You are a : </label></strong>
+            <select id="role" name="role">
+                <option value=""> Select </option>
+                <option value="recruiter">Recruiter</option>
+                <option value="client">Client</option>
+                <option value="student">Student</option>
+                <option value="other">Other</option>
+            </select>
+
+            <br><br>
+
+            <!-- Purpose of contact -->
+            <strong> <label>Purpose:</label> </strong>
+            <input type="radio" name="purpose"> Hiring
+            <input type="radio" name="purpose"> Freelance
+            <input type="radio" name="purpose"> Collaboration
+
+            <br><br>
+
+            <!-- Skills user is interested in -->
+            <strong> <label>Skills Interested In:</label> </strong>
+            <input type="checkbox"> Frontend
+            <input type="checkbox"> Backend
+            <input type="checkbox"> Full Stack
+
+            <br><br>
+
+            <!-- Message box -->
+            <strong> <label for="message">Message:</label> </strong>
+            <br>
+            <textarea id="message" rows="5" cols="40"></textarea>
+
+            <br><br>
+
+            <!-- Form buttons -->
+            <input type="submit" value="Send Message">
+            <input type="reset" value="Reset">
+
+        </form>
+
+    </section>
+
+    <hr>
+
+
+
 </body>
 
 </html>
