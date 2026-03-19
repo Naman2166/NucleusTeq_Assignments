@@ -326,3 +326,43 @@ ul li {
     color: #03257d;
     text-decoration: underline;
 }
+
+
+
+
+/* --------- Responsiveness (smaller screen) ------------ */
+
+@media (max-width: 600px) {
+    
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    /* techncial skills */
+    #skills>article.tech>ul {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* education table  */
+    .education-table th,
+    .education-table td {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .header-text {
+        text-align: center;
+    }
+
+    .section {
+        margin: 15px;
+    }
+
+    /* nav list directon change */
+    .nav-list {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
