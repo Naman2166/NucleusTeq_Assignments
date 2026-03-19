@@ -5,15 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Naman Patel Portfolio</title>
+    <link rel="stylesheet" href="../css/namanpatel_styles.css">
 </head>
 
 <body>
 
-    <!-- Header section (containing profile photo, name and title) -->
-    <header>
+    <!-- Header section (containing profile photo, name and role) -->
+    <header class="header">
+
         <img src="NamanPatel_Profile_Image.jpg" alt="Naman Patel Profile Image" width="150">
-        <h1>Naman Patel</h1>
-        <h2>Full Stack Developer</h2>
+        <div class="header-text">
+            <h1>Naman Patel</h1>
+            <h2>Full Stack Developer</h2>
+        </div>
+
     </header>
 
     <hr>
@@ -21,8 +26,8 @@
 
 
     <!-- Navigation menu (containingg links to navigate to different sections easily)-->
-    <nav>
-        <ul>
+    <nav class="navbar">
+        <ul class="nav-list">
             <li> <a href="#about">About</a> </li>
             <li> <a href="#skills">Skills</a> </li>
             <li> <a href="#education">Education</a> </li>
@@ -37,7 +42,7 @@
 
 
     <!-- About section -->
-    <section>
+    <section id="about" class="section">
         <h2>About Me</h2>
 
         <p>
@@ -55,11 +60,11 @@
 
 
     <!-- Skills section (Containing technical skills and soft skills) -->
-    <section>
+    <section id="skills" class="section">
 
         <h2>Skills</h2>
 
-        <article>
+        <article class="tech">
             <h3>Technical Skills</h3>
 
             <ul>
@@ -98,7 +103,7 @@
         </article>
 
 
-        <article>
+        <article class="soft">
             <h3>Soft Skills</h3>
 
             <ul>
@@ -116,11 +121,11 @@
 
 
     <!-- Education section (Containingg table for academic records) -->
-    <section>
+    <section id="education" class="section">
 
         <h2>Education</h2>
 
-        <table border="1" cellpadding="10" cellspacing="0">
+        <table class="education-table" border="1" cellpadding="10" cellspacing="0">
 
             <tr>
                 <th>Degree</th>
@@ -162,7 +167,7 @@
 
 
     <!-- Experience Section -->
-    <section>
+    <section id="experience" class="section">
 
         <h2>Experience</h2>
 
@@ -190,7 +195,7 @@
 
 
     <!-- Projects section (Containing 3 projects) -->
-    <section>
+    <section id="projects" class="section">
 
         <h2>Projects</h2>
 
@@ -198,7 +203,7 @@
 
             <!-- Project 1: MediCare -->
             <li>
-                <div>
+                <div class="project-title">
                     <h3>MediCare - Doctor Appointment Booking System</h3>
                     <a href="https://medicare-namanpatel.vercel.app/" target="_blank">
                         View Demo
@@ -220,7 +225,7 @@
 
             <!-- Project 2: BookHub -->
             <li>
-                <div>
+                <div class="project-title">
                     <h3>BookHub - AI Powered Book Manager</h3>
                     <a href="https://github.com/Naman2166/BookHub" target="_blank">
                         View Source Code
@@ -241,7 +246,7 @@
 
             <!-- Project 3: Car Price Predictor -->
             <li>
-                <div>
+                <div class="project-title">
                     <h3>Car Resale Price Prediction System</h3>
                     <a href="https://github.com/Naman2166/Car_Resale_Price_Predictor" target="_blank">
                         View Source Code
@@ -268,7 +273,7 @@
 
 
     <!-- Contact section with form -->
-    <section>
+    <section id="contact" class="section">
 
         <h2>Contact Me</h2>
 
@@ -278,7 +283,7 @@
 
 
         <!-- Contact Form -->
-        <form>
+        <form class="contact-form">
 
             <!-- Name input -->
             <strong> <label for="name">Name:</label> </strong>
@@ -340,7 +345,7 @@
 
 
     <!-- Footer section -->
-    <footer>
+    <footer class="footer">
 
         <p>© 2026 Naman Patel</p>
 
