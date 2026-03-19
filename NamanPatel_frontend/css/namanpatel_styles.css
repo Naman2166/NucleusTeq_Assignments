@@ -25,7 +25,6 @@ body {
     align-items: center;
     justify-content: center;
     gap: 20px;
-
     padding: 60px 20px;
     background-color: #f0e6dd;
     border-radius: 10px;
@@ -82,4 +81,33 @@ body {
 /* Hover effect for links */
 .nav-list a:hover {
     color: #e7694a;
+}
+
+
+
+
+/* ----- Common section ------- */
+
+/* styling section tag as it act as a card which is used at multiple places) */
+.section {
+    background: #fff;
+    padding: 20px;
+    margin: 20px 60px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Section heading */
+.section h2 {
+    margin-bottom: 10px;
+}
+
+
+/* List (styling list inside the section) */
+ul {
+    margin-left: 20px;
+}
+
+ul li {
+    margin-bottom: 6px;
 }
