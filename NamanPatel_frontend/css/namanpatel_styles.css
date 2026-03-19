@@ -2,7 +2,6 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 
@@ -13,5 +12,43 @@ body {
     background-color: #f7f1f0;
     color: #333;
     line-height: 1.6;
+}
+
+
+
+/* ------------ Header section--------- */
+
+/* styling header section container which conatins name, role and profile image */
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+
+    padding: 60px 20px;
+    background-color: #f0e6dd;
+    border-radius: 10px;
+}
+
+/* Profile image */
+.header img {
+    border-radius: 50%;
+}
+
+/* header text part */
+.header-text {
+    text-align: left;
+}
+
+/* Name */
+.header-text h1 {
+    font-size: 45px;
+    font-weight: 800;
+}
+
+/* Role */
+.header-text h2 {
+    font-size: 24px;
+    font-weight: 600;
 }
 
