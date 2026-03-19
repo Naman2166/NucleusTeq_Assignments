@@ -209,3 +209,38 @@ ul li {
 #experience ul {
     margin-top: 10px;
 }
+
+
+
+
+/* ----------- Projects section -------- */
+
+#projects ol {
+    list-style: none;
+}
+
+/* Project card (styling each project) */
+#projects ol > li {
+    background: #f7f1f0;
+    padding: 15px;
+    border-left: 4px solid #444;
+    margin-bottom: 12px
+}
+
+#projects p {
+    margin-bottom: 10px;
+}
+
+/* Project title */
+.project-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* Links of a project */
+.project-links a {
+    color: #044370;
+    text-decoration: underline;
+}
