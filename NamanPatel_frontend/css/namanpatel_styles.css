@@ -310,3 +310,19 @@ ul li {
 .contact-form input[type="reset"]:hover {
     background-color: #777;
 }
+
+
+
+/* -------- Footer ----------- */
+.footer {
+    text-align: center;
+    padding: 15px;
+    background: #eadccf;
+    border-radius: 8px;
+}
+
+/* Footer links */
+.footer a {
+    color: #03257d;
+    text-decoration: underline;
+}
