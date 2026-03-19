@@ -244,3 +244,69 @@ ul li {
     color: #044370;
     text-decoration: underline;
 }
+
+
+
+
+/* ---------- Contact Section -------------  */
+
+.contact-form {
+    max-width: 500px;
+}
+
+/* Inputs */
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+/* Focus effect (effect displays when we click on input field) */
+.contact-form input:focus,
+.contact-form textarea:focus,
+.contact-form select:focus {
+    outline: none;
+    border-color: #0077cc;
+}
+
+/* Radio and checkbox */
+.contact-form input[type="radio"],
+.contact-form input[type="checkbox"] {
+    width: auto;
+    margin-right: 6px;
+}
+
+/* Buttons */
+.contact-form input[type="submit"],
+.contact-form input[type="reset"] {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 10px;
+    width: 20%;
+}
+
+/* Submit button */
+.contact-form input[type="submit"] {
+    background-color: #0077cc;
+    color: white;
+}
+
+/* Reset button */
+.contact-form input[type="reset"] {
+    background-color: #999;
+    color: white;
+}
+
+/* Hover effet (effect dsplay when we hover over the buttons) */
+.contact-form input[type="submit"]:hover {
+    background-color: #005fa3;
+}
+
+.contact-form input[type="reset"]:hover {
+    background-color: #777;
+}
