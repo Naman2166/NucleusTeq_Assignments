@@ -258,6 +258,10 @@ ul li {
     max-width: 500px;
 }
 
+label {
+    font-weight: bold;
+  }
+
 /* Inputs */
 .contact-form input,
 .contact-form select,
