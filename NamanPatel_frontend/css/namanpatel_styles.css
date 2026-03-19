@@ -2,8 +2,8 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
-
 
 
 /* Body (stylingg whole page) */
@@ -13,7 +13,6 @@ body {
     color: #333;
     line-height: 1.6;
 }
-
 
 
 
@@ -173,6 +172,7 @@ ul li {
     margin-top: 10px;
 }
 
+
 /* table rows */
 .education-table th, 
 .education-table td {
@@ -187,6 +187,10 @@ ul li {
     color: #fff;
 }
 
+/* alternalte row colouring  */
+.education-table tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
 
 
 
