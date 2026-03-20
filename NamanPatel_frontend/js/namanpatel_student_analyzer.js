@@ -145,3 +145,50 @@ students.forEach(function(student){
 
 console.log("topper = " + topperName + " with " + topperMarks + " marks");
 
+
+
+
+//giving grade based on average marks of each student
+students.forEach(function(student) {
+  let total = 0;
+  let fail = false;
+  let reason = "";
+
+  //here we are looping through all subjects of this student
+  student.marks.forEach(function(marks) {
+    let score = marks.score;
+    total = total + score;
+
+    //if any subject marks is less than 40 that student is fail
+    if (score <= 40) {
+      fail = true;
+      reason = "less marks in " + marks.subject;
+    }
+  });
+
+  //this is average marks of current student
+  let avg = total / student.marks.length;
+
+  //checking attendance condition
+  if (student.attendance < 75) {
+    fail = true;
+    reason = "low attendance";
+  }
+
+  let grade = "";
+
+  //giving grade
+  if (fail) {
+    grade = "Fail (" + reason + ")";
+  } else if (avg >= 85) {
+    grade = "A";
+  } else if (avg >= 70) {
+    grade = "B";
+  } else if (avg >= 50) {
+    grade = "C";
+  } else {
+    grade = "Fail";
+  }
+
+  console.log(student.name + " grade: " + grade);
+});
