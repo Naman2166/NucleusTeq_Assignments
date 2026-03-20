@@ -72,3 +72,31 @@ for (let i=0; i<students.length; i++) {
 
 
 
+
+//it calculates highest marks scored in each subject
+let subjects = ["Math", "English", "Science", "History", "Computer"];
+
+//loop through each subject
+for (let i= 0; i < subjects.length; i++) {
+  let maxMarks = 0;
+  let topper = "";
+  
+  for (let j = 0; j < students.length; j++) {                 
+    for (let k = 0; k < students[j].marks.length; k++) {  
+      let currentSub = students[j].marks[k];      
+
+      //here if subject matches we will comapare marks with max marks
+      if (currentSub.subject === subjects[i]) {              
+
+        if (currentSub.score > maxMarks) {
+          maxMarks = currentSub.score;
+          topper = students[j].name;
+        }
+      }
+    }
+  }
+  
+  console.log("highest in " + subjects[i] + " : " + topper +"("+ maxMarks +")" )
+}
+
+
