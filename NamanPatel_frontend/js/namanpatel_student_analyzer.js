@@ -100,3 +100,25 @@ for (let i= 0; i < subjects.length; i++) {
 }
 
 
+
+
+//it calculates average marks of each subject
+for (let i = 0; i < subjects.length; i++) {
+  let total = 0;      //it stores total marks of a subject by all students
+  let count = 0;      //this stores how many students have that subject
+
+  for (let j = 0; j < students.length; j++) {
+    for (let k = 0; k < students[j].marks.length; k++) {
+      let currentSub = students[j].marks[k];
+
+      if (currentSub.subject === subjects[i]) {
+        total = total + currentSub.score;
+        count++;
+      }
+    }
+  }
+  let avg = total/count;
+
+  console.log("avg " + subjects[i] + " Score = " + avg);
+}
+
