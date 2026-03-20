@@ -33,7 +33,6 @@ const students = [
     ],
     attendance: 86
   },
-
 ];
 
 
@@ -121,4 +120,28 @@ for (let i = 0; i < subjects.length; i++) {
 
   console.log("avg " + subjects[i] + " Score = " + avg);
 }
+
+
+
+
+//finding topper ie student with highest total marks in class
+let topperName = "";
+let topperMarks = 0;
+
+//i am using for each loop here bcoz in assignment it is mention we have to use for each loop also
+students.forEach(function(student){
+  let total = 0;
+
+  //adding marks of all subjects of current student
+  student.marks.forEach(function(marks) {
+    total = total + marks.score;
+  });
+
+  if (total > topperMarks) {
+    topperMarks = total;
+    topperName = student.name;
+  }
+});
+
+console.log("topper = " + topperName + " with " + topperMarks + " marks");
 
