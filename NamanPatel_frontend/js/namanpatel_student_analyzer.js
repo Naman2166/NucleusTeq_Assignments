@@ -143,7 +143,7 @@ students.forEach(function(student){
   }
 });
 
-console.log("topper = " + topperName + " with " + topperMarks + " marks");
+console.log("topper: " + topperName + " with " + topperMarks + " marks");
 
 
 
@@ -167,7 +167,7 @@ students.forEach(function(student) {
   });
 
   //this is average marks of current student
-  let avg = total / student.marks.length;
+  let avg = total/student.marks.length;
 
   //checking attendance condition
   if (student.attendance < 75) {
