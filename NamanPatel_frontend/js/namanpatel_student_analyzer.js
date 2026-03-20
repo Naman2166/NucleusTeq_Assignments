@@ -42,14 +42,33 @@ const students = [
 function totalMarks(student) {
   let total = 0;
 
-  for (let i=0; i<student.marks.length; i++) {
-   total = total + student.marks[i].score;
+  for (let i = 0; i < student.marks.length; i++) {
+    total = total + student.marks[i].score;
   }
   return total;
 }
 
 //printing total marks of each student
-for(let i=0; i<students.length; i++){
+for (let i=0; i < students.length; i++) {
   let total = totalMarks(students[i]);
   console.log(students[i].name + " total marks = " + total);
 }
+
+
+
+
+// it is function to calculate average marks of a student
+function averageMarks(student) {
+  let total = totalMarks(student);
+  let avg = total/student.marks.length;
+  return avg;
+}
+
+//printing average marks of each student
+for (let i=0; i<students.length; i++) {
+  let avg = averageMarks(students[i]);
+  console.log(students[i].name + " average marks = " + avg);
+}
+
+
+
