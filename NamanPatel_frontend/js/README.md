@@ -12,6 +12,8 @@
 - This data is used for all calculations in this program.
 
 
+
+
 ## 2. Total marks calculation
 
 ![Total Marks](./console_screenshots/total_marks_function.png)
@@ -23,6 +25,8 @@
 - At last, I used a loop to call this function for every student and printed their total marks in the console.
 
 
+
+
 ## 3. Average marks calculation
 
 ![Average Marks](./console_screenshots/average_marks_function.png)
@@ -31,6 +35,8 @@
 - I created a function averageMarks(student) to calculate the average marks of a student.
 - Inside this function, I first called the totalMarks() function to get the total marks.
 - then divided total marks with number of subject to get the average and prints each student average in console
+
+
 
 
 ## 4. Subject wise highest marks
@@ -45,6 +51,8 @@
 - At last, i print the highest marks for each subject
 
 
+
+
 ## 5. Subject wise average marks
 
 ![Average Marks](./console_screenshots/avg_marks_subjectwise.png)
@@ -57,6 +65,8 @@
 - Finally, I printed the average marks for each subject
 
 
+
+
 ## 6. Finding topper
 
 ![Average Marks](./console_screenshots/topper_logic.png)
@@ -65,6 +75,8 @@
 - In this, for every student, i calculated total marks by adding scores of all subjects.
 - Then i compare and update the topperMarks and name variable
 - Finally, i printed the topper with their total marks.
+
+
 
 
 ## 7. Giving grades
