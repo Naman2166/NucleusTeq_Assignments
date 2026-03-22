@@ -241,6 +241,31 @@ function updateCategoryOptions() {
 
 
 
+//Event Listeners
+//these listeners call render function whenever user do anything in UI
+search.addEventListener("input", renderProducts);
+categoryFilter.addEventListener("change", renderProducts);
+lowStockFilter.addEventListener("change", renderProducts);
+sort.addEventListener("change", renderProducts);
+
+//this addEvent Listener clears all filters when user click on clearAll button
+clearAllBtn.addEventListener("click", () => {
+  search.value = "";
+  categoryFilter.value = "";
+  lowStockFilter.value = "";
+  sort.value = "";
+  renderProducts();
+});
+
+
+
+//Initial Load
+//this  runs when page loads first time
+updateCategoryOptions();
+renderProducts();
+
+
+
 
 
 
