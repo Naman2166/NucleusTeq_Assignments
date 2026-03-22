@@ -31,10 +31,120 @@ const outOfStock = document.getElementById("outOfStock");
 const categoryCount = document.getElementById("categoryCount");
 
 //getting controls elements
-const searchInput = document.getElementById("search");
+const search = document.getElementById("search");
 const categoryFilter = document.getElementById("categoryFilter");
 const lowStockFilter = document.getElementById("lowStockFilter");
-const sortSelect = document.getElementById("sort");
-const clearBtn = document.getElementById("clearAllBtn");
+const sort = document.getElementById("sort");
+const clearAllBtn = document.getElementById("clearAllBtn");
 
+
+
+
+// Add product      
+//here i have implmented functionality for adding new product using productform 
+addProductForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  //it is a product object conatining all data about new product
+  const product = {
+    id: Date.now(),
+    name: productName.value,
+    price: Number(productPrice.value),
+    stock: Number(productStock.value),
+    category: productCategory.value
+  };
+
+  //this psuh new product data inside all products array
+  products.push(product);
+   
+  //it resets the form value after clicking add button
+  addProductForm.reset();
+
+  //this updates the values
+  updateCategoryOptions();
+  renderProducts();
+});
+
+
+
+
+
+//Render products
+//this functions render and shows all data pn screen
+function renderProducts() {
+
+  let filtered = [...products];
+
+  //this is search functionality, it filters products based on name entered by user
+  const searchValue = search.value.toLowerCase();
+  if (searchValue) {
+    filtered = filtered.filter(product =>
+      product.name.toLowerCase().includes(searchValue)
+    );
+  }
+
+  //this filters products based on selected category
+  if (categoryFilter.value) {
+    filtered = filtered.filter(p =>
+      p.category === categoryFilter.value
+    );
+  }
+
+  //this filters products having stock < 5
+  if (lowStockFilter.value === "Yes") {
+    filtered = filtered.filter(p => p.stock < 5);
+  }
+
+  //this sorts products based on selected option
+  if (sort.value === "price-low") {
+    filtered.sort((a, b) => a.price - b.price);
+  } else if (sort.value === "price-high") {
+    filtered.sort((a, b) => b.price - a.price);
+  } else if (sort.value === "name-az") {
+    filtered.sort((a, b) => a.name.localeCompare(b.name));
+  } else if (sort.value === "name-za") {
+    filtered.sort((a, b) => b.name.localeCompare(a.name));
+  }
+
+  //it clears previous products before rendering new ones
+  productGrid.innerHTML = "";
+
+  //if no product is found then show message
+  if (filtered.length === 0) {
+    noProductMessage.style.display = "block";
+  } else {
+    noProductMessage.style.display = "none";
+  }
+
+
+  //this loop creates product cards for each product
+  filtered.forEach(product => {
+
+    const card = document.createElement("div");
+    card.classList.add("product-card");
+
+    let stockClass = "";
+    if (product.stock === 0) stockClass = "out";
+    else if (product.stock < 5) stockClass = "low";
+
+    //here i have added product data inside card which will change dyncmiclly
+    card.innerHTML = `
+      <h3>${product.name}</h3>
+      <p>Price: ₹${product.price}</p>
+      <p class="${stockClass}">Stock: ${product.stock}</p>
+      <p>Category: ${product.category}</p>
+
+      <div class="product-actions">
+        <button class="edit-btn" onclick="editProduct(${product.id})">Edit</button>
+        <button class="delete-btn" onclick="deleteProduct(${product.id})">Delete</button>
+      </div>
+    `;
+
+    //adding card into product grid
+    productGrid.appendChild(card);
+  });
+
+  //this upadtes value of analytics also after adding product
+  updateAnalytics(filtered);
+}
 
