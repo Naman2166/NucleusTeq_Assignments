@@ -17,6 +17,7 @@ This project is a simple Product Inventory Dashboard where we can add, view, fil
 
 
 
+
 ## 3. Header and Control Section
 
 ![header and control section](./screenshots/header_and_control.png)
@@ -28,11 +29,13 @@ This project is a simple Product Inventory Dashboard where we can add, view, fil
 - there is also a Clear button to reset all filters.
 
 
+
  ### Search Functioanlity
 
  ![search](./screenshots/search.png)
 
  - I added a search bar to find products by name.
+
 
 
  ### Category Filter
@@ -41,17 +44,22 @@ This project is a simple Product Inventory Dashboard where we can add, view, fil
 
  - This dropdown allows filtering products by category.
 
+
+
  ### Low Stock Filter
 
  ![low stock filter](./screenshots/low_stock.png)
 
  - This filter shows products with stock less than 5.
 
+
+
  ### Sorting Filter
 
  ![sorting](./screenshots/sorting.png)
 
  - I added sorting options so that product can be sorted based on prize and alphabetical order
+
 
 
 
@@ -65,6 +73,7 @@ It displays:
 - Total value of all products
 - Number of out of stock items
 - Total categories
+
 
 
 
@@ -90,6 +99,7 @@ It displays:
 
 
 
+
 ## 5. Add Product Form
 
 ![add product section](./screenshots/add_product.png)
@@ -98,6 +108,7 @@ It displays:
 - I created a form to add new products.
 - It takes input like name, price, stock, and category.
 - when user click add button it gets added to list
+
 
 
 
