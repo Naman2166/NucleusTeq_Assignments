@@ -29,13 +29,11 @@ This project is a simple Product Inventory Dashboard where we can add, view, fil
 - there is also a Clear button to reset all filters.
 
 
-
  ### Search Functioanlity
 
  ![search](./screenshots/search.png)
 
  - I added a search bar to find products by name.
-
 
 
  ### Category Filter
@@ -45,13 +43,11 @@ This project is a simple Product Inventory Dashboard where we can add, view, fil
  - This dropdown allows filtering products by category.
 
 
-
  ### Low Stock Filter
 
  ![low stock filter](./screenshots/low_stock.png)
 
  - This filter shows products with stock less than 5.
-
 
 
  ### Sorting Filter
