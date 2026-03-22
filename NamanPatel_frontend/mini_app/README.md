@@ -38,7 +38,7 @@ This project is a simple Product Inventory Dashboard where we can add, view, fil
 
  ### Category Filter
 
- ![category filter](./screenshots/category_filter.png)
+ ![category filter](./screenshots/categoryy_filter.png)
 
  - This dropdown allows filtering products by category.
 
