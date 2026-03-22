@@ -119,9 +119,66 @@ button {
     flex: 1;         /* i used this property for making design responsive because with this property each card can take equal width available */
 }
 
-
 /* this highlight the numbers */
 .analytics span {
     font-weight: bold;
     color: #2ecc71;
 }
+
+
+
+
+/*----------- product grid ------------ */
+
+#productGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+/* no product message styling */
+#noProductMessage {
+    color: #aaa;
+    margin-top: 10px;
+    text-align: center;
+}
+
+
+
+/* -------- Add Product Section -------- */
+
+#addProductForm {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+#addProductForm div {
+    display: flex;
+    flex-direction: column;
+    min-width: 180px;
+}
+
+#addProductForm label {
+    font-size: 14px;
+    margin-bottom: 3px;
+    color: #ccc;
+}
+
+#addProductForm input,
+#addProductForm select {
+    width: 100%;
+}
+
+#addProductBtn {
+    background-color: #2ecc71;
+    padding: 9px 16px;
+    align-self: flex-end;
+}
+
+#addProductBtnBtn:hover {
+    background-color: #27ae60;
+}
+
+
+
