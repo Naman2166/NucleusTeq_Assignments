@@ -113,4 +113,19 @@ It displays:
 ![responsive1](./screenshots/responsive1.png)
 ![responsive2](./screenshots/responsive2.png)
 
-The layout is responsive for different screen sizes.
+- The layout is responsive for different screen sizes.
+
+
+
+## 7. Data Saving in Local Storage
+
+![local storage](./screenshots/local_storage.png)
+
+### Explanation :
+- I used localStorage to store product data in the browser.
+- Data does not get lost after page refresh.
+- When the app loads:
+   - It first checks localStorage for saved products.
+   - If data exists, it loads from there.
+   - Otherwise, default products are used.
+
