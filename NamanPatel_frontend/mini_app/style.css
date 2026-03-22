@@ -182,3 +182,25 @@ button {
 
 
 
+/* ----- mobile view ----- */
+
+@media (max-width: 600px) {
+
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .analytics {
+        flex-direction: column;
+    }
+
+    #productGrid {
+        grid-template-columns: 1fr;
+    }
+
+    #addProductForm {
+        flex-direction: column;
+    }
+}
+
