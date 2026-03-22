@@ -10,11 +10,13 @@ let products = [
 ];
 
 
-// here we are loading products from localStorage if available
+
+// here i am loading products from localStorage if they are available
 const savedProducts = localStorage.getItem("products");
 if (savedProducts) {
   products = JSON.parse(savedProducts);
 }
+
 
 
 
@@ -44,6 +46,9 @@ const lowStockFilter = document.getElementById("lowStockFilter");
 const sort = document.getElementById("sort");
 const clearAllBtn = document.getElementById("clearAllBtn");
 
+//getting loader element 
+const loader = document.getElementById("loader");
+
 
 
 
@@ -51,6 +56,7 @@ const clearAllBtn = document.getElementById("clearAllBtn");
 function saveToLocalStorage() {
   localStorage.setItem("products", JSON.stringify(products));
 }
+
 
 
 
@@ -278,13 +284,27 @@ clearAllBtn.addEventListener("click", () => {
 });
 
 
+//fetch products functionality (API stimulation)
+//this function acts like it is getting data from server through API, but actually its not
+function fetchProducts() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(products);
+    }, 1500);
+  });
+}
 
-//Initial Load
-//this  runs when page loads first time
-updateCategoryOptions();
-renderProducts();
 
 
+//here we are showing loader when page loads nad fetching data
+loader.style.display = "flex";
+
+//then loader will hide when data is fetched and displays on screen 
+fetchProducts().then(() => {
+  loader.style.display = "none";
+  updateCategoryOptions();
+  renderProducts();
+});
 
 
 
