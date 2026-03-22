@@ -18,13 +18,13 @@
 
     <hr>
 
-    
+
     <!-- This is main content area-->
     <div id="main_content">
 
         <!-- Control section -->
         <section>
-            <h2>Controls</h2>
+            <h2>Controls</h2> <br>
 
             <div class="controls">
                 
@@ -45,15 +45,16 @@
 
                 <!-- it is lowstock filter, it shows product having stock less than 5 -->
                 <div>
-                    <label>
-                        <input type="checkbox" id="lowStockFilter">
-                        Low Stock (&lt;5)
-                    </label>
+                    <label> Low Stock: </label> <br>
+                    <select id="lowStockFilter">
+                        <option value="">Default</option>
+                        <option value="Yes">Apply Filter (Stock < 5)</option>
+                    </select>
                 </div>
 
                 <!-- this is sort filter, where we can sort product according to price or alphabetical order -->
                 <div>
-                    <label>Sort:</label><br>
+                    <label>Sort:</label> <br>
                     <select id="sort">
                         <option value="">Default</option>
                         <option value="price-low">Price: Low to High</option>
@@ -75,7 +76,7 @@
 
          <!-- Analytics Section -->
         <section>
-            <h2>Analytics</h2>
+            <h2>Analytics</h2> <br>
          
             <!-- this section will show no. of total products, total value of all products, out of stock products, no. of categories  -->
             <div class="analytics">
@@ -92,7 +93,7 @@
 
         <!-- Product Grid -->
         <section>
-            <h2>Products</h2>
+            <h2>Products</h2> <br>
             
             <!-- if this is no product then "no product found" message will display -->
             <p id="noProductMessage">
@@ -109,35 +110,35 @@
 
         <!-- Add Product -->
         <section>
-            <h2>Add Product</h2>
+            <h2>Add Product</h2> <br>
 
             <!-- this is a form which takes data from user such as product name, price, no. of stock, category to add a new product -->
             <form id="addProductForm">
 
                 <div>
-                    <label>Product Name</label><br>
+                    <label>Product Name:</label><br>
                     <input type="text" id="productName" required>
                 </div>
 
                 <div>
-                    <label>Price (Rs)</label><br>
+                    <label>Price (Rs):</label><br>
                     <input type="number" id="productPrice" required>
                 </div>
 
                 <div>
-                    <label>Stock</label><br>
+                    <label>Stock:</label><br>
                     <input type="number" id="productStock" required>
                 </div>
                 
                 <!-- this is a drowndrop menu where we can select category of a product -->
                 <div>
-                    <label>Category</label><br>
+                    <label>Category:</label><br>
                     <select id="productCategory" required>
-                        <option value="">Select category</option>
+                        <option value="">Select category:</option>
                     </select>
                 </div>
 
-                <button type="submit" id="submitBtn">Add</button>
+                <button type="submit" id="addProductBtn">Add</button>
 
             </form>
         </section>
