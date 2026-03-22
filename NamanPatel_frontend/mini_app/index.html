@@ -5,12 +5,73 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Inventory Dashboard</title>
-    <link rel="stylesheet" href="./style.css">
+    <!-- <link rel="stylesheet" href="style.css"> -->
 </head>
 
 <body>
 
-    <script src="./script.js"></script>
+    <!-- Header -->
+    <header>
+        <h1>Product Inventory Dashboard</h1>
+    </header>
+
+
+
+    <!-- This is main content area-->
+    <div id="main_content">
+
+        <!-- Control section -->
+        <section>
+            <h2>Controls</h2>
+
+            <div class="controls">
+                
+                <!-- it is search bar, using this we can search for any product -->
+                <div>
+                    <label>Search:</label> 
+                    <br>
+                    <input type="text" id="search" placeholder="Search product...">
+                </div>
+
+                <!-- this is category filter where we can choose between different categories, here categories will added or deleted dynamically using js file  -->
+                <div>
+                    <label>Category:</label><br>
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                    </select>
+                </div>
+
+                <!-- it is lowstock filter, it shows product having stock less than 5 -->
+                <div>
+                    <label>
+                        <input type="checkbox" id="lowStockFilter">
+                        Low Stock (&lt;5)
+                    </label>
+                </div>
+
+                <!-- this is sort filter, where we can sort product according to price or alphabetical order -->
+                <div>
+                    <label>Sort:</label><br>
+                    <select id="sort">
+                        <option value="">Default</option>
+                        <option value="price-low">Price: Low to High</option>
+                        <option value="price-high">Price: High to Low</option>
+                        <option value="name-az">A → Z</option>
+                        <option value="name-za">Z → A</option>
+                    </select>
+                </div>
+                
+                <!-- this button clears all data filled by user  -->
+                <button id="clearFilterBtn">Clear</button>
+
+            </div>
+        </section>
+
+        
+
+    </div>
+
+    <script src="script.js"></script>
 </body>
 
 </html>
