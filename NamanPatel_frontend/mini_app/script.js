@@ -148,3 +148,47 @@ function renderProducts() {
   updateAnalytics(filtered);
 }
 
+
+
+
+//Delete Product 
+//this function deletes product by using product id
+function deleteProduct(id) {
+
+  //here user will get alert message for conforming deletion
+  const confirmDelete = confirm("Are you sure you want to delete this product?");
+  if (!confirmDelete) return;
+
+  //removing product from array
+  products = products.filter(p => p.id !== id);
+
+  renderProducts();
+}
+
+
+
+
+//Edit product
+//this function fills form with existing product data for editing
+function editProduct(id) {
+
+  const product = products.find(item => item.id === id);
+
+  //filling form data with selected product data
+  productName.value = product.name;
+  productPrice.value = product.price;
+  productStock.value = product.stock;
+  productCategory.value = product.category;
+
+  //this removes old product so that updated one can be added again
+  products = products.filter(p => p.id !== id);
+
+  //scrolling to product form for better user experience
+  window.scrollTo({
+    top: document.body.scrollHeight,
+    behavior: "smooth"
+  });
+}
+
+
+
