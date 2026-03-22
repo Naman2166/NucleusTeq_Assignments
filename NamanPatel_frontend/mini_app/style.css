@@ -136,6 +136,80 @@ button {
     gap: 15px;
 }
 
+/* product card styling */
+.product-card {
+    background: #2f2f2f;
+    border: 1px solid #3a3a3a;
+    border-radius: 6px;
+    padding: 12px;
+    transition: 0.2s;
+}
+
+/* giving hover effect on ecah card*/
+.product-card:hover {
+    transform: translateY(-3px);
+}
+
+
+/* product title */
+.product-card h3 {
+    margin-bottom: 8px;
+    color: #fff;
+    font-size: 16px;
+}
+
+/* product details */
+.product-card p {
+    font-size: 14px;
+    margin: 3px 0;
+}
+
+/* giving stock colors when stock is low  */
+.low {
+    color: #f1c40f;
+    font-weight: bold;
+}
+
+/* giving stock colors when stock is 0 */
+.out {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+/* action buttons container */
+.product-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+/* buttons inside card */
+.product-actions button {
+    flex: 1;
+    padding: 6px;
+    border-radius: 4px;
+}
+
+/* edit button styling */
+.edit-btn {
+    background-color: #3498db;
+    color: white;
+}
+
+.edit-btn:hover {
+    background-color: #2980b9;
+}
+
+/* delete button */
+.delete-btn {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}
+
 /* no product message styling */
 #noProductMessage {
     color: #aaa;
