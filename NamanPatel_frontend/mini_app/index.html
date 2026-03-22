@@ -16,7 +16,9 @@
     </header>
 
 
+    <hr>
 
+    
     <!-- This is main content area-->
     <div id="main_content">
 
@@ -67,7 +69,7 @@
             </div>
         </section>
 
-        
+
         <hr>
 
 
@@ -107,6 +109,37 @@
 
         <!-- Add Product -->
         <section>
+            <h2>Add Product</h2>
+
+            <!-- this is a form which takes data from user such as product name, price, no. of stock, category to add a new product -->
+            <form id="addProductForm">
+
+                <div>
+                    <label>Product Name</label><br>
+                    <input type="text" id="productName" required>
+                </div>
+
+                <div>
+                    <label>Price (Rs)</label><br>
+                    <input type="number" id="productPrice" required>
+                </div>
+
+                <div>
+                    <label>Stock</label><br>
+                    <input type="number" id="productStock" required>
+                </div>
+                
+                <!-- this is a drowndrop menu where we can select category of a product -->
+                <div>
+                    <label>Category</label><br>
+                    <select id="productCategory" required>
+                        <option value="">Select category</option>
+                    </select>
+                </div>
+
+                <button type="submit" id="submitBtn">Add</button>
+
+            </form>
         </section>
 
     </div>
