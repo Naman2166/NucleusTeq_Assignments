@@ -18,7 +18,7 @@ This project is a simple Product Inventory Dashboard where we can add, view, fil
 
 
 
-## 3. Header and Control Section
+## 2. Header and Control Section
 
 ![header and control section](./screenshots/header_and_control.png)
 
@@ -107,7 +107,6 @@ It displays:
 
 
 
-
 ## 6.Responsive Design
 
 ![responsive1](./screenshots/responsive1.png)
@@ -117,15 +116,27 @@ It displays:
 
 
 
-## 7. Data Saving in Local Storage
+## 7. Loading Spinner
+
+![loading spinner](./screenshots/loading_spinner.png)
+
+### Explanation :
+- i added a loading spinner that shows when the page loads.
+- it gets data using Promise and setTimeout.
+- and after loading, the spinner hides and products are displayed.
+
+
+
+## 8. Data Saving in Local Storage
 
 ![local storage](./screenshots/local_storage.png)
 
 ### Explanation :
 - I used localStorage to store product data in the browser.
-- Data does not get lost after page refresh.
+- So now data does not get lost after page refresh.
 - When the app loads:
    - It first checks localStorage for saved products.
    - If data exists, it loads from there.
-   - Otherwise, default products are used.
+   - otherwise default products are used.
+
 
