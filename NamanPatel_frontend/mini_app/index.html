@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Inventory Dashboard</title>
-    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -62,12 +62,52 @@
                 </div>
                 
                 <!-- this button clears all data filled by user  -->
-                <button id="clearFilterBtn">Clear</button>
+                <button id="clearAllBtn">Clear</button>
 
             </div>
         </section>
 
         
+        <hr>
+
+
+         <!-- Analytics Section -->
+        <section>
+            <h2>Analytics</h2>
+         
+            <!-- this section will show no. of total products, total value of all products, out of stock products, no. of categories  -->
+            <div class="analytics">
+              <p>Total Products: <span id="totalProducts">0</span> </p>
+              <p>Total Value: <span id="totalValue">0</span> </p>
+              <p>Out of Stock: <span id="outOfStock">0</span> </p>
+              <p>Categories: <span id="categoryCount">0</span> </p>
+            </div>
+        </section>
+
+
+        <hr>
+
+
+        <!-- Product Grid -->
+        <section>
+            <h2>Products</h2>
+            
+            <!-- if this is no product then "no product found" message will display -->
+            <p id="noProductMessage">
+                No products found
+            </p>
+             
+            <!-- this div will conatains actual products which will be added or removed dynamically using js  -->
+            <div id="productGrid"> </div>
+        </section>
+
+
+        <hr>
+
+
+        <!-- Add Product -->
+        <section>
+        </section>
 
     </div>
 
