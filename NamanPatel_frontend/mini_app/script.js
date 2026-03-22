@@ -192,3 +192,56 @@ function editProduct(id) {
 
 
 
+
+// Analytics section
+//this function updates all analytics values when there is any change
+function updateAnalytics(list) {
+
+  totalProducts.textContent = list.length;
+
+  let total = 0;
+  let out = 0;
+  let categories = new Set();
+
+  //looping through products to calculate values
+  list.forEach(p => {
+    total = total + p.price;       //total value
+    if (p.stock === 0) out++;      //out of stock count
+    categories.add(p.category);    //unique categories
+  });
+
+  //updating values in UI
+  totalValue.textContent = total;
+  outOfStock.textContent = out;
+  categoryCount.textContent = categories.size;
+}
+
+
+
+
+
+// Update Category Options
+//this function updates dropdown options dynamically
+function updateCategoryOptions() {
+
+  //getting unique categories
+  const categories = [...new Set(products.map(p => p.category))];
+
+  //here it resets the dropdown values
+  categoryFilter.innerHTML = `<option value="">All Categories</option>`;
+  productCategory.innerHTML = `<option value="">Select category:</option>`;
+
+  //adding categories into dropdown
+  categories.forEach(wow => {
+    categoryFilter.innerHTML += `<option value="${wow}">${wow}</option>`;
+    productCategory.innerHTML += `<option value="${wow}">${wow}</option>`;
+  });
+}
+
+
+
+
+
+
+
+
