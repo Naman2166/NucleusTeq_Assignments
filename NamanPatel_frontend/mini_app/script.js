@@ -10,6 +10,13 @@ let products = [
 ];
 
 
+// here we are loading products from localStorage if available
+const savedProducts = localStorage.getItem("products");
+if (savedProducts) {
+  products = JSON.parse(savedProducts);
+}
+
+
 
 //here we are getting all required dom elements
 
@@ -40,6 +47,13 @@ const clearAllBtn = document.getElementById("clearAllBtn");
 
 
 
+// here i have saved products to localStorage
+function saveToLocalStorage() {
+  localStorage.setItem("products", JSON.stringify(products));
+}
+
+
+
 // Add product      
 //here i have implmented functionality for adding new product using productform 
 addProductForm.addEventListener("submit", function (e) {
@@ -56,6 +70,9 @@ addProductForm.addEventListener("submit", function (e) {
 
   //this psuh new product data inside all products array
   products.push(product);
+
+  //saving data to local storage
+  saveToLocalStorage();
    
   //it resets the form value after clicking add button
   addProductForm.reset();
@@ -161,7 +178,8 @@ function deleteProduct(id) {
 
   //removing product from array
   products = products.filter(p => p.id !== id);
-
+  
+  saveToLocalStorage();
   renderProducts();
 }
 
@@ -182,6 +200,8 @@ function editProduct(id) {
 
   //this removes old product so that updated one can be added again
   products = products.filter(p => p.id !== id);
+
+  saveToLocalStorage();
 
   //scrolling to product form for better user experience
   window.scrollTo({
@@ -205,9 +225,9 @@ function updateAnalytics(list) {
 
   //looping through products to calculate values
   list.forEach(p => {
-    total = total + p.price;       //total value
-    if (p.stock === 0) out++;      //out of stock count
-    categories.add(p.category);    //unique categories
+    total = total + (p.price * p.stock);;       //total value
+    if (p.stock === 0) out++;              //out of stock count
+    categories.add(p.category);            //unique categories
   });
 
   //updating values in UI
