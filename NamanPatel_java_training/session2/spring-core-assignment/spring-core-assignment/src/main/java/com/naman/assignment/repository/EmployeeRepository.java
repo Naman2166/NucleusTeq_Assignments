@@ -24,20 +24,20 @@ public class EmployeeRepository {
 
 
 
-    // Get all employees
+    // method to get all employees
     public List<Employee> findAll() {
         return employeeList;
     }
 
 
-    // Save new employee
+    // method to save new employee
     public Employee save(Employee emp) {
         employeeList.add(emp);
         return emp;
     }
 
 
-    // Find employee by id
+    // method to find employee by id
     public Employee findById(int id) {
         for (Employee emp : employeeList) {
             if (emp.getId() == id) {
@@ -49,7 +49,7 @@ public class EmployeeRepository {
     }
 
 
-    // Delete employee by ID
+    // method to delete employee by ID
     public boolean deleteById(int id) {
         for (Employee emp : employeeList) {
             if (emp.getId() == id) {
@@ -62,7 +62,7 @@ public class EmployeeRepository {
     }
 
 
-    // Update employee by id
+    // method to update employee by id
     public Employee update(int id, Employee updatedEmp) {
 
         for (Employee emp : employeeList) {
