@@ -1,7 +1,5 @@
 # Spring Core Assignment
 
----
-
 ## Overview
 This is a Spring Boot REST API project built using:
 - Java 17
@@ -11,8 +9,7 @@ This is a Spring Boot REST API project built using:
 
 ---
 
-## Base URL
-http://localhost:8080
+## Base URL  `http://localhost:8080`
 
 ---
 
@@ -21,13 +18,11 @@ http://localhost:8080
 ### 1. Employee Management
 
 - #### Get All Employees
-  **GET** /employees  
+  **GET** `/employees`  
   Returns list of all employees
 
----
-
 - #### Create Employee
-  **POST** /employees  
+  **POST** `/employees`  
   Creates a new employee
 
 **Sample Body:**
@@ -40,22 +35,16 @@ http://localhost:8080
 }
 ```
 
----
-
 - #### Get Employee by ID
-  **GET** /employees/{id}  
+  **GET** `/employees/{id}`  
   Returns employee based on ID
 
----
-
 - #### Delete Employee by ID
-  **DELETE** /employees/{id}  
+  **DELETE** `/employees/{id}`  
   Deletes employee based on ID
 
----
-
 - #### Update Employee by ID
-  **PUT** /employees/{id}  
+  **PUT** `/employees/{id}`  
   Updates employee based on ID
 
 **Sample Body:**
@@ -72,23 +61,41 @@ http://localhost:8080
 
 ### 2. Notification System
 
-- #### Send Notification
-  **GET** /notification  
-  Returns: `"Notification Sent Successfully"`
+#### Send Notification
+**GET** `/notification`  
+Returns: "Notification Sent Successfully"
 
 ---
 
 ### 3. Message Formatter
 
-- #### Short Message
-  **GET** /message?type=SHORT  
-  Returns short message
+#### Short Message
+**GET** `/message?type=SHORT`  
+Returns short message
+
+#### Long Message
+**GET** `/message?type=LONG`  
+Returns detailed message
 
 ---
 
-- #### Long Message
-  **GET** /message?type=LONG  
-  Returns detailed message
+## Exception Handling
+- Global exception handling implemented using `@ControllerAdvice`
+- Handles common exceptions such as:
+    - Employee not found
+    - Invalid input request
+    - General exceptions
+- Returns meaningful error messages with appropriate HTTP status codes
+
+---
+
+## Validation
+- Input validation implemented using `@Valid`
+- Ensures required fields are not null or empty
+- Includes validations like:
+    - Email format validation
+    - Mandatory field checks
+- Returns structured validation error responses
 
 ---
 
@@ -106,5 +113,3 @@ mvn spring-boot:run
 - Proper comments added in code
 
 ---
-
-Based on assignment guidelines.
