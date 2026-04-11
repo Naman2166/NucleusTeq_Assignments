@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 // This class represents the Employee data
 public class Employee {
 
-    private int id;               //id will be auto generated in service class
+    private Integer id;               //id will be auto generated in service class   //used Integer wrapper class for null values
 
     @NotBlank(message = "First name is required")      //required field
     private String firstName;
@@ -28,7 +28,7 @@ public class Employee {
     }
 
     // Parameterized constructor (it is used while creating object)
-    public Employee(int id, String firstName, String lastName, String email, String department) {
+    public Employee(Integer id, String firstName, String lastName, String email, String department) {
         this.id = id;                     //here 'this' keyword represents current object of class
         this.firstName = firstName;
         this.lastName = lastName;
@@ -39,11 +39,11 @@ public class Employee {
 
 
     // Getters and Setters method (it is used here for getting and updating private fields value)
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
