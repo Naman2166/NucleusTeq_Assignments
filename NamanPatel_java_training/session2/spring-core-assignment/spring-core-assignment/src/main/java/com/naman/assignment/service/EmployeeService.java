@@ -52,9 +52,9 @@ public class EmployeeService {
     public Employee addEmployee(Employee emp) {
 
         // checking if user is sending id (it is not allowed bcoz we will generate it here)
-        if (emp.getId() != 0) {
+        if (emp.getId() != null) {
             throw new InvalidRequestException(
-                    "Employee ID should not be provided. It will automatically generated in the backend"
+                    "Do not provide employee ID. It will be automatically generated in the backend"
             );
         }
 
