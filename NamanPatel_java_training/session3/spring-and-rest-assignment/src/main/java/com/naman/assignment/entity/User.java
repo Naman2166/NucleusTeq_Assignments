@@ -1,22 +1,12 @@
 package com.naman.assignment.entity;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-
 // This class represents a User object
 public class User {
 
-    private Integer id;                          // it stores unique id automatically for each user
-
-    @NotBlank(message = "Name is required")      // it cannot be null or empty
+    private Integer id;           // it stores unique id automatically for each user
     private String name;
-
-    @NotNull(message = "Age is required")        // age cannot be null
-    private Integer age;                         // used Integer wrapper class here to store null values (when age field is missing in request)
-
-    @NotBlank(message = "Role is required ADMIN/USER")
+    private Integer age;          // used Integer wrapper class here to store null values (when age field is missing in request)
     private String role;
-
 
 
     // Default constructor

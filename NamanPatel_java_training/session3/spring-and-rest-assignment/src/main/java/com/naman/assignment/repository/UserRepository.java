@@ -24,6 +24,12 @@ public class UserRepository {
     }
 
 
+    //method to get all users
+    public List<User> getAllUsers(){
+        return users;
+    }
+
+
     // method to search users
     public List<User> searchUsers(String name, Integer age, String role) {
 
@@ -64,6 +70,7 @@ public class UserRepository {
 
         return searchResult;
     }
+
 
 
     // method to delete user by id
