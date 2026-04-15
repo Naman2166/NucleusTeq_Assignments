@@ -24,10 +24,23 @@ public class UserRepository {
     }
 
 
-    //method to get all users
+
+    // counter to generate unique IDs
+    private int currentId = 6;
+
+    // method to save new user
+    public void saveUser(User user) {
+        user.setId(currentId++);         // assign new id automatically
+        users.add(user);
+    }
+
+
+
+    // method to get all users
     public List<User> getAllUsers(){
         return users;
     }
+
 
 
     // method to search users

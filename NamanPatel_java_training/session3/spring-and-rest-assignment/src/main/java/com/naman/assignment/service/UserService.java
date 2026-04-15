@@ -50,6 +50,9 @@ public class UserService {
             throw new BadRequestException("Role is required ADMIN/USER");
         }
 
+        // save user
+        userRepository.saveUser(user);
+
         return "User data Submitted successfully";
     }
 
