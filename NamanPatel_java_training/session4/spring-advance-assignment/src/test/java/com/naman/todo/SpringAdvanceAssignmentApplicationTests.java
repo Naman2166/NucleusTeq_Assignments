@@ -1,4 +1,4 @@
-package com.naman.assignment;
+package com.naman.todo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
