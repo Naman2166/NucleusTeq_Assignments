@@ -45,4 +45,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleGenericException(Exception ex) {
         return new ResponseEntity<>("Error: Something went Wrong", HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+
+    //method to handle invalid status enum value
+    @ExceptionHandler(org.springframework.http.converter.HttpMessageNotReadableException.class)
+    public ResponseEntity<String> handleEnumError(Exception ex) {
+        return ResponseEntity.badRequest()
+                .body("Invalid status value. Allowed values: PENDING, COMPLETED");
+    }
 }
