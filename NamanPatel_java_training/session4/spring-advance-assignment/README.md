@@ -74,8 +74,8 @@ com.naman.todo
 #### Request Body :
 ```
 {
-  "title": "Learn Spring Boot",
-  "description": "Practice DTO and exception handling",
+  "title": "Go to market",
+  "description": "bring vegetable in evening",
   "Status": "PENDING"
 }
 ```
@@ -84,8 +84,8 @@ com.naman.todo
 ```
 {
 "id": 1,
-"title": "Learn Spring Boot",
-"description": "Practice DTO and exception handling",
+"title": "Go to market",
+"description": "bring vegetable in evening",
 "status": "PENDING",
 "createdAt": "2026-04-18T21:30:00"
 }
@@ -99,8 +99,8 @@ com.naman.todo
 [
   {
     "id": 1,
-    "title": "Learn Spring Boot",
-    "description": "Practice DTO",
+    "title": "Go to market",
+    "description": "bring vegetable in evening",
     "status": "PENDING",
     "createdAt": "2026-04-18T21:30:00"
   },
@@ -116,8 +116,8 @@ com.naman.todo
 ```
 {
   "id": 1,
-  "title": "Learn Spring Boot",
-  "description": "Practice DTO",
+  "title": "Go to market",
+  "description": "bring vegetable in evening",
   "status": "PENDING",
   "createdAt": "2026-04-18T21:30:00"
 }
@@ -140,30 +140,6 @@ com.naman.todo
 ```
 {
 "id": 1,
-"title": "Learn Spring Boot",
-"description": "Practice DTO and exception handling",
-"status": "PENDING",
-"createdAt": "2026-04-18T21:30:00"
-}
-```
-
-### 5. Update Todo
-**PUT** `/todos/{id}`
-
-#### Example : `PUT /todos/1`
-
-#### Request Body :
-```
-{
-  "title": "Updated Title",
-  "description": "Updated Description",
-  "status": "COMPLETED"
-}
-```
-#### Response Body:
-```
-{
-"id": 1,
 "title": "Updated Title",
 "description": "Updated Description",
 "status": "COMPLETED",
@@ -173,7 +149,7 @@ com.naman.todo
 
 ---
 
-### 6. Delete Todo
+### 5. Delete Todo
 **DELETE** `/todos/{id}`
 
 #### Example : `DELETE /todos/1`
