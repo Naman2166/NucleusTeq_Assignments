@@ -1,6 +1,7 @@
 package com.naman.todo.controller;
 
-import com.naman.todo.dto.TodoDTO;
+import com.naman.todo.dto.TodoRequestDTO;
+import com.naman.todo.dto.TodoResponseDTO;
 import com.naman.todo.service.TodoService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -22,25 +23,25 @@ public class TodoController {
 
     // API to create Todo
     @PostMapping
-    public ResponseEntity<TodoDTO> createTodo(@Valid @RequestBody TodoDTO dto) {       //it takes json data from client and coverts it into java object
+    public ResponseEntity<TodoResponseDTO> createTodo(@Valid @RequestBody TodoRequestDTO dto) {       //it takes json data from client and coverts it into java object
         return ResponseEntity.ok(todoService.createTodo(dto));                         //return status 200
     }
 
     // API to get all todos
     @GetMapping
-    public ResponseEntity<List<TodoDTO>> getAllTodos() {
+    public ResponseEntity<List<TodoResponseDTO>> getAllTodos() {
         return ResponseEntity.ok(todoService.getAllTodos());
     }
 
     // API to get todo by id
     @GetMapping("/{id}")
-    public ResponseEntity<TodoDTO> getTodoById(@PathVariable Long id) {
+    public ResponseEntity<TodoResponseDTO> getTodoById(@PathVariable Long id) {
         return ResponseEntity.ok(todoService.getTodoById(id));
     }
 
     // API to update todo
     @PutMapping("/{id}")
-    public ResponseEntity<TodoDTO> updateTodo(@PathVariable Long id, @Valid @RequestBody TodoDTO dto) {
+    public ResponseEntity<TodoResponseDTO> updateTodo(@PathVariable Long id, @Valid @RequestBody TodoRequestDTO dto) {
         return ResponseEntity.ok(todoService.updateTodo(id, dto));
     }
 
