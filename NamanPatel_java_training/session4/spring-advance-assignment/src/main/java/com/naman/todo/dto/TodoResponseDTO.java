@@ -1,36 +1,27 @@
 package com.naman.todo.dto;
 
 import com.naman.todo.enums.TodoStatus;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-
 import java.time.LocalDateTime;
 
 
-// this class represents DTO for Todo with validation rules
-public class TodoDTO {
+// DTO for sending response
+public class TodoResponseDTO {
 
     private Long id;                   //sent by backend in response, not by user in input
-
-    @NotNull(message = "Title is required")
-    @Size(min = 3, message = "Title must have at least 3 characters")
-    private String title;              //title cannot be null and should have atleast 3 characters
-
+    private String title;
     private String description;
-
     private TodoStatus status;
-
     private LocalDateTime createdAt;     // sent by backend, not by user
 
 
 
 
     // Default Constructor
-    public TodoDTO() {
+    public TodoResponseDTO() {
     }
 
     // Parameterized Constructor
-    public TodoDTO(Long id, String title, String description, TodoStatus status, LocalDateTime createdAt) {
+    public TodoResponseDTO(Long id, String title, String description, TodoStatus status, LocalDateTime createdAt) {
         this.id = id;
         this.title = title;
         this.description = description;
