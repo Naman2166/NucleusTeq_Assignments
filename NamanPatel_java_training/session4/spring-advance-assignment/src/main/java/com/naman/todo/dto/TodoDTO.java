@@ -4,9 +4,13 @@ import com.naman.todo.enums.TodoStatus;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+import java.time.LocalDateTime;
+
 
 // this class represents DTO for Todo with validation rules
 public class TodoDTO {
+
+    private Long id;                   //sent by backend in response, not by user in input
 
     @NotNull(message = "Title is required")
     @Size(min = 3, message = "Title must have at least 3 characters")
@@ -16,6 +20,9 @@ public class TodoDTO {
 
     private TodoStatus status;
 
+    private LocalDateTime createdAt;     // sent by backend, not by user
+
+
 
 
     // Default Constructor
@@ -23,14 +30,26 @@ public class TodoDTO {
     }
 
     // Parameterized Constructor
-    public TodoDTO(String title, String description, TodoStatus status) {
+    public TodoDTO(Long id, String title, String description, TodoStatus status, LocalDateTime createdAt) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.status = status;
+        this.createdAt = createdAt;
     }
 
 
     // Getters and Setters for each fields
+
+    //id
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
 
     //title
     public String getTitle() {
@@ -60,4 +79,15 @@ public class TodoDTO {
     public void setStatus(TodoStatus status) {
         this.status = status;
     }
+
+
+    //createdAt
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
 }
