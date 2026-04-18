@@ -7,6 +7,8 @@ import com.naman.todo.exception.InvalidStatusException;
 import com.naman.todo.exception.TodoNotFoundException;
 import com.naman.todo.repository.TodoRepository;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +34,7 @@ public class TodoService {
         //mapping Dto to entity
         todo.setTitle(dto.getTitle());
         todo.setDescription(dto.getDescription());
+        todo.setCreatedAt(LocalDateTime.now());        //creation time set automatically
 
         // applying validation
         if (dto.getStatus() == null) {              //default status will be pending
@@ -112,9 +115,11 @@ public class TodoService {
     // mapping Entity to DTO
     private TodoDTO mapToDTO(Todo todo) {
         return new TodoDTO(
+                todo.getId(),
                 todo.getTitle(),
                 todo.getDescription(),
-                todo.getStatus()
+                todo.getStatus(),
+                todo.getCreatedAt()
         );
     }
 }
