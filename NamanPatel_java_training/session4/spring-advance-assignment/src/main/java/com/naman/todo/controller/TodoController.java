@@ -6,6 +6,7 @@ import com.naman.todo.service.TodoService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +33,7 @@ public class TodoController {
     @PostMapping
     public ResponseEntity<TodoResponseDTO> createTodo(@Valid @RequestBody TodoRequestDTO dto) {     //it takes json data from client and coverts it into java object
         logger.info("API called: Create Todo with title: {}", dto.getTitle());                      //log message when API is called
-        return ResponseEntity.ok(todoService.createTodo(dto));                       //return status 200 with data
+        return ResponseEntity.status(HttpStatus.CREATED).body(todoService.createTodo(dto));         //return status 201 created with data
     }
 
 
