@@ -28,30 +28,31 @@ The application follows a structured layered architecture:
 src/main/java/com.naman.todo
 │
 ├── controller
-│ └── TodoController.java            # Handles API requests
+│ └── TodoController.java              # Handles API requests
 │
 ├── service
-│ └── TodoService.java               # Contains business logic
+│ ├── TodoService.java                 # Contains business logic
+│ └── NotificationServiceClient.java   # Notification service
 │
 ├── repository
-│ └── TodoRepository.java            # Handles database operations
+│ └── TodoRepository.java              # Handles database operations
 │
 ├── entity
-│ └── Todo.java                      # Todo entity class
+│ └── Todo.java                        # Todo entity class
 │
 ├── dto
-│ ├── TodoRequestDTO.java            # Request DTO
-│ └── TodoResponseDTO.java           # Response DTO
+│ ├── TodoRequestDTO.java              # Request DTO
+│ └── TodoResponseDTO.java             # Response DTO
 │
 ├── exception
-│ ├── TodoNotFoundException.java     # Custom exception
-│ ├── InvalidStatusException.java    # Custom exception
-│ └── GlobalExceptionHandler.java    # Global exception handler
+│ ├── TodoNotFoundException.java       # Custom exception
+│ ├── InvalidStatusException.java      # Custom exception
+│ └── GlobalExceptionHandler.java      # Global exception handler
 │
 ├── enums
-│  └── TodoStatus.java                # Enum for status
+│  └── TodoStatus.java                 # Enum for status
 │
-└──  SpringAdvanceAssignmentApplication.java
+└── SpringAdvanceAssignmentApplication.java
 
 
 
