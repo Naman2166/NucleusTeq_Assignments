@@ -22,9 +22,12 @@ public class TodoService {
 
     private final TodoRepository todoRepository;
 
+    private final NotificationServiceClient notificationServiceClient;
+
     // Constructor Injection
-    public TodoService(TodoRepository todoRepository) {
+    public TodoService(TodoRepository todoRepository, NotificationServiceClient notificationServiceClient) {
         this.todoRepository = todoRepository;
+        this.notificationServiceClient = notificationServiceClient;
     }
 
     //Logger for TodoService class
@@ -57,6 +60,9 @@ public class TodoService {
 
         //log message after saving todo
         logger.info("Todo created with id: {}", saved.getId());
+
+        //sending notification when new todo is created
+        notificationServiceClient.sendNotification("New TODO created with id: " + saved.getId());
 
         return mapToResponseDTO(saved);                  //return dto after mapping saved entity to dto
     }
@@ -113,7 +119,7 @@ public class TodoService {
 
             // allow only valid transitions
             if ((currentStatus == TodoStatus.PENDING && newStatus == TodoStatus.COMPLETED) ||
-               (currentStatus == TodoStatus.COMPLETED && newStatus == TodoStatus.PENDING)) {
+                    (currentStatus == TodoStatus.COMPLETED && newStatus == TodoStatus.PENDING)) {
                 todo.setStatus(newStatus);
             }
             else {
