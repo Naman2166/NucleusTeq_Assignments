@@ -128,4 +128,60 @@ class TodoServiceTest {
         verify(todoRepository, times(1)).findAll();
     }
 
+
+
+    // Test for updateTodo method
+    @Test
+    void testUpdateTodo() {
+
+        // existing todo in database
+        Long id = 1L;
+
+        Todo existingTodo = new Todo();
+        existingTodo.setId(1L);
+        existingTodo.setTitle("Old Title");
+        existingTodo.setDescription("Old Description");
+        existingTodo.setStatus(TodoStatus.PENDING);
+
+        // new data to update
+        TodoRequestDTO dto = new TodoRequestDTO("New Title", "New Description", TodoStatus.COMPLETED);
+
+        // set repository behavior
+        when(todoRepository.findById(id)).thenReturn(Optional.of(existingTodo));
+        when(todoRepository.save(any(Todo.class))).thenReturn(existingTodo);
+
+        // call update method
+        var result = todoService.updateTodo(id, dto);
+
+        // verify result
+        assertNotNull(result);
+        assertEquals("New Title", result.getTitle());
+
+        verify(todoRepository, times(1)).findById(id);
+        verify(todoRepository, times(1)).save(any(Todo.class));
+    }
+
+
+
+    // Test for deleteTodos method
+    @Test
+    void testDeleteTodo() {
+
+        // fake input data
+        Long id = 1L;
+
+        Todo todo = new Todo();
+        todo.setId(id);
+
+        // set behaviour
+        when(todoRepository.findById(id)).thenReturn(Optional.of(todo));
+
+        // call delete method from service class
+        todoService.deleteTodo(id);
+
+        // verify result
+        verify(todoRepository, times(1)).delete(todo);
+    }
+
+
 }
