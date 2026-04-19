@@ -1,7 +1,7 @@
 # Todo App (Spring Boot Advance Assignment)
 
 A Spring Boot REST API for managing Todo tasks.  
-It demonstrates concepts such as layered architecture, DTO separation, validation, and global exception handling.
+It demonstrates concepts such as layered architecture, DTO separation, validation, global exception handling, logging, and unit testing.
 
 The application follows a structured layered architecture:
 
@@ -9,18 +9,23 @@ The application follows a structured layered architecture:
 
 ---
 
-## Technologies Used
-- Java 17
-- Spring Boot
-- Spring Data JPA
-- H2 Database
-- Maven
+## Tech Stack
+| Category   | Technology Used             |
+|-----------|-----------------------------|
+| Language  | Java 17                     |
+| Framework | Spring Boot                 |
+| ORM       | Spring Data JPA + Hibernate |
+| Database  | H2 Database                 |
+| Validation| Jakarta Validation          |
+| Build Tool| Maven                       |
+| Testing   | JUnit + Mockito             |
+| Logging   | SLF4J + Logback             |
 
 ---
 
 ## Project Structure
 ````
-com.naman.todo
+src/main/java/com.naman.todo
 │
 ├── controller
 │ └── TodoController.java            # Handles API requests
@@ -48,17 +53,26 @@ com.naman.todo
 │
 └──  SpringAdvanceAssignmentApplication.java
 
+
+
+src/test/java/com.naman.todo
+│
+└── service
+      └── TodoServiceTest.java               # Contains Test Cases
+
 ````
 
 ---
 
 ## Features
-- Create, update, delete, and fetch todos
-- DTO separation (Request & Response)
+- Perform CRUD operations (Create, Read, Update, Delete) on todos
+- DTO separation for request and response handling
 - Input validation using `@Valid`
-- Global exception handling
+- Global exception handling using `@RestControllerAdvice`
 - Status transition validation (PENDING ↔ COMPLETED)
-- Clean and scalable architecture
+- Unit testing using Mockito & JUnit
+- Logging using SLF4J and Logback
+- Clean, scalable and layered architecture
 
 ---
 
@@ -66,7 +80,15 @@ com.naman.todo
 
 #### Base URL: `http://localhost:8080/todos`
 
----
+
+| Method | Path           | Description               | Success Status |
+|--------|---------------|---------------------------|----------------|
+| POST   | /todos        | Create a new Todo         | 201 Created    |
+| GET    | /todos        | Retrieve all Todos        | 200 OK         |
+| GET    | /todos/{id}   | Retrieve a Todo by ID     | 200 OK         |
+| PUT    | /todos/{id}   | Update a Todo by ID       | 200 OK         |
+| DELETE | /todos/{id}   | Delete a Todo by ID       | 200 OK         |
+
 
 ### 1. Create Todo
 **POST** `/todos`
@@ -76,11 +98,11 @@ com.naman.todo
 {
   "title": "Go to market",
   "description": "bring vegetable in evening",
-  "Status": "PENDING"
+  "status": "PENDING"
 }
 ```
 
-#### Request Body :
+#### Response :
 ```
 {
 "id": 1,
@@ -94,7 +116,7 @@ com.naman.todo
 ### 2. Get All Todo
 **GET** `/todos`
 
-#### Request Body :
+#### Response :
 ```
 [
   {
@@ -103,7 +125,7 @@ com.naman.todo
     "description": "bring vegetable in evening",
     "status": "PENDING",
     "createdAt": "2026-04-18T21:30:00"
-  },
+  }
 ]
 ```
 
@@ -112,7 +134,7 @@ com.naman.todo
 
 #### Example : `GET /todos/1`
 
-#### Request Body :
+#### Response :
 ```
 {
   "id": 1,
@@ -154,20 +176,41 @@ com.naman.todo
 
 #### Example : `DELETE /todos/1`
 
-#### Response Body:
+#### Response :
 ```
 Todo deleted successfully
 ```
+---
+
+##  Example Screenshots
+
+#### 1. API Response : 
+
+- create Todo
+![Create Todo](screenshots/create-todo.png)
+
+  
+- Get all todos
+![Get ALL Todos](screenshots/get-all-todos.png)  
+
+     
+#### 2. Validation Error :
+![Validation Error](screenshots/validation-error.png)  
+
+
+#### 3. Exception Handling :
+![Exception](screenshots/exception-error.png)
+
 
 ---
 
 ##  Validation Rules
 
-| Field       | Rule                           |
-|------------|--------------------------------|
-| title       | Required, minimum 3 characters |
-| description | Optional                       |
-| status      | Must be PENDING or COMPLETED   |
+| Field       | Rule                                     |
+|------------|------------------------------------------|
+| title       | Not null & minimum 3 characters required |
+| description | Optional                                 |
+| status      | Must be PENDING or COMPLETED             |
 
 ---
 
@@ -175,11 +218,26 @@ Todo deleted successfully
 - DTO Pattern (Request vs Response)
 - Layered Architecture (Controller → Service → Repository)
 - Exception Handling using `@RestControllerAdvice`
-- Input Validation
+- Input Validation with Jakarta Validation
 - Enum-based status management
+- Logging using SLF4J
+- Unit Testing using JUnit and Mockito
 
 ---
 
+## Test Coverage
+
+| Method        | Test Case Implemented        |
+|--------------|-----------------------------|
+| createTodo    | Create Todo Success         |
+| getTodoById   | Get Todo by ID (Success)    |
+| getTodoById   | Todo Not Found Exception    |
+| getAllTodos   | Fetch All Todos             |
+| updateTodo    | Update Todo Success         |
+| deleteTodo    | Delete Todo                 |
+
+
+---
 ##  How to Run
 
 1. Clone the repository
@@ -201,7 +259,7 @@ Todo deleted successfully
 
 ---
 
-## Author  
+## Developed By 
 Naman Patel
 
 ---
