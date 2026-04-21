@@ -8,7 +8,6 @@ import java.time.LocalDateTime;
 
 
 //this class represents user entity which is mapped to database table
-@SuppressWarnings({"LombokGetterMayBeUsed", "LombokSetterMayBeUsed"})
 @Entity
 @Table(name = "users")
 public class User {
