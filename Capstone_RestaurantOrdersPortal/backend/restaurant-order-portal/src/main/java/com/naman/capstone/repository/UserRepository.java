@@ -4,7 +4,9 @@ import com.naman.capstone.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
-//Repository for User entity to perform database operations
+/**
+ * Provides database operations for user entity.
+ */
 public interface UserRepository extends JpaRepository<User, Long> {
 
     //finds user by email
