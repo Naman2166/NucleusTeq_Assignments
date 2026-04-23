@@ -6,8 +6,9 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-
-//this class represents user entity which is mapped to database table
+/**
+ * This class represents user entity which is mapped to database table
+ */
 @Entity
 @Table(name = "users")
 public class User {
@@ -36,7 +37,7 @@ public class User {
     private Role role;
 
     @Column(nullable = false)
-    private BigDecimal walletBalance = BigDecimal.ZERO;      //initializes walletBalance with 0 to avoid null error and i have used BigDecimal datatype here to avoid decimal precision error
+    private BigDecimal walletBalance = BigDecimal.ZERO;      //initializes walletBalance with 0 to avoid null error
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
@@ -123,4 +124,34 @@ public class User {
     public void setCreatedAt() {
         this.createdAt = LocalDateTime.now();
     }
+
+    //toString
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id +
+                ", firstName='" + firstName +
+                "', lastName='" + lastName +
+                "', password='[PROTECTED]'" +
+                ", email='" + email +
+                "', role=" + role +
+                ", walletBalance=" + walletBalance +
+                ", createdAt=" + createdAt +
+                '}';
+    }
+
+    //equals
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof User)) return false;
+        User otherObj = (User) obj;
+        return id != null && id.equals(otherObj.id);
+    }
+
+    //hashCode
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
 }
