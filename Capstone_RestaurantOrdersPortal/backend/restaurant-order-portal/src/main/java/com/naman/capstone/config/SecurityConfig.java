@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.naman.capstone.constant.AppConstants.*;
+
 /**
  * this class configures application security, authentication and authorization rules.
  */
@@ -28,7 +30,6 @@ public class SecurityConfig {
         this.jwtFilter = jwtFilter;
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -47,16 +48,28 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         //API anyone can access
-                        .requestMatchers(
-                                AppConstants.USER_BASE_URL + AppConstants.REGISTER,
-                                AppConstants.USER_BASE_URL + AppConstants.LOGIN
-                        ).permitAll()
-                        .requestMatchers(HttpMethod.GET, AppConstants.RESTAURANT_BASE_URL + "/**").permitAll()
+                        .requestMatchers(USER_BASE_URL + REGISTER).permitAll()
+                        .requestMatchers(USER_BASE_URL + LOGIN).permitAll()
+                        .requestMatchers(HttpMethod.GET, RESTAURANT_BASE_URL + "/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, CATEGORY_BASE_URL + "/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, MENU_ITEM_BASE_URL + "/**").permitAll()
 
                         //API only restaurant owner can access
-                        .requestMatchers(HttpMethod.POST, AppConstants.RESTAURANT_BASE_URL + "/**").hasRole("RESTAURANT_OWNER")
-                        .requestMatchers(HttpMethod.PUT, AppConstants.RESTAURANT_BASE_URL + "/**").hasRole("RESTAURANT_OWNER")
-                        .requestMatchers(HttpMethod.DELETE, AppConstants.RESTAURANT_BASE_URL + "/**").hasRole("RESTAURANT_OWNER")
+                        .requestMatchers(HttpMethod.POST, RESTAURANT_BASE_URL + "/**").hasRole(ROLE_OWNER)
+                        .requestMatchers(HttpMethod.PUT, RESTAURANT_BASE_URL + "/**").hasRole(ROLE_OWNER)
+                        .requestMatchers(HttpMethod.DELETE, RESTAURANT_BASE_URL + "/**").hasRole(ROLE_OWNER)
+
+                        .requestMatchers(HttpMethod.POST, CATEGORY_BASE_URL + "/**").hasRole(ROLE_OWNER)
+                        .requestMatchers(HttpMethod.PUT, CATEGORY_BASE_URL + "/**").hasRole(ROLE_OWNER)
+                        .requestMatchers(HttpMethod.DELETE, CATEGORY_BASE_URL + "/**").hasRole(ROLE_OWNER)
+
+                        .requestMatchers(HttpMethod.POST, MENU_ITEM_BASE_URL + "/**").hasRole(ROLE_OWNER)
+                        .requestMatchers(HttpMethod.PUT, MENU_ITEM_BASE_URL + "/**").hasRole(ROLE_OWNER)
+                        .requestMatchers(HttpMethod.DELETE, MENU_ITEM_BASE_URL + "/**").hasRole(ROLE_OWNER)
+
+                        //API only user can access
+                        .requestMatchers(CART_BASE_URL + "/**").hasRole(ROLE_USER)
+                        .requestMatchers(ORDER_BASE_URL + "/**").hasRole(ROLE_USER)
 
                         //all other API need authentication
                         .anyRequest().authenticated()
