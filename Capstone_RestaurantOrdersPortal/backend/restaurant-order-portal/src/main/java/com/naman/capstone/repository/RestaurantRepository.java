@@ -11,6 +11,10 @@ import java.util.List;
  */
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
-    //find all restaurants of a specific owner
+    /**
+     * get all restaurants of an owner
+     * @param owner user whose restaurant need to fetch
+     * @return list of restaurants
+     */
     List<Restaurant> findByOwner(User owner);
 }
