@@ -42,6 +42,12 @@ public interface RestaurantService {
     List<RestaurantResponseDTO> getAllRestaurants();
 
     /**
+     * gets restaurant by id
+     * @return restaurant
+     */
+    RestaurantResponseDTO getRestaurantById(Long id);
+
+    /**
      * get restaurants owned by a specific owner
      * @param owner restaurant owner
      * @return list of restaurants of that owner
