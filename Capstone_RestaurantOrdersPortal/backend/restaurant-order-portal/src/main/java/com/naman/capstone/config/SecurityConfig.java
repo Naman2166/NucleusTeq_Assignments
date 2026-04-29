@@ -1,6 +1,5 @@
 package com.naman.capstone.config;
 
-import com.naman.capstone.constant.AppConstants;
 import com.naman.capstone.security.JwtAuthenticationEntryPoint;
 import com.naman.capstone.security.JwtFilter;
 import org.springframework.context.annotation.Bean;
@@ -45,6 +44,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(cors -> {})
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         //API anyone can access
@@ -67,9 +67,15 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, MENU_ITEM_BASE_URL + "/**").hasRole(ROLE_OWNER)
                         .requestMatchers(HttpMethod.DELETE, MENU_ITEM_BASE_URL + "/**").hasRole(ROLE_OWNER)
 
+                        .requestMatchers(HttpMethod.GET, ORDER_BASE_URL + "/restaurant/**").hasRole(ROLE_OWNER)
+                        .requestMatchers(HttpMethod.PUT, ORDER_BASE_URL + "/*/status").hasRole(ROLE_OWNER)
+                        .requestMatchers(HttpMethod.PUT, ORDER_BASE_URL + "/*/cancel-by-owner").hasRole(ROLE_OWNER)
+
                         //API only user can access
                         .requestMatchers(CART_BASE_URL + "/**").hasRole(ROLE_USER)
-                        .requestMatchers(ORDER_BASE_URL + "/**").hasRole(ROLE_USER)
+                        .requestMatchers(HttpMethod.POST, ORDER_BASE_URL).hasRole(ROLE_USER)
+                        .requestMatchers(HttpMethod.GET, ORDER_BASE_URL).hasRole(ROLE_USER)
+                        .requestMatchers(HttpMethod.PUT, ORDER_BASE_URL + "/*/cancel").hasRole(ROLE_USER)
 
                         //all other API need authentication
                         .anyRequest().authenticated()
@@ -81,4 +87,5 @@ public class SecurityConfig {
 
         return http.build();
     }
+
 }
