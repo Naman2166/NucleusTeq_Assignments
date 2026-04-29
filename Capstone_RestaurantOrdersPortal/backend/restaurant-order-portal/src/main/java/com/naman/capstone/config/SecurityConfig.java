@@ -30,17 +30,32 @@ public class SecurityConfig {
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
     }
 
+    /**
+     * it provides password encoder bean for encoding user passwords
+     * @return BCryptPasswordEncoder object
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+
+    /**
+     * it provides AuthenticationManager bean used for authentication operations
+     * @param config authentication configuration
+     * @return AuthenticationManager object
+     */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
-    //configures security rules
+
+    /**
+     * it Configures security rules
+     * @param http configuration object
+     * @return configured SecurityFilterChain
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
