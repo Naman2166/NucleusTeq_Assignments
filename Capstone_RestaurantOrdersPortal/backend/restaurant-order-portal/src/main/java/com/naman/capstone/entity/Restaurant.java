@@ -6,34 +6,54 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 /**
- * This class represents restaurant entity which is mapped to restaurants table in database
+ * entity representing restaurant data
  */
 @Entity
 @Table(name = "restaurants")
 public class Restaurant {
 
+    /**
+     * id of restaurant
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * restaurant name
+     */
     @Column(nullable = false)
     private String name;
 
+    /**
+     * address of restaurant
+     */
     @Column(nullable = false)
     private String address;
 
+    /**
+     * current status of restaurant
+     */
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private RestaurantStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)                     //many restaurants can belongs to one owner
-    @JoinColumn(name = "owner_id", nullable = false)       //it creates owner_id as foreign key which relates to primary key in User table
+    /**
+     * owner of restaurant
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
 
-    //constructors
+    /**
+     * default constructor
+     */
     public Restaurant() {}
 
+    /**
+     * parameterized constructor
+     */
     public Restaurant(String name, String address, RestaurantStatus status, User owner) {
         this.name = name;
         this.address = address;
@@ -42,7 +62,9 @@ public class Restaurant {
     }
 
 
-    //getters setters
+    /**
+     * getters and setters for all fields
+     */
     public Long getId(){
         return id;
     }
@@ -80,8 +102,9 @@ public class Restaurant {
     }
 
 
-
-    //toString
+    /**
+     * returns string representation of object
+     */
     @Override
     public String toString() {
         return "Restaurant{" + "id=" + id +
@@ -92,7 +115,9 @@ public class Restaurant {
     }
 
 
-    //equals
+    /**
+     * compares objects based on id
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -101,7 +126,9 @@ public class Restaurant {
         return Objects.equals(id, otherObj.id);
     }
 
-    //hashCode
+    /**
+     * generates hash code based on id
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id);

@@ -7,47 +7,78 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 /**
- * This class represents user entity which is mapped to database table
+ * entity representing user data with is mapped to users table in database
  */
 @Entity
 @Table(name = "users")
 public class User {
 
+    /**
+     * id of user
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;                     //here id generates automatically
+    private Long id;
 
+    /**
+     * first name of user
+     */
     @Column(nullable = false)
     private String firstName;
 
+    /**
+     * last name of user
+     */
     @Column(nullable = false)
     private String lastName;
 
+    /**
+     * email of user
+     */
     @Column(unique = true, nullable = false)
     private String email;
 
+    /**
+     * password
+     */
     @Column(nullable = false)
     private String password;
 
+    /**
+     * phone number of user
+     */
     @Column(nullable = false)
     private String phoneNumber;
 
+    /**
+     * user role
+     */
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)         //stores enum in text format in databse
+    @Enumerated(EnumType.STRING)
     private Role role;
 
+    /**
+     * wallet balance of user
+     */
     @Column(nullable = false)
-    private BigDecimal walletBalance = BigDecimal.ZERO;      //initializes walletBalance with 0 to avoid null error
+    private BigDecimal walletBalance = BigDecimal.ZERO;
 
+    /**
+     * account creation time
+     */
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
 
-    //default constructor
+    /**
+     * default constructor
+     */
     public User(){
     }
 
-    //parametrized constructor
+    /**
+     * parameterized constructor
+     */
     public User(String firstName, String lastName, String password, String email, String phoneNumber, Role role, BigDecimal walletBalance){
         this.firstName = firstName;
         this.lastName = lastName;
@@ -59,7 +90,9 @@ public class User {
     }
 
 
-    //Getter Setter
+    /**
+     * getters and setters for all fields
+     */
     public Long getId() {
         return id;
     }
@@ -120,12 +153,18 @@ public class User {
         this.walletBalance = walletBalance;
     }
 
+
+    /**
+     * sets created time before saving to database
+     */
     @PrePersist
     public void setCreatedAt() {
         this.createdAt = LocalDateTime.now();
     }
 
-    //toString
+    /**
+     * returns string representation of object
+     */
     @Override
     public String toString() {
         return "User{" + "id=" + id +
@@ -136,10 +175,12 @@ public class User {
                 "', role=" + role +
                 ", walletBalance=" + walletBalance +
                 ", createdAt=" + createdAt +
-                '}';
+                "}";
     }
 
-    //equals
+    /**
+     * compares objects based on id
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -148,7 +189,9 @@ public class User {
         return id != null && id.equals(otherObj.id);
     }
 
-    //hashCode
+    /**
+     * generates hash code
+     */
     @Override
     public int hashCode() {
         return getClass().hashCode();
