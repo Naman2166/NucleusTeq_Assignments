@@ -1,31 +1,43 @@
 package com.naman.capstone.dto.request;
 
 import com.naman.capstone.enums.RestaurantStatus;
-import com.naman.capstone.enums.Role;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- * Represents the data received from owner for creating or updating a restaurant
+ * DTO for creating or updating a restaurant
  */
 public class RestaurantRequestDTO {
 
+    /**
+     * Name of the restaurant
+     */
     @NotBlank(message = "Restaurant name cannot be empty")
     private String name;
 
+    /**
+     * Address of the restaurant
+     */
     @NotBlank(message = "Address cannot be empty")
     private String address;
 
+    /**
+     * Current status of the restaurant
+     */
     @NotNull(message = "Status is required")
     private RestaurantStatus status;
 
 
-    //constructors
+    /**
+     * Default constructor
+     */
     public RestaurantRequestDTO() {}
 
+    /**
+     * Parameterized constructor
+     */
     public RestaurantRequestDTO(String name, String address, RestaurantStatus status) {
         this.name = name;
         this.address = address;
@@ -33,7 +45,9 @@ public class RestaurantRequestDTO {
     }
 
 
-    //getters setters
+    /**
+     * getters setters method
+     */
     public String getName() {
         return name;
     }
@@ -59,17 +73,21 @@ public class RestaurantRequestDTO {
     }
 
 
-    //toString
+    /**
+     * Returns string representation of object
+     */
     @Override
     public String toString() {
         return "RestaurantRequestDTO{" +
                 "name='" + name +
-                "', address='" + address + 
+                "', address='" + address +
                 "', status=" + status +
                 "}";
     }
 
-    //equals
+    /**
+     * Compares objects for equality
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -81,7 +99,9 @@ public class RestaurantRequestDTO {
                 status == otherObj.status;
     }
 
-    //hashCode
+    /**
+     * Generates hash code
+     */
     @Override
     public int hashCode() {
         return Objects.hash(name, address, status);

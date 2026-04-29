@@ -5,19 +5,39 @@ import com.naman.capstone.enums.RestaurantStatus;
 import java.util.Objects;
 
 /**
- * Represents the restaurant data sent back to owner in API response
+ * dto representing restaurant response data
  */
 public class RestaurantResponseDTO {
 
+    /**
+     * id of restaurant
+     */
     private Long id;
+
+    /**
+     * restaurant name
+     */
     private String name;
+
+    /**
+     * address of restaurant
+     */
     private String address;
+
+    /**
+     * current status of restaurant
+     */
     private RestaurantStatus status;
 
 
-    //constructors
+    /**
+     * default constructor
+     */
     public RestaurantResponseDTO() {}
 
+    /**
+     * parameterized constructor
+     */
     public RestaurantResponseDTO(Long id, String name, String address, RestaurantStatus status) {
         this.id = id;
         this.name = name;
@@ -26,7 +46,9 @@ public class RestaurantResponseDTO {
     }
 
 
-    //getters setters
+    /**
+     * getters and setters for all fields
+     */
     public Long getId() {
         return id;
     }
@@ -60,7 +82,9 @@ public class RestaurantResponseDTO {
     }
 
 
-    // toString()
+    /**
+     * returns string representation of object
+     */
     @Override
     public String toString() {
         return "RestaurantResponseDTO{" +
@@ -71,7 +95,9 @@ public class RestaurantResponseDTO {
                 '}';
     }
 
-    // equals()
+    /**
+     * compares objects for equality
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -84,7 +110,9 @@ public class RestaurantResponseDTO {
                 status == otherObj.status;
     }
 
-    // hashCode()
+    /**
+     * generates hash code
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id, name, address, status);

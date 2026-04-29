@@ -6,22 +6,54 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- * Represents the data sent back to the client after user operations
+ * dto representing user response data
  */
 public class UserResponseDTO {
 
+    /**
+     * id of user
+     */
     private Long id;
+
+    /**
+     * first name of user
+     */
     private String firstName;
+
+    /**
+     * last name of user
+     */
     private String lastName;
+
+    /**
+     * email of user
+     */
     private String email;
+
+    /**
+     * phone number of user
+     */
     private String phoneNumber;
+
+    /**
+     * role of user
+     */
     private Role role;
+
+    /**
+     * wallet balance of user
+     */
     private BigDecimal walletBalance;
 
 
-    //constructors
+    /**
+     * default constructor
+     */
     public UserResponseDTO() {}
 
+    /**
+     * parameterized constructor
+     */
     public UserResponseDTO(Long id, String firstName, String lastName, String email, String phoneNumber, Role role, BigDecimal walletBalance) {
         this.id = id;
         this.firstName = firstName;
@@ -33,7 +65,9 @@ public class UserResponseDTO {
     }
 
 
-    //getters setters
+    /**
+     * getters and setters for all fields
+     */
     public Long getId() {
         return id;
     }
@@ -91,7 +125,9 @@ public class UserResponseDTO {
     }
 
 
-    // toString
+    /**
+     * returns string representation of object
+     */
     @Override
     public String toString() {
         return "UserResponseDTO{" + "id=" + id +
@@ -104,7 +140,9 @@ public class UserResponseDTO {
                 "}";
     }
 
-    // equals
+    /**
+     * compares objects for equality
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -121,11 +159,12 @@ public class UserResponseDTO {
                 Objects.equals(walletBalance, otherObj.walletBalance);
     }
 
-    // hashCode
+    /**
+     * generates hash code
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id, firstName, lastName, email, phoneNumber, role, walletBalance);
     }
 
 }
-

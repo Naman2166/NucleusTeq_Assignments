@@ -1,23 +1,39 @@
 package com.naman.capstone.dto.response;
 
-
 import com.naman.capstone.enums.Role;
 
 import java.util.Objects;
 
 /**
- * Represents the data sent back to client after login
+ * dto representing login response data
  */
 public class LoginResponseDTO {
 
+    /**
+     * jwt token for authenticated user
+     */
     private String token;
+
+    /**
+     * user details of logged in user
+     */
     private UserResponseDTO user;
+
+    /**
+     * role of the user
+     */
     private Role role;
 
 
-    //Constructors
+
+    /**
+     * default constructor
+     */
     public LoginResponseDTO() {}
 
+    /**
+     * parameterized constructor
+     */
     public LoginResponseDTO(String token, UserResponseDTO user, Role role) {
         this.token = token;
         this.user = user;
@@ -25,7 +41,10 @@ public class LoginResponseDTO {
     }
 
 
-    //getters setters
+
+    /**
+     * getters and setters for all fields
+     */
     public String getToken() {
         return token;
     }
@@ -51,13 +70,17 @@ public class LoginResponseDTO {
     }
 
 
-    //toString
+    /**
+     * returns string representation of object
+     */
     @Override
     public String toString() {
         return "LoginResponseDTO{" + "token='[PROTECTED]'" + ", user=" + user + ", role=" + role + "}";
     }
 
-    //equals
+    /**
+     * compares objects for equality
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -70,7 +93,9 @@ public class LoginResponseDTO {
                 role == otherObj.role;
     }
 
-    //hashCode
+    /**
+     * generates hash code
+     */
     @Override
     public int hashCode() {
         return Objects.hash(token, user, role);

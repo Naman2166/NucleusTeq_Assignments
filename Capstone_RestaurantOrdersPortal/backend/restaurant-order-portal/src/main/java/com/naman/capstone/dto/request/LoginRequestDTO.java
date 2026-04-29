@@ -10,24 +10,37 @@ import java.util.Objects;
  */
 public class LoginRequestDTO {
 
+    /**
+     * User email address
+     */
     @NotBlank(message = "Email cannot be empty")
     @Email(message = "Invalid email format")
     private String email;
 
+    /**
+     * User password
+     */
     @NotBlank(message = "Password cannot be empty")
     private String password;
 
 
-    //constructor
+    /**
+     * Default constructor
+     */
     public LoginRequestDTO() {}
 
+    /**
+     * Parameterized constructor
+     */
     public LoginRequestDTO(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
 
-    //getter setter
+    /**
+     * getter setter
+     */
     public String getEmail() {
         return email;
     }
@@ -45,13 +58,17 @@ public class LoginRequestDTO {
     }
 
 
-    //toString
+    /**
+     * Returns string representation of object
+     */
     @Override
     public String toString() {
         return "LoginRequestDTO{" + "email='" + email + "', password='[PROTECTED]'}";
     }
 
-    //equals
+    /**
+     * Compares objects for equality
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) return true;
@@ -63,7 +80,9 @@ public class LoginRequestDTO {
                 Objects.equals(password, otherObj.password);
     }
 
-    //hashCode
+    /**
+     * Generates hash code
+     */
     @Override
     public int hashCode() {
         return Objects.hash(email, password);
