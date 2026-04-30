@@ -65,7 +65,7 @@ public class RestaurantController {
      * @return updated restaurant data
      */
     @PutMapping(RESTAURANT_ID)
-    public ResponseEntity<RestaurantResponseDTO> updateRestaurant(@PathVariable("restaurantID") Long id,
+    public ResponseEntity<RestaurantResponseDTO> updateRestaurant(@PathVariable("restaurantId") Long id,
                                                   @Valid @RequestBody RestaurantRequestDTO restaurantRequestDTO,
                                                   @AuthenticationPrincipal UserDetails userDetails){
         log.info("Update restaurant request received for restaurantId={}", id);
@@ -84,7 +84,7 @@ public class RestaurantController {
      * @return restaurant deleted message
      */
     @DeleteMapping(RESTAURANT_ID)
-    public ResponseEntity<String> deleteRestaurant(@PathVariable("restaurantID") Long id, @AuthenticationPrincipal UserDetails userDetails){
+    public ResponseEntity<String> deleteRestaurant(@PathVariable("restaurantId") Long id, @AuthenticationPrincipal UserDetails userDetails){
         log.warn("Delete restaurant request received for restaurantId={}", id);
         User user = currentUserService.getCurrentUser(userDetails);
         restaurantService.deleteRestaurant(id, user);
@@ -112,7 +112,7 @@ public class RestaurantController {
      * @return restaurant object
      */
     @GetMapping(RESTAURANT_ID)
-    public ResponseEntity<RestaurantResponseDTO> getRestaurantById(@PathVariable Long id) {
+    public ResponseEntity<RestaurantResponseDTO> getRestaurantById(@PathVariable("restaurantId") Long id) {
         log.info("Fetching restaurant for restaurantId={}", id);
         RestaurantResponseDTO response = restaurantService.getRestaurantById(id);
         log.info("Restaurant fetched successfully for restaurantId={}", id);
