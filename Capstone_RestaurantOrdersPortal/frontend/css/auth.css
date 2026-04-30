@@ -1,0 +1,149 @@
+.auth-layout {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+
+    background:
+        linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+        url("../assets/images/login-bg-image.jpg") center/cover no-repeat;
+}
+
+.auth-center {
+    width: 100%;
+    max-width: 1100px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+}
+
+.auth-showcase {
+    flex: 1;
+    color: #fff;
+    background: none; 
+}
+
+.auth-showcase h1 {
+    max-width: 20ch;
+    font-size: 3rem;
+}
+
+.auth-showcase p,
+.auth-showcase li {
+    color: rgba(255,255,255,0.9);
+}
+
+.auth-card {
+    flex: 1;
+    max-width: 520px;
+
+    padding: 2rem;
+
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.2);
+
+    color: #fff;
+}
+
+.auth-card.wide {
+    width: min(650px, calc(100% - 32px));
+}
+
+.close-link {
+    position: absolute;
+    color: #fff;
+    top: 1rem;
+    right: 1.6rem;
+    font-size: 1.8rem;
+}
+
+.auth-form {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.25rem;
+}
+
+.auth-form label {
+    display: grid;
+    gap: 0.45rem;
+}
+
+.auth-form span {
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.split-grid {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.span-2 {
+    grid-column: 1 / -1;
+}
+
+.auth-foot {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 1rem;
+    color: var(--muted);
+}
+
+.auth-foot a {
+    color: var(--brand-dark);
+    font-weight: 700;
+}
+
+.auth-points {
+    margin-top: 1rem;
+    padding-left: 1.1rem;
+    line-height: 1.8;
+}
+
+.error-msg,
+.success-msg {
+    min-height: 20px;
+    margin-top: 0.2rem;
+    font-size: 0.9rem;
+}
+
+.error-msg {
+    color: #e42222;
+    font-weight: 700;
+}
+
+.success-msg {
+    color: #2fa55c;
+    font-weight: 700;
+}
+
+.auth-form button[type="submit"] {
+    margin-top: 0.75rem; 
+}
+
+@media (max-width: 900px) {
+    .auth-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-showcase {
+        min-height: 240px;
+    }
+}
+
+@media (max-width: 640px) {
+    .split-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .span-2 {
+        grid-column: auto;
+    }
+}
