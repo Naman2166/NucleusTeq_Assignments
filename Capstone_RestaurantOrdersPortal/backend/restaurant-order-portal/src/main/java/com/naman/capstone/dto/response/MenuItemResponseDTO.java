@@ -32,6 +32,12 @@ public class MenuItemResponseDTO {
      */
     private Long restaurantId;
 
+    /**
+     * path of image
+     */
+    private String imageUrl;
+
+
 
 
     /**
@@ -42,12 +48,13 @@ public class MenuItemResponseDTO {
     /**
      * parameterized constructor
      */
-    public MenuItemResponseDTO(Long id, String name, BigDecimal price, Long categoryId, Long restaurantId) {
+    public MenuItemResponseDTO(Long id, String name, BigDecimal price, Long categoryId, Long restaurantId, String imageUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.categoryId = categoryId;
         this.restaurantId = restaurantId;
+        this.imageUrl = imageUrl;
     }
 
 
@@ -94,6 +101,15 @@ public class MenuItemResponseDTO {
     public void setRestaurantId(Long restaurantId) {
         this.restaurantId = restaurantId;
     }
+
+    public String getImageUrl(){
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
 
 
 

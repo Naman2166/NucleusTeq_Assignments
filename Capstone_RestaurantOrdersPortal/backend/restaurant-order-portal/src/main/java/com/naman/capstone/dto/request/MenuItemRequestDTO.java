@@ -34,6 +34,12 @@ public class MenuItemRequestDTO {
     @NotNull(message = "Restaurant ID is required")
     private Long restaurantId;
 
+    /**
+     * path of image
+     */
+    private String imageUrl;
+
+
 
     /**
      * Default constructor
@@ -43,11 +49,12 @@ public class MenuItemRequestDTO {
     /**
      * Parameterized constructor
      */
-    public MenuItemRequestDTO(String name, BigDecimal price, Long categoryId, Long restaurantId) {
+    public MenuItemRequestDTO(String name, BigDecimal price, Long categoryId, Long restaurantId, String imageUrl) {
         this.name = name;
         this.price = price;
         this.categoryId = categoryId;
         this.restaurantId = restaurantId;
+        this.imageUrl = imageUrl;
     }
 
 
@@ -85,6 +92,15 @@ public class MenuItemRequestDTO {
     public void setRestaurantId(Long restaurantId) {
         this.restaurantId = restaurantId;
     }
+
+    public String getImageUrl(){
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
 
 
     /**

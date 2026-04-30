@@ -29,6 +29,12 @@ public class RestaurantRequestDTO {
     @NotNull(message = "Status is required")
     private RestaurantStatus status;
 
+    /**
+     * path of image
+     */
+    private String imageUrl;
+
+
 
     /**
      * Default constructor
@@ -38,10 +44,11 @@ public class RestaurantRequestDTO {
     /**
      * Parameterized constructor
      */
-    public RestaurantRequestDTO(String name, String address, RestaurantStatus status) {
+    public RestaurantRequestDTO(String name, String address, RestaurantStatus status, String imageUrl) {
         this.name = name;
         this.address = address;
         this.status = status;
+        this.imageUrl = imageUrl;
     }
 
 
@@ -71,6 +78,15 @@ public class RestaurantRequestDTO {
     public void setStatus(RestaurantStatus status) {
         this.status = status;
     }
+
+    public String getImageUrl(){
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
 
 
     /**

@@ -29,6 +29,12 @@ public class RestaurantResponseDTO {
      */
     private RestaurantStatus status;
 
+    /**
+     * path of image
+     */
+    private String imageUrl;
+
+
 
     /**
      * default constructor
@@ -38,11 +44,12 @@ public class RestaurantResponseDTO {
     /**
      * parameterized constructor
      */
-    public RestaurantResponseDTO(Long id, String name, String address, RestaurantStatus status) {
+    public RestaurantResponseDTO(Long id, String name, String address, RestaurantStatus status, String imageUrl) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.status = status;
+        this.imageUrl = imageUrl;
     }
 
 
@@ -80,6 +87,15 @@ public class RestaurantResponseDTO {
     public void setStatus(RestaurantStatus status) {
         this.status = status;
     }
+
+    public String getImageUrl(){
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
 
 
     /**
