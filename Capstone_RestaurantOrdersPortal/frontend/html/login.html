@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+    <section class="auth-layout">
+        <div class="auth-overlay"></div>
+        <div class="auth-center">
+            <div class="auth-showcase compact">
+                <p class="eyebrow">Welcome back</p>
+                <h1>Login to continue your ordering journey.</h1>
+                <p>Customers can place orders and track status. Restaurant owners can manage restaurants, menus, and incoming orders.</p>
+            </div>
+
+            // login form card
+            <div class="auth-card panel">
+                <button class="close-link" type="button" onclick="goHome()">x</button>
+                <p class="eyebrow">Login</p>
+                <h2>Continue to your dashboard</h2>
+
+                //login form
+                <form id="loginForm" class="auth-form">
+                    <label>
+                        <span>Email address</span>
+                        <input id="email" type="email" placeholder="you@example.com">
+                    </label>
+                    <label>
+                        <span>Password</span>
+                        <input id="password" type="password" placeholder="Enter your password">
+                    </label>
+                    <button type="submit" class="primary-btn full-width">Login</button>
+                </form>
+
+                <p id="errorMsg" class="error-msg"></p>
+                <p id="successMsg" class="success-msg"></p>
+
+                <div class="auth-foot">
+                    <span>New here?</span>
+                    <a href="register.html">Create an account</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/auth.js"></script>
+</body>
+</html>
