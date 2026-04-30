@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+<body>
+    <section class="auth-layout">
+        <div class="auth-overlay"></div>
+        <div class="auth-center register-center">
+            <div class="auth-showcase compact">
+                <p class="eyebrow">Create account</p>
+                <h1>Register as a customer or restaurant owner.</h1>
+                <ul class="auth-points">
+                    <li>Customer registration and login</li>
+                    <li>Restaurant owner registration and management</li>
+                </ul>
+            </div>
+
+            <div class="auth-card panel wide">
+                <button class="close-link" type="button" onclick="goHome()">x</button>
+                <p class="eyebrow">Register</p>
+                <h2>Create your account</h2>
+
+                <form id="registerForm" class="auth-form split-grid">
+                    <label>
+                        <span>First name</span>
+                        <input name="firstName" type="text" placeholder="Naman">
+                    </label>
+                    <label>
+                        <span>Last name</span>
+                        <input name="lastName" type="text" placeholder="Patel">
+                    </label>
+                    <label>
+                        <span>Email address</span>
+                        <input name="email" type="email" placeholder="you@example.com">
+                    </label>
+                    <label>
+                        <span>Phone number</span>
+                        <input name="phoneNumber" type="text" placeholder="0000000000">
+                    </label>
+                    <label>
+                        <span>Password</span>
+                        <input name="password" type="password" placeholder="Enter a password">
+                    </label>
+                    <label>
+                        <span>Role</span>
+                        <select name="role">
+                            <option value="">Choose role</option>
+                            <option value="USER">Customer</option>
+                            <option value="RESTAURANT_OWNER">Restaurant Owner</option>
+                        </select>
+                    </label>
+                    <button type="submit" class="primary-btn full-width span-2">Create account</button>
+                </form>
+
+                <p id="regError" class="error-msg"></p>
+                <p id="regSuccess" class="success-msg"></p>
+
+                <div class="auth-foot">
+                    <span>Already have an account?</span>
+                    <a href="login.html">Go to login</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/auth.js"></script>
+</body>
+</html>
