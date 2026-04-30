@@ -66,7 +66,7 @@ public class MenuItemServiceImpl implements MenuItemService {
             throw new CategoryRestaurantMismatchException("Category does not belong to this restaurant");
         }
 
-        MenuItem item = new MenuItem(requestDTO.getName(), requestDTO.getPrice(), category, restaurant);
+        MenuItem item = new MenuItem(requestDTO.getName(), requestDTO.getPrice(), category, restaurant, requestDTO.getImageUrl());
         MenuItem savedItem = menuItemRepository.save(item);
         logger.info("menu item created with id {}", savedItem.getId());
 
@@ -111,6 +111,9 @@ public class MenuItemServiceImpl implements MenuItemService {
         item.setName(requestDTO.getName());
         item.setPrice(requestDTO.getPrice());
         item.setCategory(category);
+        if(requestDTO.getImageUrl() != null){
+            item.setImageUrl(requestDTO.getImageUrl());
+        }
 
         MenuItem updatedItem = menuItemRepository.save(item);
         logger.info("menu item updated successfully for id {}", id);
