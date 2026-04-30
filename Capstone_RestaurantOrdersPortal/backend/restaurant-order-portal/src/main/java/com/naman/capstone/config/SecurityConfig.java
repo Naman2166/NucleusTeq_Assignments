@@ -68,6 +68,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, RESTAURANT_BASE_URL + "/**").permitAll()
                         .requestMatchers(HttpMethod.GET, CATEGORY_BASE_URL + "/**").permitAll()
                         .requestMatchers(HttpMethod.GET, MENU_ITEM_BASE_URL + "/**").permitAll()
+                        .requestMatchers(IMAGE_UPLOAD_BASE_URL + "/**").permitAll()
+                        .requestMatchers(TYPE_RESTAURANT + "/**").permitAll()
+                        .requestMatchers(TYPE_MENU + "/**").permitAll()
 
                         //API only restaurant owner can access
                         .requestMatchers(HttpMethod.POST, RESTAURANT_BASE_URL + "/**").hasRole(ROLE_OWNER)

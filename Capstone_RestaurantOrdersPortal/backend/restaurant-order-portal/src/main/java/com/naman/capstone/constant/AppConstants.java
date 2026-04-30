@@ -18,6 +18,8 @@ public class AppConstants {
     public static final String CART_ITEM_BASE_URL = "/api/cart-items";
     public static final String ORDER_BASE_URL = "/api/orders";
     public static final String ADDRESS_BASE_URL = "/api/addresses";
+    public static final String IMAGE_UPLOAD_BASE_URL = "/api/image-upload";
+
 
     //other URL constants
     public static final String MY_RESTAURANTS = "/my-restaurants";
@@ -27,12 +29,19 @@ public class AppConstants {
     public static final String CATEGORY = "/category";
     public static final String CATEGORY_ID = "/{categoryId}";
     public static final String RESTAURANT = "/restaurants";
-    public static final String RESTAURANT_ID = "/{restaurantID}";
+    public static final String RESTAURANT_ID = "/{restaurantId}";
     public static final String MENU_ITEM_ID = "/{menuItemId}";
     public static final String ORDER_ID = "/{orderId}";
     public static final String CANCEL = "/cancel";
     public static final String CANCEL_BY_OWNER = "/cancel-by-owner";
     public static final String STATUS = "/status";
+    public static final String ME = "/me";
+
+    //file upload constant
+    public static final String IMAGE_PATH = "uploads";
+    public static final String IMAGE_TYPE = "/{type}";
+    public static final String TYPE_RESTAURANT = "/restaurant";
+    public static final String TYPE_MENU = "/menu";
 
     //Auth constant
     public static final String REGISTER = "/register";
