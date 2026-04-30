@@ -46,6 +46,16 @@ public class OrderServiceImpl implements OrderService {
     }
 
     /**
+     * Refunds the customer once when an order first moves into CANCELLED status.
+     * @param order order being cancelled
+     */
+    private void refundCustomerForCancelledOrder(Order order) {
+        User customer = order.getUser();
+        customer.setWalletBalance(customer.getWalletBalance().add(order.getTotalPrice()));
+        userRepository.save(customer);
+    }
+
+    /**
      * place order
      * @param user the user
      * @param addressId id of address
@@ -125,7 +135,12 @@ public class OrderServiceImpl implements OrderService {
             throw new UnauthorizedException("Access denied");
         }
 
-        if (order.getStatus() != OrderStatus.PLACED) {
+        if (order.getStatus() == OrderStatus.CANCELLED) {
+            return;
+        }
+
+        //order can be cancelled only when status is placed or pending otherwise gives exception
+        if (order.getStatus() != OrderStatus.PLACED && order.getStatus() != OrderStatus.PENDING) {
             throw new OrderNotCancellableException("Order cannot be cancelled");
         }
 
@@ -136,8 +151,10 @@ public class OrderServiceImpl implements OrderService {
         }
 
         order.setStatus(OrderStatus.CANCELLED);
-        user.setWalletBalance(user.getWalletBalance().add(order.getTotalPrice()));
-        userRepository.save(user);
+        orderRepository.save(order);
+
+        refundCustomerForCancelledOrder(order);
+
         logger.info("order id {} cancelled successfully by user id {}", orderId, user.getId());
     }
 
@@ -158,7 +175,19 @@ public class OrderServiceImpl implements OrderService {
             throw new UnauthorizedException("Access denied");
         }
 
+        if (order.getStatus() == OrderStatus.CANCELLED) {
+            return;
+        }
+
+        //order can be cancelled only when status is placed or pending otherwise gives exception
+        if (order.getStatus() != OrderStatus.PLACED && order.getStatus() != OrderStatus.PENDING) {
+            throw new OrderNotCancellableException("Order cannot be cancelled");
+        }
         order.setStatus(OrderStatus.CANCELLED);
+
+        orderRepository.save(order);
+        refundCustomerForCancelledOrder(order);
+
         logger.info("order id {} cancelled by owner {}", orderId, owner.getId());
     }
 
@@ -250,7 +279,25 @@ public class OrderServiceImpl implements OrderService {
             throw new UnauthorizedException("Access denied");
         }
 
+        OrderStatus oldStatus = order.getStatus();
+
+        if ((oldStatus == OrderStatus.CANCELLED || oldStatus == OrderStatus.COMPLETED) && status != oldStatus) {
+            throw new OrderNotCancellableException("Final order status cannot be changed");
+        }
+
+        if (status == OrderStatus.CANCELLED
+                && oldStatus != OrderStatus.CANCELLED
+                && oldStatus != OrderStatus.PLACED
+                && oldStatus != OrderStatus.PENDING) {
+            throw new OrderNotCancellableException("Order cannot be cancelled");
+        }
+
         order.setStatus(status);
+
+        if (oldStatus != OrderStatus.CANCELLED && status == OrderStatus.CANCELLED) {
+            refundCustomerForCancelledOrder(order);
+        }
+
         return OrderMapper.toDTO(order);
     }
 }
