@@ -1,0 +1,211 @@
+/* ===== ROOT COLORS ===== */
+:root {
+    --brand: #ff6b35;
+    --text-dark: #111;
+    --text-light: #666;
+    --bg-light: #ffffff;
+    --border-light: #eaeaea;
+}
+
+/* ===== NAVBAR ===== */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    border-bottom: 1px solid var(--border-light);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+    z-index: 100;
+}
+
+/* ===== INNER CONTAINER ===== */
+.navbar-inner {
+    width: min(1150px, calc(100% - 40px));
+    margin: 0 auto;
+    min-height: 64px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* ===== LOGO ===== */
+.brand-mark {
+    font-size: 1.6rem;
+    font-weight: 900;
+    font-family: 'Poppins', sans-serif;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+
+    display: flex;
+    align-items: center;
+
+    color: var(--text-dark);
+}
+
+.brand-mark .flow {
+    color: var(--brand);
+    margin-left: 4px;
+}
+
+/* ===== NAV GROUP ===== */
+.auth-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ===== NAV LINKS ===== */
+.nav-link {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+
+    padding: 8px 14px;
+    border-radius: 10px;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    text-decoration: none;
+
+    position: relative;
+    transition: all 0.25s ease;
+}
+
+/* ICON SIZE */
+.nav-link i {
+    width: 16px;
+    height: 16px;
+}
+
+/* HOVER EFFECT */
+.nav-link:hover {
+    background: rgba(0, 0, 0, 0.06);
+}
+
+/* ===== ACTIVE LINK ===== */
+.nav-link.active {
+    color: var(--brand);
+}
+
+/* underline */
+.nav-link.active::after {
+    content: "";
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    bottom: 4px;
+    height: 2px;
+    background: var(--brand);
+    border-radius: 2px;
+}
+
+/* ===== PRIMARY BUTTON ===== */
+.nav-primary {
+    background: var(--brand);
+    color: #fff;
+}
+
+.nav-primary:hover {
+    background: #e85d04;
+}
+
+/* ===== LOGOUT ===== */
+.logout-btn {
+    color: #dc2626;
+}
+
+.logout-btn:hover {
+    background: rgba(220, 38, 38, 0.08);
+}
+
+/* ===== WALLET ===== */
+.nav-wallet {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+
+    background: linear-gradient(135deg, #fff7ed, #ffedd5);
+    color: var(--text-dark);
+
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-weight: 600;
+}
+
+.wallet-amount {
+    font-weight: 900;
+    color: var(--brand);
+}
+
+/* ===== CART ===== */
+.cart-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cart-count {
+    background: var(--text-dark);
+    color: #fff;
+
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 700;
+}
+
+/* ===== SEARCH ===== */
+.search-shell {
+    min-width: min(340px, 40vw);
+}
+
+.search-shell input {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 10px;
+
+    border: 1px solid var(--border-light);
+    background: var(--bg-light);
+
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.search-shell input:focus {
+    border-color: var(--brand);
+}
+
+/* ===== USER ===== */
+.user-pill {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    font-weight: 600;
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 900px) {
+    .navbar-inner {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding: 10px 0;
+    }
+
+    .auth-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .search-shell {
+        width: 100%;
+    }
+}
