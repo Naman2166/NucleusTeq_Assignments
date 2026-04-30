@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Orders Portal</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/home.css">
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="navbar-inner">
+            <a href="index.html" class="brand-mark">DineFlow</a>
+            <div class="nav-cluster">
+    <div id="authSection" class="auth-actions"></div>
+</div>
+        </div>
+    </header>
+
+    <!-- home page banner -->
+    <section class="hero-block">
+        <div class="hero-copy">
+            <p class="eyebrow">Restaurant Orders Portal</p>
+            <h1>Food ordering made simple and quick</h1>
+            <p class="hero-text">
+                Explore restaurants, order meals, and manage everything in one place.
+            </p>
+
+            <div class="hero-actions">
+                <a href="#discover" class="primary-btn">Explore Restaurants</a>
+                <span id="quickAction"></span>
+            </div>
+            
+        </div>
+    </section>
+
+
+    <!-- list restauarnt -->
+    <main class="page-shell">
+        <section id="discover" class="section-block">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Restaurants</p>
+                    <h2>Browse menus and place your order</h2>
+                </div>
+                <div class="hero-search">
+                    <input type="text" id="searchInput" placeholder="Search restaurants, dishes, or areas...">
+                    <button id="searchBtn">Search</button>
+                </div>
+
+            </div>
+            <div id="restaurantGrid" class="restaurant-grid"></div>
+        </section>
+
+    </main>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/home.js"></script>
+</body>
+
+</html>
