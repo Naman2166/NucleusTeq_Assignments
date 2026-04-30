@@ -47,6 +47,12 @@ public class MenuItem {
     @JoinColumn(name = "restaurant_id", nullable = false)
     private Restaurant restaurant;
 
+    /**
+     * path of image
+     */
+    private String imageUrl;
+
+
 
     /**
      * default constructor
@@ -56,12 +62,14 @@ public class MenuItem {
     /**
      * parameterized constructor
      */
-    public MenuItem(String name, BigDecimal price, Category category, Restaurant restaurant) {
+    public MenuItem(String name, BigDecimal price, Category category, Restaurant restaurant, String imageUrl) {
         this.name = name;
         this.price = price;
         this.category = category;
         this.restaurant = restaurant;
+        this.imageUrl = imageUrl;
     }
+
 
 
     /**
@@ -100,6 +108,15 @@ public class MenuItem {
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
+
+    public String getImageUrl(){
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
 
 
     /**

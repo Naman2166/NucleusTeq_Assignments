@@ -45,6 +45,13 @@ public class Restaurant {
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
+    /**
+     * url of image file path
+     */
+    @Column(name = "image_url")
+    private String imageUrl;
+
+
 
     /**
      * default constructor
@@ -54,11 +61,12 @@ public class Restaurant {
     /**
      * parameterized constructor
      */
-    public Restaurant(String name, String address, RestaurantStatus status, User owner) {
+    public Restaurant(String name, String address, RestaurantStatus status, User owner, String imageUrl) {
         this.name = name;
         this.address = address;
         this.status = status;
         this.owner = owner;
+        this.imageUrl = imageUrl;
     }
 
 
@@ -67,6 +75,10 @@ public class Restaurant {
      */
     public Long getId(){
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName(){
@@ -100,6 +112,15 @@ public class Restaurant {
     public void setOwner(User owner){
         this.owner = owner;
     }
+
+    public String getImageUrl(){
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
 
 
     /**
