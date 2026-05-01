@@ -26,6 +26,7 @@ public class CartController {
     private static final Logger log = LoggerFactory.getLogger(CartController.class);
 
     private final CartService cartService;
+    
     private final CurrentUserService currentUserService;
 
     public CartController(CartService cartService, CurrentUserService currentUserService) {
