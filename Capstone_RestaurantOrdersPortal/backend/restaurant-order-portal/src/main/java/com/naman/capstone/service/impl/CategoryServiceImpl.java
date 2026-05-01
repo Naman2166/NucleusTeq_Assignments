@@ -47,12 +47,18 @@ public class CategoryServiceImpl implements CategoryService {
 
         logger.info("creating category {} for restaurant id {}", requestDTO.getName(), requestDTO.getRestaurantId());
 
+        //validation null value in category
+        if (requestDTO.getName() == null || requestDTO.getName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Category name cannot be empty");
+        }
+
         //checking restaurant
         Restaurant restaurant = restaurantRepository.findById(requestDTO.getRestaurantId())
                 .orElseThrow(() -> {
                     logger.error("restaurant not found with id {}", requestDTO.getRestaurantId());
                     return new ResourceNotFoundException("Restaurant not found with id: " + requestDTO.getRestaurantId());
                 });
+
 
         //checking category already exists or not
         if (categoryRepository.existsByNameIgnoreCaseAndRestaurantId(requestDTO.getName(), requestDTO.getRestaurantId())) {
