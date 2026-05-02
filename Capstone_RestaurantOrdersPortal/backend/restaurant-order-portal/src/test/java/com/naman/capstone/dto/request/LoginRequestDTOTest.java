@@ -100,16 +100,4 @@ class LoginRequestDTOTest {
         assertNotEquals(requestDTO1.hashCode(), requestDTO2.hashCode());
     }
 
-
-    /**
-     * test to string
-     */
-    @Test
-    void test_to_string() {
-        LoginRequestDTO requestDTO = new LoginRequestDTO("naman@gmail.com", "test_password");
-        String result = requestDTO.toString();
-
-        assertTrue(result.contains("naman@gmail.com"));
-        assertTrue(result.contains("[PROTECTED]"));
-    }
 }

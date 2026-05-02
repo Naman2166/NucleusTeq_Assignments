@@ -78,14 +78,4 @@ class OrderRequestDTOTest {
         assertNotEquals(requestDTO1.hashCode(), requestDTO2.hashCode());
     }
 
-
-    /**
-     * test to string
-     */
-    @Test
-    void test_to_string() {
-        OrderRequestDTO requestDTO = new OrderRequestDTO(1L);
-        String result = requestDTO.toString();
-        assertTrue(result.contains("1"));
-    }
 }

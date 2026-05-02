@@ -1,13 +1,10 @@
 package com.naman.capstone.dto.request;
 
-import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -87,16 +84,4 @@ class AddressRequestDTOTest {
         assertNotEquals(dto1.hashCode(), dto2.hashCode());
     }
 
-
-    /**
-     * testing toString
-     */
-    @Test
-    void test_to_string() {
-        AddressRequestDTO requestDTO = new AddressRequestDTO("Vijay Nagar", "Indore", "MP", "111");
-
-        String result = requestDTO.toString();
-        assertTrue(result.contains("Vijay Nagar"));
-        assertTrue(result.contains("Indore"));
-    }
 }

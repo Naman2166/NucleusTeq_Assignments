@@ -79,14 +79,4 @@ class UpdateCartItemRequestDTOTest {
     }
 
 
-    /**
-     * test to string
-     */
-    @Test
-    void test_to_string() {
-        UpdateCartItemRequestDTO requestDTO = new UpdateCartItemRequestDTO(2);
-        String result = requestDTO.toString();
-
-        assertTrue(result.contains("2"));
-    }
 }

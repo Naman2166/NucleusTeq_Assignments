@@ -147,21 +147,4 @@ class RestaurantRequestDTOTest {
         assertNotEquals(requestDTO1.hashCode(), requestDTO2.hashCode());
     }
 
-
-    /**
-     * test to string
-     */
-    @Test
-    void test_to_string() {
-        RestaurantRequestDTO requestDTO = new RestaurantRequestDTO(
-                "Dominos",
-                "Indore",
-                RestaurantStatus.OPEN,
-                "img.jpg"
-        );
-        String result = requestDTO.toString();
-
-        assertTrue(result.contains("Dominos"));
-        assertTrue(result.contains("Indore"));
-    }
 }

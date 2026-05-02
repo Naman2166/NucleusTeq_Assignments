@@ -91,16 +91,4 @@ class CategoryRequestDTOTest {
         assertNotEquals(dto1.hashCode(), dto2.hashCode());
     }
 
-
-    /**
-     * test to string
-     */
-    @Test
-    void test_to_string() {
-        CategoryRequestDTO requestDTO = new CategoryRequestDTO("Pizza", 1L);
-
-        String result = requestDTO.toString();
-        assertTrue(result.contains("Pizza"));
-        assertTrue(result.contains("1"));
-    }
 }

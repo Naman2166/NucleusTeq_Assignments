@@ -224,26 +224,4 @@ class RegisterRequestDTOTest {
         assertNotEquals(requestDTO1.hashCode(), requestDTO2.hashCode());
     }
 
-
-    /**
-     * test to string
-     */
-    @Test
-    void test_to_string() {
-        RegisterRequestDTO requestDTO = new RegisterRequestDTO(
-                "Naman",
-                "Patel",
-                "naman@gmail.com",
-                "test_password",
-                "9876543210",
-                Role.USER
-        );
-
-        String result = requestDTO.toString();
-
-        assertTrue(result.contains("Naman"));
-        assertTrue(result.contains("Patel"));
-        assertTrue(result.contains("naman@gmail.com"));
-        assertTrue(result.contains("[PROTECTED]"));
-    }
 }

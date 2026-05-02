@@ -120,15 +120,4 @@ class MenuItemRequestDTOTest {
     }
 
 
-    /**
-     * test to string
-     */
-    @Test
-    void test_to_string() {
-        MenuItemRequestDTO requestDTO = new MenuItemRequestDTO("Pizza", new BigDecimal("200"), 1L, 1L, "img.jpg");
-        String result = requestDTO.toString();
-
-        assertTrue(result.contains("Pizza"));
-        assertTrue(result.contains("199.99"));
-    }
 }

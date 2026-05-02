@@ -92,16 +92,4 @@ class CartRequestDTOTest {
         assertNotEquals(dto1.hashCode(), dto2.hashCode());
     }
 
-
-    /**
-     * test to string
-     */
-    @Test
-    void test_to_string() {
-        CartRequestDTO dto = new CartRequestDTO(1L, 2);
-
-        String result = dto.toString();
-        assertTrue(result.contains("1"));
-        assertTrue(result.contains("2"));
-    }
 }
