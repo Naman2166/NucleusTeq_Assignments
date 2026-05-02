@@ -45,15 +45,6 @@ public class OrderServiceImpl implements OrderService {
         this.addressRepository = addressRepository;
     }
 
-    /**
-     * Refunds the customer once when an order first moves into CANCELLED status.
-     * @param order order being cancelled
-     */
-    private void refundCustomerForCancelledOrder(Order order) {
-        User customer = order.getUser();
-        customer.setWalletBalance(customer.getWalletBalance().add(order.getTotalPrice()));
-        userRepository.save(customer);
-    }
 
     /**
      * place order
@@ -300,4 +291,17 @@ public class OrderServiceImpl implements OrderService {
 
         return OrderMapper.toDTO(order);
     }
+
+
+    /**
+     * Refunds the customer when status shows CANCELLED
+     * @param order order being cancelled
+     */
+    private void refundCustomerForCancelledOrder(Order order) {
+        User customer = order.getUser();
+        customer.setWalletBalance(customer.getWalletBalance().add(order.getTotalPrice()));
+        userRepository.save(customer);
+    }
+
+
 }
