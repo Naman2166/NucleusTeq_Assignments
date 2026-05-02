@@ -1,0 +1,304 @@
+const restaurantId = getQueryParam("id");
+const restaurantNameElement = document.getElementById("restaurantName");
+const restaurantAddressElement = document.getElementById("restaurantAddress");
+const restaurantStatusElement = document.getElementById("restaurantStatus");
+const restaurantDescriptionElement = document.getElementById("restaurantDescription");
+const menuContainer = document.getElementById("menuContainer");
+const cartContainer = document.getElementById("cartContainer");
+const cartTotalElement = document.getElementById("cartTotal");
+const placeOrderButton = document.getElementById("placeOrderBtn");
+const pageMessage = document.getElementById("restaurantMessage");
+let currentRestaurant = null;
+
+// Extracts the restaurant id from the current server cart shape safely.
+function getCartRestaurantId(cart) {
+    if (!cart) {
+        return null;
+    }
+
+    if (cart.restaurantId) {
+        return Number(cart.restaurantId);
+    }
+
+    if (cart.restaurant?.id) {
+        return Number(cart.restaurant.id);
+    }
+
+    const firstItem = (cart.items || [])[0];
+    return Number(firstItem?.restaurantId || firstItem?.menuItemRestaurantId || 0) || null;
+}
+
+// Stores the current cart restaurant id for strict cross-restaurant blocking.
+function setActiveCartRestaurantId(restaurantId) {
+    if (!restaurantId) {
+        localStorage.removeItem(APP_KEYS.activeCartRestaurantId);
+        return;
+    }
+    localStorage.setItem(APP_KEYS.activeCartRestaurantId, String(restaurantId));
+}
+
+// Reads the tracked cart restaurant id, used when backend doesn't return it.
+function getActiveCartRestaurantId() {
+    const value = localStorage.getItem(APP_KEYS.activeCartRestaurantId);
+    return value ? Number(value) : null;
+}
+
+// Clears tracked restaurant id when cart becomes empty.
+function syncActiveCartRestaurantFromCart(cart) {
+    const items = cart?.items || [];
+    if (!items.length) {
+        setActiveCartRestaurantId(null);
+        return;
+    }
+
+    const restaurantId = getCartRestaurantId(cart) || getActiveCartRestaurantId();
+    if (restaurantId) {
+        setActiveCartRestaurantId(restaurantId);
+    }
+}
+
+// Shows short page-level feedback without interrupting the customer flow.
+function showRestaurantMessage(message, tone = "info") {
+    pageMessage.className = `banner ${tone}`;
+    pageMessage.textContent = message;
+}
+
+// Reads the active cart from the server for logged-in users and local storage for guests.
+async function getCurrentCartView() {
+    if (isLoggedIn()) {
+        return fetchServerCart();
+    }
+
+    const guestCart = getGuestCart();
+    return {
+        totalPrice: getGuestCartTotal(guestCart),
+        items: guestCart.items
+    };
+}
+
+// Renders the cart sidebar and wires quantity/remove controls.
+async function renderCart() {
+    const cart = await getCurrentCartView();
+    const items = cart?.items || [];
+    syncActiveCartRestaurantFromCart(cart);
+
+    if (!items.length) {
+        cartContainer.innerHTML = `
+            <div class="empty-state compact">
+                <h3>Your cart is empty</h3>
+                <p>Add menu items to prepare your order.</p>
+            </div>
+        `;
+        cartTotalElement.textContent = currency(0);
+        return;
+    }
+
+    if (isLoggedIn()) {
+        cartContainer.innerHTML = items.map((item) => `
+            <div class="cart-item">
+                <div class="cart-item-main">
+                    <h4>${escapeHtml(item.menuItemName)}</h4>
+                    <p>${currency(Number(item.totalPrice) / Number(item.quantity || 1))} each</p>
+                </div>
+                <div class="cart-actions">
+                    <button class="qty-btn" data-action="decrease" data-id="${item.id}" data-qty="${item.quantity}">-</button>
+                    <span>${item.quantity}</span>
+                    <button class="qty-btn" data-action="increase" data-id="${item.id}" data-qty="${item.quantity}">+</button>
+                    <button class="remove-btn" data-remove="${item.id}">Remove</button>
+                </div>
+            </div>
+        `).join("");
+
+        cartTotalElement.textContent = currency(cart.totalPrice);
+    } else {
+        cartContainer.innerHTML = items.map((item) => `
+            <div class="cart-item">
+                <div class="cart-item-main">
+                    <h4>${escapeHtml(item.name)}</h4>
+                    <p>${currency(item.price)} each</p>
+                </div>
+                <div class="cart-actions">
+                    <button class="qty-btn" data-action="decrease" data-id="${item.id}" data-qty="${item.quantity}">-</button>
+                    <span>${item.quantity}</span>
+                    <button class="qty-btn" data-action="increase" data-id="${item.id}" data-qty="${item.quantity}">+</button>
+                    <button class="remove-btn" data-remove="${item.id}">Remove</button>
+                </div>
+            </div>
+        `).join("");
+
+        cartTotalElement.textContent = currency(getGuestCartTotal());
+    }
+
+    cartContainer.querySelectorAll(".qty-btn").forEach((button) => {
+        button.addEventListener("click", async () => {
+            const currentQty = Number(button.dataset.qty);
+            const nextQty = button.dataset.action === "increase" ? currentQty + 1 : currentQty - 1;
+
+            try {
+                if (isLoggedIn()) {
+                    if (nextQty <= 0) {
+                        await removeServerCartItem(button.dataset.id);
+                    } else {
+                        await updateServerCartItem(button.dataset.id, nextQty);
+                    }
+                } else {
+                    updateGuestCartQuantity(button.dataset.id, nextQty);
+                }
+
+                await renderCart();
+                if (typeof renderNavbar === "function") {
+                    renderNavbar();
+                }
+            } catch (error) {
+                showRestaurantMessage(error.message, "danger");
+            }
+        });
+    });
+
+    cartContainer.querySelectorAll("[data-remove]").forEach((button) => {
+        button.addEventListener("click", async () => {
+            try {
+                if (isLoggedIn()) {
+                    await removeServerCartItem(button.dataset.remove);
+                } else {
+                    updateGuestCartQuantity(button.dataset.remove, 0);
+                }
+
+                await renderCart();
+                if (typeof renderNavbar === "function") {
+                    renderNavbar();
+                }
+            } catch (error) {
+                showRestaurantMessage(error.message, "danger");
+            }
+        });
+    });
+}
+
+// Renders all category sections and adds items to cart without placing an order.
+function renderMenu(categories, menuItemsByCategory) {
+    if (!categories.length) {
+        menuContainer.innerHTML = `
+            <div class="empty-state panel">
+                <h3>No categories available</h3>
+                <p>This restaurant has not published menu categories yet.</p>
+            </div>
+        `;
+        return;
+    }
+
+    menuContainer.innerHTML = categories.map((category) => {
+        const items = menuItemsByCategory[category.id] || [];
+
+        return `
+            <section class="menu-section panel">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Category</p>
+                        <h3>${escapeHtml(category.name)}</h3>
+                    </div>
+                    <span class="chip">${items.length} items</span>
+                </div>
+
+                <div class="menu-list">
+                    ${items.length ? items.map((item) => `
+                        <article class="menu-card">
+                            <div class="menu-card-main">
+                                <img class="menu-thumb" src="${getMenuItemImage(item)}" alt="${escapeHtml(item.name)}">
+                                <div>
+                                    <h4>${escapeHtml(item.name)}</h4>
+                                    <p>Simple and fresh menu item ready for online ordering.</p>
+                                </div>
+                            </div>
+                            <div class="menu-card-side">
+                                <strong>${currency(item.price)}</strong>
+                                <button class="primary-btn compact" data-add="${item.id}">Add</button>
+                            </div>
+                        </article>
+                    `).join("") : `<div class="empty-state compact"><h3>No items in this category</h3><p>Add menu items to make this section active.</p></div>`}
+                </div>
+
+            </section>
+        `;
+    }).join("");
+
+    document.querySelectorAll("[data-add]").forEach((button) => {
+        button.addEventListener("click", async () => {
+            const itemId = Number(button.dataset.add);
+            const item = Object.values(menuItemsByCategory).flat().find((menuItem) => Number(menuItem.id) === itemId);
+
+            try {
+                if (isLoggedIn()) {
+                    const activeServerCart = await fetchServerCart();
+                    const existingRestaurantId = getCartRestaurantId(activeServerCart);
+                    const trackedRestaurantId = getActiveCartRestaurantId();
+                    const lockedRestaurantId = existingRestaurantId || trackedRestaurantId;
+
+                    if (lockedRestaurantId && Number(lockedRestaurantId) !== Number(currentRestaurant.id)) {
+                        showRestaurantMessage("You already have items from another restaurant in cart. Clear cart first.", "danger");
+                        return;
+                    }
+                    await addServerCartItem(item.id, 1);
+                    setActiveCartRestaurantId(currentRestaurant.id);
+                } else {
+                    addToGuestCart(item, currentRestaurant);
+                }
+
+                await renderCart();
+                if (typeof renderNavbar === "function") {
+                    renderNavbar();
+                }
+                showRestaurantMessage("Item added to cart.", "success");
+            } catch (error) {
+                showRestaurantMessage(error.message, "danger");
+            }
+        });
+    });
+}
+
+// Loads restaurant, category, menu, and cart data for the current restaurant detail page.
+async function initRestaurantPage() {
+    currentRestaurant = await getRestaurantById(restaurantId);
+
+    if (!currentRestaurant) {
+        showRestaurantMessage("Restaurant not found.", "danger");
+        return;
+    }
+
+    restaurantNameElement.textContent = currentRestaurant.name;
+    restaurantAddressElement.textContent = currentRestaurant.address || "Address unavailable";
+    restaurantStatusElement.innerHTML = `<span class="status-pill ${statusTone(currentRestaurant.status)}">${escapeHtml(currentRestaurant.status || "OPEN")}</span>`;
+    restaurantDescriptionElement.textContent = currentRestaurant.description || "Explore menu categories and build your order.";
+
+    const categories = await getCategoriesByRestaurant(currentRestaurant.id);
+    const menuItemsByCategory = {};
+
+    for (const category of categories) {
+        menuItemsByCategory[category.id] = await getMenuItemsByCategory(category.id);
+    }
+
+    renderMenu(categories, menuItemsByCategory);
+    await renderCart();
+}
+
+if (placeOrderButton) {
+    placeOrderButton.addEventListener("click", async () => {
+        const cart = await getCurrentCartView();
+        const items = cart?.items || [];
+
+        if (!items.length) {
+            showRestaurantMessage("Add at least one item before checkout.", "danger");
+            return;
+        }
+
+        if (!isLoggedIn()) {
+            showRestaurantMessage("Please login first to continue to checkout.", "danger");
+            window.location.href = "login.html";
+            return;
+        }
+
+        window.location.href = "checkout.html";
+    });
+}
+
+initRestaurantPage();

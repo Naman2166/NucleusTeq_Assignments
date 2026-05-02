@@ -1,0 +1,137 @@
+.hero-block {
+    width: 100vw;
+    height: 105vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+
+    background:
+        linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+        url("../assets/images/login-bg-image.jpg") center/cover no-repeat;
+}
+
+.hero-copy {
+    max-width: 800px;
+    color: #fff;
+}
+
+.hero-copy h1 {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.1;
+}
+
+.hero-text {
+    margin-top: 1rem;
+    color: rgba(255,255,255,0.9);
+}
+
+.hero-actions {
+    margin-top: 1.8rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.hero-search {
+    margin-top: 1.5rem;
+    display: flex;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+.hero-search input {
+    flex: 1;
+    border: none;
+    padding: 0.9rem 1rem;
+    outline: none;
+    font-size: 0.95rem;
+}
+
+.hero-search button {
+    padding: 0 1.2rem;
+    background: var(--brand);
+    color: #fff;
+    font-weight: 600;
+}
+
+.hero-search button:hover {
+    background: var(--brand-dark);
+}
+
+
+.restaurant-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.restaurant-card {
+    overflow: hidden;
+    padding: 0;
+}
+
+.restaurant-image-wrap {
+    height: 190px;
+    overflow: hidden;
+}
+
+.restaurant-image-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.restaurant-body {
+    display: grid;
+    gap: 0.9rem;
+    padding: 1.3rem;
+}
+
+.card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.restaurant-body h3 {
+    font-size: 1.22rem;
+}
+
+.restaurant-text {
+    color: var(--muted);
+    line-height: 1.65;
+}
+
+.card-meta {
+    display: flex;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 900px) {
+    .hero-block,
+    .restaurant-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card-top {
+        flex-direction: column;
+    }
+}
+
+
+
+
+
+
+
