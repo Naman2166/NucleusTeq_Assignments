@@ -26,16 +26,16 @@ import static com.naman.capstone.constant.AppConstants.ADDRESS_ID;
 @RequestMapping(ADDRESS_BASE_URL)
 public class AddressController {
 
+    private static final Logger log = LoggerFactory.getLogger(AddressController.class);
+
     private final AddressService addressService;
     private final CurrentUserService currentUserService;
 
-    public AddressController(AddressService addressService,
-                             CurrentUserService currentUserService) {
+    public AddressController(AddressService addressService, CurrentUserService currentUserService) {
         this.addressService = addressService;
         this.currentUserService = currentUserService;
     }
 
-    private static final Logger log = LoggerFactory.getLogger(AddressController.class);
 
 
     /**
@@ -64,8 +64,7 @@ public class AddressController {
      * @return list of addresses of user
      */
     @GetMapping
-    public ResponseEntity<List<AddressResponseDTO>> getAddresses(
-            @AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<List<AddressResponseDTO>> getAddresses(@AuthenticationPrincipal UserDetails userDetails) {
 
         log.info("Fetching all addresses of a user");
         User user = currentUserService.getCurrentUser(userDetails);
@@ -92,7 +91,7 @@ public class AddressController {
         log.info("Request received to update addressId={}", addressId);
         User user = currentUserService.getCurrentUser(userDetails);
 
-        AddressResponseDTO response = addressService.addAddress(user, requestDTO);
+        AddressResponseDTO response = addressService.updateAddress(user, addressId, requestDTO);
         log.info("Address added successfully for userId={}", user.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
