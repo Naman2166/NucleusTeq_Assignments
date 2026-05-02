@@ -87,4 +87,46 @@ class MenuItemTest {
         assertEquals(restaurant, menuItem.getRestaurant());
         assertEquals("img2.jpg", menuItem.getImageUrl());
     }
+
+
+    /**
+     * testing equals and hashcode for identical object
+     */
+    @Test
+    void test_equals_and_hashcode() {
+        MenuItem m1 = new MenuItem();
+        MenuItem m2 = new MenuItem();
+        m1.setId(1L);
+        m2.setId(1L);
+
+        assertEquals(m1, m2);
+        assertEquals(m1.hashCode(), m2.hashCode());
+    }
+
+
+    /**
+     * testing equals and hashcode for different object
+     */
+    @Test
+    void test_equals_negative() {
+        MenuItem m1 = new MenuItem();
+        MenuItem m2 = new MenuItem();
+        m1.setId(1L);
+        m2.setId(2L);
+
+        assertNotEquals(m1, m2);
+        assertNotEquals(m1.hashCode(), m2.hashCode());
+    }
+
+
+    /**
+     * testing toString
+     */
+    @Test
+    void test_to_string() {
+        MenuItem item = new MenuItem();
+        item.setId(1L);
+
+        assertNotNull(item.toString());
+    }
 }

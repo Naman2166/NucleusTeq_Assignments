@@ -122,4 +122,50 @@ class OrderTest {
         assertEquals(address, order.getAddress());
         assertEquals(OrderStatus.DELIVERED, order.getStatus());
     }
+
+
+
+    /**
+     * testing equals and hashcode for identical object
+     */
+    @Test
+    void test_equals_and_hashcode() {
+
+        Order o1 = new Order();
+        Order o2 = new Order();
+
+        o1.setId(1L);
+        o2.setId(1L);
+
+        assertEquals(o1, o2);
+        assertEquals(o1.hashCode(), o2.hashCode());
+    }
+
+
+    /**
+     * testing equals and hashcode for different object
+     */
+    @Test
+    void test_equals_negative() {
+        Order o1 = new Order();
+        Order o2 = new Order();
+        o1.setId(1L);
+        o2.setId(2L);
+
+        assertNotEquals(o1, o2);
+        assertNotEquals(o1.hashCode(), o2.hashCode());
+    }
+
+
+    /**
+     * testing toString
+     */
+    @Test
+    void test_to_string() {
+        Order order = new Order();
+        order.setId(1L);
+
+        assertNotNull(order.toString());
+    }
+
 }

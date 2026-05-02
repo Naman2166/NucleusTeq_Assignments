@@ -81,4 +81,48 @@ class AddressTest {
     }
 
 
+    /**
+     * testing equals and hashcode for identical object
+     */
+    @Test
+    void test_equals_and_hashcode() {
+        User user = new User();
+        user.setId(1L);
+
+        Address a1 = new Address(user, "AB Road", "Indore", "MP", "452001");
+        Address a2 = new Address(user, "AB Road", "Indore", "MP", "452001");
+        a1.setId(1L);
+        a2.setId(1L);
+
+        assertEquals(a1, a2);
+        assertEquals(a1.hashCode(), a2.hashCode());
+    }
+
+
+    /**
+     * testing equals and hashcode for different object
+     */
+    @Test
+    void test_equals_and_hashcode_negative() {
+
+        Address a1 = new Address();
+        Address a2 = new Address();
+        a1.setId(1L);
+        a2.setId(2L);
+
+        assertNotEquals(a1, a2);
+        assertNotEquals(a1.hashCode(), a2.hashCode());
+    }
+
+    /**
+     * testing toString
+     */
+    @Test
+    void test_to_string() {
+        Address address = new Address();
+        address.setId(1L);
+        String result = address.toString();
+
+        assertNotNull(result);
+    }
 }

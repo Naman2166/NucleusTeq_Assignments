@@ -92,4 +92,47 @@ class CartTest {
         assertTrue(cart.getItems().isEmpty());
         assertNull(item.getCart());
     }
+
+    /**
+     * testing equals and hashcode for identical object
+     */
+    @Test
+    void test_equals_and_hashcode() {
+
+        Cart c1 = new Cart();
+        Cart c2 = new Cart();
+
+        c1.setId(1L);
+        c2.setId(1L);
+
+        assertEquals(c1, c2);
+        assertEquals(c1.hashCode(), c2.hashCode());
+    }
+
+
+    /**
+     * testing equals and hashcode for different object
+     */
+    @Test
+    void test_equals_negative() {
+        Cart c1 = new Cart();
+        Cart c2 = new Cart();
+        c1.setId(1L);
+        c2.setId(2L);
+
+        assertNotEquals(c1, c2);
+        assertNotEquals(c1.hashCode(), c2.hashCode());
+    }
+
+
+    /**
+     * testing toString
+     */
+    @Test
+    void test_to_string() {
+        Cart cart = new Cart();
+        cart.setId(1L);
+
+        assertNotNull(cart.toString());
+    }
 }

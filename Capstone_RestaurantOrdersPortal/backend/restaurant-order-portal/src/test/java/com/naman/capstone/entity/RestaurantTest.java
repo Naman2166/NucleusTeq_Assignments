@@ -78,4 +78,46 @@ class RestaurantTest {
         assertEquals(owner, restaurant.getOwner());
         assertEquals("img2.jpg", restaurant.getImageUrl());
     }
+
+    
+    /**
+     * testing equals and hashcode for identical object
+     */
+    @Test
+    void test_equals_and_hashcode() {
+        Restaurant r1 = new Restaurant();
+        Restaurant r2 = new Restaurant();
+        r1.setId(1L);
+        r2.setId(1L);
+
+        assertEquals(r1, r2);
+        assertEquals(r1.hashCode(), r2.hashCode());
+    }
+
+
+    /**
+     * testing equals and hashcode for different object
+     */
+    @Test
+    void test_equals_negative() {
+        Restaurant r1 = new Restaurant();
+        Restaurant r2 = new Restaurant();
+        r1.setId(1L);
+        r2.setId(2L);
+
+        assertNotEquals(r1, r2);
+        assertNotEquals(r1.hashCode(), r2.hashCode());
+    }
+
+
+    /**
+     * testing toString
+     */
+    @Test
+    void test_to_string() {
+        Restaurant restaurant = new Restaurant();
+        restaurant.setId(1L);
+
+        assertNotNull(restaurant.toString());
+    }
 }

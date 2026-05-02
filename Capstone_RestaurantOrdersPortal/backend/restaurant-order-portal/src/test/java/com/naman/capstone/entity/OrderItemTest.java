@@ -112,4 +112,48 @@ class OrderItemTest {
 
         assertEquals(new BigDecimal("40"), orderItem.getTotalPrice());
     }
+
+
+
+    /**
+     * testing equals and hashcode for identical object
+     */
+    @Test
+    void test_equals_and_hashcode() {
+        OrderItem o1 = new OrderItem();
+        OrderItem o2 = new OrderItem();
+        o1.setId(1L);
+        o2.setId(1L);
+
+        assertEquals(o1, o2);
+        assertEquals(o1.hashCode(), o2.hashCode());
+    }
+
+
+    /**
+     * testing equals and hashcode for different object
+     */
+    @Test
+    void test_equals_negative() {
+        OrderItem o1 = new OrderItem();
+        OrderItem o2 = new OrderItem();
+        o1.setId(1L);
+        o2.setId(2L);
+
+        assertNotEquals(o1, o2);
+        assertNotEquals(o1.hashCode(), o2.hashCode());
+    }
+
+
+    /**
+     * testing toString
+     */
+    @Test
+    void test_to_string() {
+        OrderItem item = new OrderItem();
+        item.setId(1L);
+
+        assertNotNull(item.toString());
+    }
+
 }

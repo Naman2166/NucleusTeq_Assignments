@@ -66,4 +66,51 @@ class CategoryTest {
         assertEquals("Dessert", category.getName());
         assertEquals(restaurant, category.getRestaurant());
     }
+
+
+    /**
+     * testing equals and hashcode for identical objects
+     */
+    @Test
+    void test_equals_and_hashcode() {
+        Restaurant restaurant = new Restaurant();
+        restaurant.setId(1L);
+
+        Category c1 = new Category("Pizza", restaurant);
+        Category c2 = new Category("Pizza", restaurant);
+        c1.setId(1L);
+        c2.setId(1L);
+
+        assertEquals(c1, c2);
+        assertEquals(c1.hashCode(), c2.hashCode());
+    }
+
+    /**
+     * testing equals and hashcode for different objects
+     */
+    @Test
+    void test_equals_and_hashcode_negative() {
+        Category c1 = new Category();
+        Category c2 = new Category();
+        c1.setId(1L);
+        c2.setId(2L);
+
+        assertNotEquals(c1, c2);
+        assertNotEquals(c1.hashCode(), c2.hashCode());
+    }
+
+
+    /**
+     * testing toString
+     */
+    @Test
+    void test_to_string() {
+        Category category = new Category();
+        category.setId(1L);
+        category.setName("Pizza");
+
+        String result = category.toString();
+        assertNotNull(result);
+    }
+
 }

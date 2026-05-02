@@ -93,4 +93,44 @@ class UserTest {
         assertEquals(Role.RESTAURANT_OWNER, user.getRole());
         assertEquals(new BigDecimal("500"), user.getWalletBalance());
     }
+
+
+    /**
+     * testing equals and hashcode for identical object
+     */
+    @Test
+    void test_equals_and_hashcode() {
+        User u1 = new User();
+        User u2 = new User();
+        u1.setId(1L);
+        u2.setId(1L);
+
+        assertEquals(u1, u2);
+        assertEquals(u1.hashCode(), u2.hashCode());
+    }
+
+
+    /**
+     * testing equals and hashcode for different object
+     */
+    @Test
+    void test_equals_negative() {
+        User u1 = new User();
+        User u2 = new User();
+        u1.setId(1L);
+        u2.setId(2L);
+
+        assertNotEquals(u1, u2);
+    }
+
+    /**
+     * testing toString
+     */
+    @Test
+    void test_to_string() {
+        User user = new User();
+        user.setId(1L);
+
+        assertNotNull(user.toString());
+    }
 }

@@ -112,4 +112,51 @@ class CartItemTest {
         assertEquals(new BigDecimal("50"), cartItem.getUnitPrice());
         assertEquals(new BigDecimal("150"), cartItem.getTotalPrice());
     }
+
+
+    /**
+     * testing equals and hashcode
+     */
+    @Test
+    void test_equals_and_hashcode() {
+        Cart cart = new Cart();
+        MenuItem menuItem = new MenuItem();
+
+        CartItem item1 = new CartItem(cart, menuItem, 2, new BigDecimal("100"));
+        CartItem item2 = new CartItem(cart, menuItem, 2, new BigDecimal("100"));
+        item1.setId(1L);
+        item2.setId(1L);
+
+        assertEquals(item1, item2);
+        assertEquals(item1.hashCode(), item2.hashCode());
+    }
+
+    /**
+     * testing equals and hashcode for different objects
+     */
+    @Test
+    void test_equals_and_hashcode_negative() {
+
+        CartItem item1 = new CartItem();
+        CartItem item2 = new CartItem();
+        item1.setId(1L);
+        item2.setId(2L);
+
+        assertNotEquals(item1, item2);
+        assertNotEquals(item1.hashCode(), item2.hashCode());
+    }
+
+
+    /**
+     * test toString
+     */
+    @Test
+    void test_to_string() {
+        CartItem item = new CartItem();
+        item.setId(1L);
+
+        String result = item.toString();
+        assertNotNull(result);
+    }
+
 }
