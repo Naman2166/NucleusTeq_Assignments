@@ -353,11 +353,11 @@ function renderMenuManagement() {
 function getAllowedStatuses(currentStatus) {
     switch (currentStatus) {
         case "PLACED":
-            return ["PENDING", "CANCELLED", "DELIVERED", "COMPLETED"];
+            return ["PLACED","PENDING", "CANCELLED", "DELIVERED", "COMPLETED"];
         case "PENDING":
-            return ["DELIVERED","COMPLETED", "CANCELLED"];
+            return ["PENDING", "DELIVERED","COMPLETED", "CANCELLED"];
         case "DELIVERED":
-            return ["COMPLETED"];
+            return ["DELIVERED", "COMPLETED"];
         case "COMPLETED":
         case "CANCELLED":
             return [currentStatus];

@@ -100,10 +100,10 @@ function setupSearch(inputId, buttonId, onSearch) {
 
 renderNavbar();
 
-
 setupSearch("searchInput", "searchBtn", (query) => {
     filterRestaurants(query);
 });
+
 
 
 

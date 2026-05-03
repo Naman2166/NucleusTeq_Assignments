@@ -11,7 +11,7 @@ const APP_KEYS = {
 };
 
 //status for restaurant owner
-const OWNER_STATUSES = ["PENDING", "DELIVERED", "COMPLETED", "CANCELLED"];
+const OWNER_STATUSES = ["PLACED", "PENDING", "DELIVERED", "COMPLETED", "CANCELLED"];
 const CANCELLATION_WINDOW_MS = 30 * 1000;
 
 function getToken() {
