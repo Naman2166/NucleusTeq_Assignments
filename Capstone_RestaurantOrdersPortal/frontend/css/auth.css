@@ -22,6 +22,12 @@ body {
 }
 
 
+#loginForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
 .auth-left {
     width: 60%; 
     color: #ffffff;
