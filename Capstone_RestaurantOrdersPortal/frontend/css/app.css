@@ -120,6 +120,7 @@ input[type="radio"] {
     color: var(--muted);
 }
 
+
 .primary-btn,
 .secondary-btn,
 .ghost-btn,
@@ -144,14 +145,14 @@ input[type="radio"] {
 .secondary-btn,
 .ghost-btn {
     padding: 0.85rem 1.2rem;
-    background: #fff;
+    background: #dcd9d9;
     color: var(--text);
     border: 1px solid var(--border);
 }
 
 .secondary-btn:hover,
 .ghost-btn:hover {
-    background: #f9fafb;
+    background: #bfc1c3;
 }
 
 .text-btn {
