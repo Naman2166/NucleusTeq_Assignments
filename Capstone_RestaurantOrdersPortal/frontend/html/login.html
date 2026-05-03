@@ -1,58 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/app.css">
     <link rel="stylesheet" href="../css/auth.css">
 </head>
+
 <body>
-    <section class="auth-layout">
-        <div class="auth-overlay"></div>
-        <div class="auth-center">
-            <div class="auth-showcase compact">
-                <p class="eyebrow">Welcome back</p>
-                <h1>Login to continue your ordering journey.</h1>
-                <p>Customers can place orders and track status. Restaurant owners can manage restaurants, menus, and incoming orders.</p>
-            </div>
 
-            // login form card
-            <div class="auth-card panel">
-                <button class="close-link" type="button" onclick="goHome()">x</button>
-                <p class="eyebrow">Login</p>
-                <h2>Continue to your dashboard</h2>
+    <div class="auth-container">
 
-                //login form
-                <form id="loginForm" class="auth-form">
-                    <label>
-                        <span>Email address</span>
-                        <input id="email" type="email" placeholder="you@example.com">
-                    </label>
-                    <label>
-                        <span>Password</span>
-                        <input id="password" type="password" placeholder="Enter your password">
-                    </label>
-                    <button type="submit" class="primary-btn full-width">Login</button>
-                </form>
-
-                <p id="errorMsg" class="error-msg"></p>
-                <p id="successMsg" class="success-msg"></p>
-
-                <div class="auth-foot">
-                    <span>New here?</span>
-                    <a href="register.html">Create an account</a>
-                </div>
-            </div>
-
+        <!-- text section -->
+        <div class="auth-left">
+            <h1>Welcome Back</h1>
+            <p>
+                Login to continue your ordering journey. <br>
+                Customers can place orders and track status. <br>
+                Restaurant owners can manage menus and orders.
+            </p>
         </div>
-    </section>
+
+
+        <!-- form section -->
+        <div class="auth-box">  
+            <h2>Login</h2>
+
+            <form class="form-grid" id="loginForm">
+                <div class="full-width">
+                    <label>Email</label>
+                    <input id="email" type="email" placeholder="Enter email">
+                </div>
+
+                <div class="full-width">
+                    <label>Password</label>
+                    <input id="password" type="password" placeholder="Enter password">
+                </div>
+
+                <button class="full-width" type="submit">Login</button>
+            </form>
+
+            <p id="errorMsg" class="error-msg"></p>
+            <p id="successMsg" class="success-msg"></p>
+
+            <p class="bottom-text">
+                Don't have an account?
+                <a href="register.html">Register</a>
+            </p>
+        </div>
+
+    </div>
 
     <script src="../js/config.js"></script>
     <script src="../js/utils.js"></script>
     <script src="../js/auth.js"></script>
+    <script src="../js/api.js"></script>
+
 </body>
+
 </html>

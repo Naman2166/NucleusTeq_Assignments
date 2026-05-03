@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Dashboard</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/app.css">
     <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="../css/dashboard.css">
@@ -17,15 +14,17 @@
     <header class="navbar">
         <div class="navbar-inner">
             <a href="index.html" class="brand-mark">DineFlow</a>
-            <div class="nav-cluster">
-                
+            <div class="nav-cluster"> 
+                 <!-- nav links -->
                 <div id="authSection" class="auth-actions"></div>
             </div>
         </div>
     </header>
 
+
     <!-- customer dashboard -->
     <main class="page-shell">
+
         <section class="dashboard-hero panel">
             <div>
                 <p class="eyebrow">Customer Dashboard</p>
@@ -33,19 +32,20 @@
                 <p class="hero-text">Track your wallet, manage addresses, monitor live orders, and review complete order history in one place.</p>
             </div>
             <div class="wallet-panel">
-                <p class="eyebrow">&#128176; Wallet balance</p>
+                <p class="eyebrow">Wallet balance</p>
                 <h2 id="customerWallet">INR 1000</h2>
                 <a href="index.html#discover" class="secondary-btn">Browse restaurants</a>
             </div>
         </section>
 
+        <!-- diplays error or success messages -->
         <p id="dashboardMessage" class="banner"></p>
 
         <section class="dashboard-grid single-column">
             <article class="panel">
                 <div class="section-heading">
                     <div>
-                        <p class="eyebrow">&#128230; Live tracking</p>
+                        <p class="eyebrow">Live tracking</p>
                         <h2>Current orders</h2>
                     </div>
                 </div>
@@ -53,10 +53,11 @@
             </article>
         </section>
 
+        <!-- address section -->
         <section class="section-block" id="addressSection">
             <div class="section-heading">
                 <div>
-                    <p class="eyebrow">&#127968; Addresses</p>
+                    <p class="eyebrow">Addresses</p>
                     <h2>Available addresses</h2>
                 </div>
             </div>
@@ -78,19 +79,22 @@
             </div>
         </section>
 
+        <!-- order history -->
         <section class="section-block">
             <div class="section-heading">
                 <div>
-                    <p class="eyebrow">&#128221; History</p>
+                    <p class="eyebrow">History</p>
                     <h2>Previous orders</h2>
                 </div>
             </div>
             <div id="orderHistory" class="order-history-grid"></div>
         </section>
+
     </main>
 
     <script src="../js/config.js"></script>
     <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
     <script src="../js/navbar.js"></script>
     <script src="../js/customer.js"></script>
 </body>

@@ -4,27 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Restaurant Menu</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/app.css">
     <link rel="stylesheet" href="../css/navbar.css">
     <link rel="stylesheet" href="../css/restaurant.css">
 </head>
 <body>
+
+    <!-- navbar -->
     <header class="navbar">
         <div class="navbar-inner">
             <a href="index.html" class="brand-mark">DineFlow</a>
             <div class="nav-cluster">
-                <!-- <div class="search-shell compact-copy">
-            
-                </div> -->
                 <div id="authSection" class="auth-actions"></div>
             </div>
         </div>
     </header>
 
+    
+
     <main class="page-shell">
+
+        <!-- restaurant detail section -->
         <section class="restaurant-hero panel">
             <div>
                 <p class="eyebrow">Restaurant Detail</p>
@@ -36,19 +36,21 @@
                 </div>
             </div>
             <div class="hero-actions">
-                <a href="index.html" class="ghost-btn">Back to discovery</a>
-                <a href="customer.html" class="primary-btn">Open customer dashboard</a>
+                <a href="index.html" class="ghost-btn">Explore Restaurants</a>
             </div>
         </section>
 
+        <!-- display success or error message -->
         <p id="restaurantMessage" class="banner"></p>
 
+
+        <!-- menu and cart section -->
         <section class="restaurant-layout">
             <div id="menuContainer" class="menu-column"></div>
             <aside class="cart-column panel">
                 <div class="section-heading">
                     <div>
-                        <p class="eyebrow">&#128722; Cart</p>
+                        <p class="eyebrow">Cart</p>
                         <h2>Ready to checkout</h2>
                     </div>
                 </div>
@@ -62,10 +64,12 @@
                 </div>
             </aside>
         </section>
+
     </main>
 
     <script src="../js/config.js"></script>
     <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
     <script src="../js/navbar.js"></script>
     <script src="../js/restaurant.js"></script>
 </body>
