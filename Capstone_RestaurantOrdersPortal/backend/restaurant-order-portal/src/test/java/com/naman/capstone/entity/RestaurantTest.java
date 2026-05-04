@@ -18,10 +18,11 @@ class RestaurantTest {
         User owner = new User();
         owner.setId(1L);
 
-        Restaurant restaurant = new Restaurant("Dominos", "AB Road", RestaurantStatus.OPEN, owner, "img.jpg");
+        Restaurant restaurant = new Restaurant("Dominos", "AB Road","fast food restaurant", RestaurantStatus.OPEN, owner, "img.jpg");
 
         assertEquals("Dominos", restaurant.getName());
         assertEquals("AB Road", restaurant.getAddress());
+        assertEquals("fast food restaurant", restaurant.getDescription());
         assertEquals(RestaurantStatus.OPEN, restaurant.getStatus());
         assertEquals(owner, restaurant.getOwner());
         assertEquals("img.jpg", restaurant.getImageUrl());
@@ -33,7 +34,7 @@ class RestaurantTest {
      */
     @Test
     void test_null_owner() {
-        Restaurant restaurant = new Restaurant("Pizza Hut", "Vijay nagar", RestaurantStatus.CLOSED, null, null);
+        Restaurant restaurant = new Restaurant("Pizza Hut", "Vijay nagar","fast food restaurant", RestaurantStatus.CLOSED, null, null);
         assertEquals("Pizza Hut", restaurant.getName());
         assertNull(restaurant.getOwner());
     }
@@ -67,6 +68,7 @@ class RestaurantTest {
         restaurant.setId(10L);
         restaurant.setName("Burger King");
         restaurant.setAddress("Indore");
+        restaurant.setDescription("fast food restaurant");
         restaurant.setStatus(RestaurantStatus.OPEN);
         restaurant.setOwner(owner);
         restaurant.setImageUrl("img2.jpg");
@@ -74,6 +76,7 @@ class RestaurantTest {
         assertEquals(10L, restaurant.getId());
         assertEquals("Burger King", restaurant.getName());
         assertEquals("Indore", restaurant.getAddress());
+        assertEquals("fast food restaurant", restaurant.getDescription());
         assertEquals(RestaurantStatus.OPEN, restaurant.getStatus());
         assertEquals(owner, restaurant.getOwner());
         assertEquals("img2.jpg", restaurant.getImageUrl());

@@ -31,6 +31,7 @@ class RestaurantRequestDTOTest {
         RestaurantRequestDTO requestDTO = new RestaurantRequestDTO(
                 "Dominos",
                 "Indore",
+                "fast food restaurant",
                 RestaurantStatus.OPEN,
                 "img.jpg"
         );
@@ -46,6 +47,7 @@ class RestaurantRequestDTOTest {
         RestaurantRequestDTO requestDTO = new RestaurantRequestDTO(
                 "",
                 "Indore",
+                "fast food restaurant",
                 RestaurantStatus.OPEN,
                 "img.jpg"
         );
@@ -61,6 +63,7 @@ class RestaurantRequestDTOTest {
         RestaurantRequestDTO requestDTO = new RestaurantRequestDTO(
                 "Dominos",
                 "",
+                "fast food restaurant",
                 RestaurantStatus.OPEN,
                 "img.jpg"
         );
@@ -76,6 +79,7 @@ class RestaurantRequestDTOTest {
         RestaurantRequestDTO requestDTO = new RestaurantRequestDTO(
                 "Dominos",
                 "Indore",
+                "fast food restaurant",
                 null,
                 "img.jpg"
         );
@@ -91,11 +95,13 @@ class RestaurantRequestDTOTest {
         RestaurantRequestDTO requestDTO = new RestaurantRequestDTO();
         requestDTO.setName("Dominos");
         requestDTO.setAddress("Bhopal");
+        requestDTO.setDescription("fast food restaurant");
         requestDTO.setStatus(RestaurantStatus.CLOSED);
         requestDTO.setImageUrl("img2.jpg");
 
         assertEquals("Dominos", requestDTO.getName());
         assertEquals("Bhopal", requestDTO.getAddress());
+        assertEquals("fast food restaurant", requestDTO.getDescription());
         assertEquals(RestaurantStatus.CLOSED, requestDTO.getStatus());
         assertEquals("img2.jpg", requestDTO.getImageUrl());
     }
@@ -109,6 +115,7 @@ class RestaurantRequestDTOTest {
         RestaurantRequestDTO requestDTO1 = new RestaurantRequestDTO(
                 "Dominos",
                 "Indore",
+                "fast food restaurant",
                 RestaurantStatus.OPEN,
                 "img.jpg"
         );
@@ -116,6 +123,7 @@ class RestaurantRequestDTOTest {
         RestaurantRequestDTO requestDTO2 = new RestaurantRequestDTO(
                 "Dominos",
                 "Indore",
+                "fast food restaurant",
                 RestaurantStatus.OPEN,
                 "img.jpg"
         );
@@ -132,6 +140,7 @@ class RestaurantRequestDTOTest {
         RestaurantRequestDTO requestDTO1 = new RestaurantRequestDTO(
                 "Dominos",
                 "Indore",
+                "fast food restaurant",
                 RestaurantStatus.OPEN,
                 "img.jpg"
         );
@@ -139,6 +148,7 @@ class RestaurantRequestDTOTest {
         RestaurantRequestDTO requestDTO2 = new RestaurantRequestDTO(
                 "Pizza Hut",
                 "Bhopal",
+                "fast food restaurant",
                 RestaurantStatus.CLOSED,
                 "img2.jpg"
         );
