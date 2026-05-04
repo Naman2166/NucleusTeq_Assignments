@@ -1,3 +1,4 @@
+//render navbar
 async function renderNavbar() {
     const authSection = document.getElementById("authSection");
     const role = getRole();
@@ -7,17 +8,17 @@ async function renderNavbar() {
         try {
             user = await fetchCurrentUser();
         } catch (error) {
-            // Keep navbar stable even when backend is unavailable.
         }
     }
 
-    //update user data in local storage
+    //updating user data in local storage
     if (user) {
         setUser(user); 
     }
     if (!authSection) {
         return;
     }
+
 
     const cartCount = await getNavbarCartCount();
     const showCart = isLoggedIn() && role !== "RESTAURANT_OWNER";
@@ -66,7 +67,7 @@ async function renderNavbar() {
 }
 
 
-//
+//search 
 function setupSearch(inputId, buttonId, onSearch) {
     const searchInput = document.getElementById(inputId);
     const searchBtn = document.getElementById(buttonId);
@@ -79,12 +80,11 @@ function setupSearch(inputId, buttonId, onSearch) {
         onSearch(query);
     };
 
-    // typing
+
     searchInput.addEventListener("input", () => {
         triggerSearch();
     });
 
-    // Enter key
     searchInput.addEventListener("keypress", (e) => {
         if (e.key === "Enter") {
             triggerSearch();

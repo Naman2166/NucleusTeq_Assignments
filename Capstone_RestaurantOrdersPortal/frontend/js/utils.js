@@ -1,11 +1,10 @@
-// --------------- Constants ---------------
-
+// constants
 const APP_KEYS = {
-    demoData: "rop_demo_data",
-    guestCart: "rop_guest_cart",
-    selectedAddressId: "rop_selected_address_id",
-    activeCartRestaurantId: "rop_active_cart_restaurant_id",
-    imageOverrides: "rop_image_overrides",
+    demoData: "demo_data",
+    guestCart: "guest_cart",
+    selectedAddressId: "selected_address_id",
+    activeCartRestaurantId: "active_cart_restaurant_id",
+    imageOverrides: "image_overrides",
     user: "user",
     role: "role",
     token: "token"
@@ -16,7 +15,7 @@ const OWNER_STATUSES = ["PLACED", "PENDING", "DELIVERED", "COMPLETED", "CANCELLE
 const CANCELLATION_WINDOW_MS = 30 * 1000;
 
 
-// --------------- Auth / User ---------------
+//helper functions
 
 function getToken() {
     return localStorage.getItem(APP_KEYS.token);
@@ -45,9 +44,6 @@ function logoutUser() {
     localStorage.removeItem(APP_KEYS.role);
     localStorage.removeItem(APP_KEYS.selectedAddressId);
 }
-
-
-// --------------- Formatting ---------------
 
 function currency(amount) {
     return new Intl.NumberFormat("en-IN", {
@@ -96,8 +92,7 @@ function getErrorMessage(payload) {
 }
 
 
-// --------------- Image Overrides ---------------
-
+// image handling
 function getImageOverrides() {
     const raw = localStorage.getItem(APP_KEYS.imageOverrides);
     if (!raw) {
@@ -150,8 +145,7 @@ function applyMenuImageOverrides(items) {
 }
 
 
-// --------------- Guest Cart ---------------
-
+// cart for not logged-in users
 function getGuestCart() {
     return JSON.parse(localStorage.getItem(APP_KEYS.guestCart)) || {
         restaurantId: null,
@@ -226,8 +220,7 @@ function getGuestCartCount() {
 }
 
 
-// --------------- Address Helpers ---------------
-
+//Address Helpers
 function getSelectedAddressId() {
     return localStorage.getItem(APP_KEYS.selectedAddressId);
 }
@@ -237,8 +230,7 @@ function setSelectedAddressId(addressId) {
 }
 
 
-// --------------- Wallet ---------------
-
+// wallet helper
 function adjustWalletBalance(delta) {
     const user = getUser();
 
@@ -251,8 +243,7 @@ function adjustWalletBalance(delta) {
 }
 
 
-// --------------- Order Helpers ---------------
-
+// Order helper
 function isOrderCancellable(orderTime, status) {
     if (status === "CANCELLED" || status === "COMPLETED") {
         return false;
@@ -261,8 +252,6 @@ function isOrderCancellable(orderTime, status) {
     return Date.now() - new Date(orderTime).getTime() <= CANCELLATION_WINDOW_MS;
 }
 
-
-// --------------- Misc Helpers ---------------
 
 function getQueryParam(name) {
     return new URLSearchParams(window.location.search).get(name);
@@ -286,8 +275,6 @@ function slugify(value) {
 }
 
 
-// --------------- Image Resolution ---------------
-
 function resolveImageUrl(imageUrl) {
     if (!imageUrl) {
         return "";
@@ -295,7 +282,7 @@ function resolveImageUrl(imageUrl) {
 
     const apiOrigin = (() => {
         try {
-            return new URL(BASE_URL).origin; // http://localhost:8080
+            return new URL(BASE_URL).origin;
         } catch (error) {
             return "http://localhost:8080";
         }
@@ -307,6 +294,7 @@ function resolveImageUrl(imageUrl) {
 
     return imageUrl;
 }
+
 
 function getRestaurantImage(restaurant) {
     if (restaurant?.imageUrl) {

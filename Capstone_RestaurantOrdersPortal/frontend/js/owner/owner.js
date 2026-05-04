@@ -1,11 +1,4 @@
-// Restaurant management section.
-// Depends on: owner.state.js, utils.js, api.js
-
-
-// --------------- DOM References ---------------
-
 const managedRestaurants = document.getElementById("managedRestaurants");
-
 const restaurantForm = document.getElementById("restaurantForm");
 const restaurantFormTitle = document.getElementById("restaurantFormTitle");
 const restaurantSubmitBtn = document.getElementById("restaurantSubmitBtn");
@@ -17,8 +10,7 @@ const restaurantImagePreview = document.getElementById("restaurantImagePreview")
 let restaurantPreviewObjectUrl = "";
 
 
-// --------------- Image Preview ---------------
-
+//Image Preview 
 function showLocalRestaurantPreview() {
     if (!restaurantImageFile || !restaurantImagePreview) return;
 
@@ -60,9 +52,8 @@ if (restaurantForm?.elements?.imageUrl) {
 }
 
 
-// --------------- Form Reset ---------------
 
-// Restores the restaurant form to create mode.
+// form reset
 function resetRestaurantForm() {
     restaurantForm.reset();
     restaurantForm.elements.id.value = "";
@@ -88,8 +79,6 @@ function resetRestaurantForm() {
     }
 }
 
-
-// --------------- Render ---------------
 
 // Renders restaurant cards.
 function renderManagedRestaurants() {
@@ -125,7 +114,6 @@ function renderManagedRestaurants() {
 }
 
 
-// --------------- Action Bindings ---------------
 
 function bindRestaurantActions() {
     document.querySelectorAll("[data-edit-restaurant]").forEach((button) => {
@@ -168,8 +156,8 @@ function bindRestaurantActions() {
 }
 
 
-// --------------- Form Submit ---------------
 
+//form submit
 if (restaurantForm) {
     restaurantForm.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -218,7 +206,8 @@ if (restaurantForm) {
     });
 }
 
-// Cancel and show-form buttons for restaurants.
+
+// Cancel and show-form buttons for restaurants
 function bindRestaurantFormButtons() {
     if (restaurantCancelBtn) {
         restaurantCancelBtn.addEventListener("click", resetRestaurantForm);

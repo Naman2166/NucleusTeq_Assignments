@@ -47,44 +47,38 @@ async function safeApi(path, options = {}) {
 }
 
 
-// --------------- Restaurant & Menu ---------------
+//Restaurant and Menu API calls
 
-// Fetch all restaurants.
 async function getRestaurants() {
     const remote = await safeApi("/restaurants");
     return Array.isArray(remote) ? applyRestaurantImageOverrides(remote) : [];
 }
 
-// Fetch a single restaurant by id.
+
 async function getRestaurantById(restaurantId) {
     const remote = await safeApi(`/restaurants/${restaurantId}`);
     if (!remote?.id) return null;
     return applyRestaurantImageOverrides([remote])[0];
 }
 
-// Fetch categories for a restaurant.
 async function getCategoriesByRestaurant(restaurantId) {
     const remote = await safeApi(`/categories/restaurants/${restaurantId}`);
     return Array.isArray(remote) ? remote : [];
 }
 
-// Fetch menu items for a category.
 async function getMenuItemsByCategory(categoryId) {
     const remote = await safeApi(`/menu-items/category/${categoryId}`);
     return Array.isArray(remote) ? applyMenuImageOverrides(remote) : [];
 }
 
 
-// --------------- User ---------------
-
+// user API call
 async function fetchCurrentUser() {
     return apiFetch("/users/me");
 }
 
 
-// --------------- Server Cart ---------------
-
-// Fetch the cart for the logged-in USER; returns null for non-USER roles.
+// cart API call
 async function fetchServerCart() {
     if (!isLoggedIn()) {
         return null;
@@ -106,7 +100,6 @@ async function fetchServerCart() {
     }
 }
 
-// Add an item to the server cart.
 async function addServerCartItem(menuItemId, quantity) {
     return apiFetch("/cart/items", {
         method: "POST",
@@ -114,7 +107,6 @@ async function addServerCartItem(menuItemId, quantity) {
     });
 }
 
-// Update quantity of a cart item on the server.
 async function updateServerCartItem(cartItemId, quantity) {
     return apiFetch(`/cart-items/${cartItemId}`, {
         method: "PUT",
@@ -122,17 +114,16 @@ async function updateServerCartItem(cartItemId, quantity) {
     });
 }
 
-// Remove a cart item from the server.
+
 async function removeServerCartItem(cartItemId) {
     return apiFetch(`/cart/items/${cartItemId}`, { method: "DELETE" });
 }
 
-// Clear the entire server cart.
+
 async function clearServerCart() {
     return apiFetch("/cart", { method: "DELETE" });
 }
 
-// Returns cart item count for navbar; 0 for non-USER roles or on failure.
 async function getNavbarCartCount() {
     const role = getRole();
 
@@ -149,8 +140,7 @@ async function getNavbarCartCount() {
 }
 
 
-// --------------- Addresses ---------------
-
+// Address API calls
 async function fetchAddresses() {
     return apiFetch("/addresses");
 }
@@ -169,8 +159,7 @@ async function deleteAddress(addressId) {
 }
 
 
-// --------------- Orders (User) ---------------
-
+// orders API calls
 async function placeOrder(addressId) {
     return apiFetch("/orders", {
         method: "POST",
@@ -189,8 +178,7 @@ async function cancelUserOrder(orderId) {
 }
 
 
-// --------------- Restaurants (Owner) ---------------
-
+// restaurant API call by owner
 async function fetchOwnerRestaurants() {
     const restaurants = await apiFetch("/restaurants/my-restaurants");
     return applyRestaurantImageOverrides(restaurants);
@@ -227,8 +215,7 @@ async function deleteRestaurant(restaurantId) {
 }
 
 
-// --------------- Categories ---------------
-
+//categories API call by owner
 async function createCategory(payload) {
     return apiFetch("/categories", {
         method: "POST",
@@ -253,8 +240,7 @@ async function deleteCategory(categoryId) {
 }
 
 
-// --------------- Menu Items ---------------
-
+//menu items API call by owner
 async function fetchMenuItemsByRestaurant(restaurantId) {
     const items = await apiFetch(`/menu-items/restaurants/${restaurantId}`);
     return applyMenuImageOverrides(items);
@@ -303,8 +289,7 @@ async function uploadImage(type, file) {
 }
 
 
-// --------------- Orders  ---------------
-
+//orders API call by owner
 async function fetchOrdersByRestaurant(restaurantId) {
     return apiFetch(`/orders/restaurants/${restaurantId}`);
 }

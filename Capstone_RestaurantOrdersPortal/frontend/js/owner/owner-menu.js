@@ -1,11 +1,4 @@
-// Menu item management section.
-// Depends on: owner.state.js, owner-category.js, utils.js, api.js
-
-
-// --------------- DOM References ---------------
-
 const ownerMenuList = document.getElementById("ownerMenuList");
-
 const menuItemForm = document.getElementById("menuItemForm");
 const menuRestaurant = document.getElementById("menuRestaurant");
 const menuCategory = document.getElementById("menuCategory");
@@ -19,9 +12,7 @@ const menuItemImagePreview = document.getElementById("menuItemImagePreview");
 let menuPreviewObjectUrl = "";
 
 
-// --------------- Select Population ---------------
-
-// Fills the category select box based on the chosen restaurant.
+//prvovides category options based on the chosen restaurant
 function populateCategoryOptions(restaurantId, selectedCategoryId = "") {
     const categories = ownerCategories[restaurantId] || [];
     menuCategory.innerHTML = `<option value="">Choose category</option>${categories.map((category) => `
@@ -30,8 +21,7 @@ function populateCategoryOptions(restaurantId, selectedCategoryId = "") {
 }
 
 
-// --------------- Image Preview ---------------
-
+//image preview
 function showLocalMenuPreview() {
     if (!menuItemImageFile || !menuItemImagePreview) return;
 
@@ -72,7 +62,7 @@ if (menuItemForm?.elements?.imageUrl) {
     }
 }
 
-// Populate categories when restaurant selection changes.
+// Populate categories when restaurant selection changes
 if (menuRestaurant) {
     menuRestaurant.addEventListener("change", (event) => {
         populateCategoryOptions(event.target.value);
@@ -80,9 +70,7 @@ if (menuRestaurant) {
 }
 
 
-// --------------- Form Reset ---------------
-
-// Restores the menu form to create mode.
+//form reset
 function resetMenuForm() {
     menuItemForm.reset();
     menuItemForm.elements.id.value = "";
@@ -110,9 +98,7 @@ function resetMenuForm() {
 }
 
 
-// --------------- Render ---------------
-
-// Renders editable menu rows grouped by restaurant.
+// Renders editable menu rows grouped by restaurant
 function renderMenuManagement() {
     ownerMenuList.innerHTML = ownerRestaurants.length
         ? ownerRestaurants.map((restaurant) => {
@@ -149,7 +135,6 @@ function renderMenuManagement() {
 }
 
 
-// --------------- Action Bindings ---------------
 
 function bindMenuActions() {
     document.querySelectorAll("[data-edit-menu]").forEach((button) => {
@@ -195,8 +180,8 @@ function bindMenuActions() {
 }
 
 
-// --------------- Form Submit ---------------
 
+//form submit
 if (menuItemForm) {
     menuItemForm.addEventListener("submit", async (event) => {
         event.preventDefault();

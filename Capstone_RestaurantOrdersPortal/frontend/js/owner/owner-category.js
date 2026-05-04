@@ -1,11 +1,4 @@
-// Category management section.
-// Depends on: owner.state.js, utils.js, api.js
-
-
-// --------------- DOM References ---------------
-
 const ownerCategoriesList = document.getElementById("ownerCategoriesList");
-
 const categoryForm = document.getElementById("categoryForm");
 const categoryRestaurant = document.getElementById("categoryRestaurant");
 const categoryFormTitle = document.getElementById("categoryFormTitle");
@@ -13,10 +6,7 @@ const categorySubmitBtn = document.getElementById("categorySubmitBtn");
 const categoryCancelBtn = document.getElementById("categoryCancelBtn");
 const showCategoryFormBtn = document.getElementById("showCategoryFormBtn");
 
-
-// --------------- Select Population ---------------
-
-// Fills restaurant select boxes used by category and menu forms.
+// provides restaurant select boxes used by category and menu forms
 function populateRestaurantOptions() {
     const options = ownerRestaurants.map((restaurant) => `
         <option value="${restaurant.id}">${escapeHtml(restaurant.name)}</option>
@@ -32,9 +22,7 @@ function populateRestaurantOptions() {
 }
 
 
-// --------------- Form Reset ---------------
-
-// Restores the category form to create mode.
+// form reset
 function resetCategoryForm() {
     categoryForm.reset();
     categoryForm.elements.id.value = "";
@@ -47,9 +35,7 @@ function resetCategoryForm() {
 }
 
 
-// --------------- Render ---------------
-
-// Renders editable category rows grouped by restaurant.
+// Renders editable category 
 function renderCategoryManagement() {
     ownerCategoriesList.innerHTML = ownerRestaurants.length
         ? ownerRestaurants.map((restaurant) => {
@@ -80,8 +66,6 @@ function renderCategoryManagement() {
         : `<div class="empty-state compact"><h3>No restaurants yet</h3><p>Create a restaurant before adding categories.</p></div>`;
 }
 
-
-// --------------- Action Bindings ---------------
 
 function bindCategoryActions() {
     document.querySelectorAll("[data-edit-category]").forEach((button) => {
@@ -118,8 +102,7 @@ function bindCategoryActions() {
 }
 
 
-// --------------- Form Submit ---------------
-
+//from submit
 if (categoryForm) {
     categoryForm.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -154,7 +137,7 @@ if (categoryForm) {
     });
 }
 
-// Cancel and show-form buttons for categories.
+// Cancel and show-form buttons for categories
 function bindCategoryFormButtons() {
     if (categoryCancelBtn) {
         categoryCancelBtn.addEventListener("click", resetCategoryForm);

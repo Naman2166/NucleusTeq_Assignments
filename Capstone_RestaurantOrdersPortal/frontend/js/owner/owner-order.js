@@ -1,15 +1,7 @@
-// Order management section (incoming orders for restaurant owner).
-// Depends on: owner.state.js, utils.js, api.js
-
-
-// --------------- DOM References ---------------
-
 const ownerOrders = document.getElementById("ownerOrders");
 
 
-// --------------- Helpers ---------------
-
-// Returns status options available from the order's current state.
+//order status helper
 function getAllowedStatuses(currentStatus) {
     switch (currentStatus) {
         case "PLACED":
@@ -27,9 +19,7 @@ function getAllowedStatuses(currentStatus) {
 }
 
 
-// --------------- Render ---------------
-
-// Renders incoming orders and wires status controls.
+// Renders incoming orders
 function renderIncomingOrders() {
     ownerOrders.innerHTML = ownerOrdersData.length
         ? ownerOrdersData.map((order) => `
