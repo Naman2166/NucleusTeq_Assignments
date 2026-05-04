@@ -56,14 +56,11 @@ body {
     width: 490px;
     padding: 30px;
     border-radius: 12px;
-
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-
     border: 1px solid rgba(255,255,255,0.2);
     box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-
     color: #ffffff;
 }
 
@@ -84,6 +81,43 @@ body {
 .full-width {
     grid-column: 1 / -1;
 }
+
+
+.close-btn-login {
+    position: absolute;
+    top: 25%;
+    right: 15%;
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #aaa;
+    transition: 0.3s;
+    z-index: 999;
+}
+
+.close-btn-login:hover {
+    color: #fff; 
+}
+
+
+.close-btn-register{
+position: absolute;
+    top: 5%;
+    right: 8%;
+    background: transparent;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #aaa;
+    transition: 0.3s;
+    z-index: 999;
+}
+
+.close-btn-register:hover {
+    color: #fff; 
+}
+
 
 
 label {
