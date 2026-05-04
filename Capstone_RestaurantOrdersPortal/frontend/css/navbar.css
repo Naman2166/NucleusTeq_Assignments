@@ -33,16 +33,34 @@
 
 
 .brand-mark {
-    font-size: 1.6rem;
+    font-size: 1.7rem;
     font-weight: 900;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     letter-spacing: 0.5px;
     text-decoration: none;
-
     display: flex;
     align-items: center;
+    /* color: #f97316; */
+    color: #fc7819;
+    text-shadow: 0 1.3px 2.3px rgba(0, 0, 0, 0.4);
+}
 
-    color: var(--text-dark);
+.logo{
+    display: flex;
+    gap: 4px;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-icon{
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+
+.brand-mark:hover {
+    color: #e96e16;
 }
 
 .brand-mark .flow {

@@ -7,7 +7,7 @@
     <title>Owner Dashboard</title>
     <link rel="stylesheet" href="../css/app.css">
     <link rel="stylesheet" href="../css/navbar.css">
-    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="../css/owner.css">
 </head>
 
 <body class="owner-page">
@@ -15,7 +15,10 @@
     <!-- navbar -->
     <header class="navbar">
         <div class="navbar-inner">
-            <a href="index.html" class="brand-mark">DineFlow</a>
+            <div class="logo">
+                <img src="../assets/images/logo.png" alt="Logo" class="logo-icon">
+                <a href="index.html" class="brand-mark">FoodFlow</a>
+            </div>
             <div class="nav-cluster">
                 <div id="authSection" class="auth-actions"></div>
             </div>
@@ -27,12 +30,11 @@
             <div>
                 <p class="eyebrow">Owner Dashboard</p>
                 <h1>Welcome, <span id="ownerName">Owner</span></h1>
-                <p class="hero-text">Create restaurants, build categories, publish menu items, and process incoming
-                    orders through the lifecycle states defined in the SRS.</p>
+                <p class="hero-text">Create restaurants, build categories, publish menu items, and process incoming orders</p>
             </div>
         </section>
 
-        <!-- success or error message displays here -->
+        <!-- success or error message  -->
         <p id="ownerMessage" class="banner"></p>
 
 
@@ -55,17 +57,19 @@
                             <p class="eyebrow">Restaurant management</p>
                             <h2 id="restaurantFormTitle">Restaurants</h2>
                         </div>
-                        <button type="button" class="primary-btn compact" id="showRestaurantFormBtn">Add
-                            restaurant</button>
+                        <button type="button" class="primary-btn compact" id="showRestaurantFormBtn">
+                            Addrestaurant
+                        </button>
                     </div>
 
                     <!--restauarnt add and update form -->
                     <form id="restaurantForm" class="stack form-stack owner-form-row hidden-form">
-                        <h2 style="position: relative; left: 35%;">Restaurant</h2>
+                        <h2 class="restauarntTitle">Restaurant</h2>
                         <input name="id" type="hidden">
                         <input name="imageUrl" type="hidden">
                         <input name="name" type="text" placeholder="Restaurant name" required>
                         <input name="address" type="text" placeholder="Address" required>
+                        <input name="description" type="text" placeholder="Description" required>
                         <div class="owner-image-field">
                             <img id="restaurantImagePreview" class="owner-form-preview" alt="Restaurant preview" />
                             <input id="restaurantImageFile" name="imageFile" type="file" accept="image/*">
@@ -94,7 +98,7 @@
                         <button type="button" class="primary-btn compact" id="showCategoryFormBtn">Add category</button>
                     </div>
                     <form id="categoryForm" class="stack form-stack owner-form-row hidden-form">
-                        <h2 style="position: relative; left: 40%;">Categories</h2>
+                        <h2 class="categoryTitle">Categories</h2>
                         <input name="id" type="hidden">
                         <select id="categoryRestaurant" name="restaurantId" required></select>
                         <input name="name" type="text" placeholder="Category name" required>
@@ -117,7 +121,7 @@
                         <button type="button" class="primary-btn compact" id="showMenuFormBtn">Add menu item</button>
                     </div>
                     <form id="menuItemForm" class="stack form-stack owner-form-row hidden-form">
-                        <h2 style="position: relative; left: 35%;">Menu Items</h2>
+                        <h2 class="menuItemTitle">Menu Items</h2>
 
                         <input name="id" type="hidden">
                         <input name="imageUrl" type="hidden">

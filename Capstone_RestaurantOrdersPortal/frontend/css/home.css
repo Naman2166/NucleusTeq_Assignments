@@ -116,14 +116,29 @@
 }
 
 .restaurant-text {
-    color: var(--muted);
+    color: #8b8686;
     line-height: 1.65;
+    font-style: italic;
+    margin-top: 0.5rem;
+    margin-bottom: 0.6rem;
+}
+
+.address{
+    margin-top: 1px;
+    color: #e2813b;
+    font-size: 13.5px;
+    font-weight: 600;
 }
 
 .card-meta {
     display: flex;
     gap: 0.6rem;
     flex-wrap: wrap;
+}
+
+#head{
+    margin-top: -10px;
+    margin-bottom: 20px;
 }
 
 @media (max-width: 900px) {

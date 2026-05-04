@@ -116,6 +116,14 @@ input[type="radio"] {
     text-transform: uppercase;
 }
 
+.description{
+    margin-top: 10px;
+    color: #7e7f81;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-style: italic;
+}
+
 .subtle {
     color: var(--muted);
     margin-top: 2px;
@@ -253,7 +261,8 @@ input[type="radio"] {
     justify-content: space-between;
     align-items: end;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-top: 1rem;
+    margin-left: 10px;
 }
 
 .section-heading h2 {
