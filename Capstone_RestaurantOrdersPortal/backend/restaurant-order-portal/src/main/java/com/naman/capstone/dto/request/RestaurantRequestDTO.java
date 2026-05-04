@@ -24,6 +24,11 @@ public class RestaurantRequestDTO {
     private String address;
 
     /**
+     * description of restaurant
+     */
+    private String description;
+
+    /**
      * Current status of the restaurant
      */
     @NotNull(message = "Status is required")
@@ -44,9 +49,10 @@ public class RestaurantRequestDTO {
     /**
      * Parameterized constructor
      */
-    public RestaurantRequestDTO(String name, String address, RestaurantStatus status, String imageUrl) {
+    public RestaurantRequestDTO(String name, String address, String description ,RestaurantStatus status, String imageUrl) {
         this.name = name;
         this.address = address;
+        this.description = description;
         this.status = status;
         this.imageUrl = imageUrl;
     }
@@ -69,6 +75,14 @@ public class RestaurantRequestDTO {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public RestaurantStatus getStatus() {
@@ -97,6 +111,7 @@ public class RestaurantRequestDTO {
         return "RestaurantRequestDTO{" +
                 "name='" + name +
                 "', address='" + address +
+                "', description='" + description +
                 "', status=" + status +
                 "}";
     }
@@ -112,6 +127,7 @@ public class RestaurantRequestDTO {
         RestaurantRequestDTO otherObj = (RestaurantRequestDTO) obj;
         return Objects.equals(name, otherObj.name) &&
                 Objects.equals(address, otherObj.address) &&
+                Objects.equals(description, otherObj.description) &&
                 status == otherObj.status;
     }
 
@@ -120,7 +136,7 @@ public class RestaurantRequestDTO {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(name, address, status);
+        return Objects.hash(name, address, description ,status);
     }
 
 }

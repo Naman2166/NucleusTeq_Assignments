@@ -32,6 +32,11 @@ public class Restaurant {
     private String address;
 
     /**
+     * description of restaurant
+     */
+    private String description;
+
+    /**
      * current status of restaurant
      */
     @Column(nullable = false)
@@ -61,12 +66,13 @@ public class Restaurant {
     /**
      * parameterized constructor
      */
-    public Restaurant(String name, String address, RestaurantStatus status, User owner, String imageUrl) {
+    public Restaurant(String name, String address, String description, RestaurantStatus status, User owner, String imageUrl) {
         this.name = name;
         this.address = address;
         this.status = status;
         this.owner = owner;
         this.imageUrl = imageUrl;
+        this.description = description;
     }
 
 
@@ -95,6 +101,14 @@ public class Restaurant {
 
     public void setAddress(String address){
         this.address = address;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public RestaurantStatus getStatus(){
@@ -131,6 +145,7 @@ public class Restaurant {
         return "Restaurant{" + "id=" + id +
                 ", name='" + name +
                 "', address='" + address +
+                "', description='" + description +
                 "', status=" + status +
                 "}";
     }

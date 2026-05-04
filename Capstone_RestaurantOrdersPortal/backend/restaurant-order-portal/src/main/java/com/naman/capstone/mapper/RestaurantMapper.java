@@ -15,6 +15,7 @@ public class RestaurantMapper {
         dto.setId(restaurant.getId());
         dto.setName(restaurant.getName());
         dto.setAddress(restaurant.getAddress());
+        dto.setDescription(restaurant.getDescription());
         dto.setStatus(restaurant.getStatus());
 
         return dto;

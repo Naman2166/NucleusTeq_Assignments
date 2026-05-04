@@ -68,9 +68,11 @@ public class CartServiceImpl implements CartService {
         if (existingCartItem != null) {
             int newQuantity = existingCartItem.getQuantity() + quantity;
             existingCartItem.setQuantity(newQuantity);
+            existingCartItem.calculateTotalPrice();
         } else {
             BigDecimal unitPrice = menuItem.getPrice();
             CartItem newItem = new CartItem(cart, menuItem, quantity, unitPrice);
+            newItem.calculateTotalPrice();
             cart.addItem(newItem);
         }
 

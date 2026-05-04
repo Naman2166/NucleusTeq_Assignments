@@ -41,7 +41,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     public RestaurantResponseDTO createRestaurant(RestaurantRequestDTO requestDTO, User owner) {
 
         logger.info("creating new restaurant with name: {}", requestDTO.getName());
-        Restaurant restaurant = new Restaurant(requestDTO.getName(), requestDTO.getAddress(), requestDTO.getStatus(), owner, requestDTO.getImageUrl());
+        Restaurant restaurant = new Restaurant(requestDTO.getName(), requestDTO.getAddress(), requestDTO.getDescription() ,requestDTO.getStatus(), owner, requestDTO.getImageUrl());
 
         //save restaurant
         Restaurant savedRestaurant = restaurantRepository.save(restaurant);
@@ -74,6 +74,7 @@ public class RestaurantServiceImpl implements RestaurantService {
         //update information
         restaurant.setName(requestDTO.getName());
         restaurant.setAddress(requestDTO.getAddress());
+        restaurant.setDescription(requestDTO.getDescription());
         restaurant.setStatus(requestDTO.getStatus());
         if (requestDTO.getImageUrl() != null) {
             restaurant.setImageUrl(requestDTO.getImageUrl());

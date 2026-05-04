@@ -25,6 +25,11 @@ public class RestaurantResponseDTO {
     private String address;
 
     /**
+     * description of restaurant
+     */
+    private String description;
+
+    /**
      * current status of restaurant
      */
     private RestaurantStatus status;
@@ -44,10 +49,11 @@ public class RestaurantResponseDTO {
     /**
      * parameterized constructor
      */
-    public RestaurantResponseDTO(Long id, String name, String address, RestaurantStatus status, String imageUrl) {
+    public RestaurantResponseDTO(Long id, String name, String address, String description, RestaurantStatus status, String imageUrl) {
         this.id = id;
         this.name = name;
         this.address = address;
+        this.description = description;
         this.status = status;
         this.imageUrl = imageUrl;
     }
@@ -80,6 +86,14 @@ public class RestaurantResponseDTO {
         this.address = address;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public RestaurantStatus getStatus() {
         return status;
     }
@@ -107,6 +121,7 @@ public class RestaurantResponseDTO {
                 "id=" + id +
                 ", name='" + name +
                 "', address='" + address +
+                "', description='" + description +
                 "', status=" + status +
                 '}';
     }
@@ -123,6 +138,7 @@ public class RestaurantResponseDTO {
         return Objects.equals(id, otherObj.id) &&
                 Objects.equals(name, otherObj.name) &&
                 Objects.equals(address, otherObj.address) &&
+                Objects.equals(description, otherObj.description) &&
                 status == otherObj.status;
     }
 
@@ -131,7 +147,7 @@ public class RestaurantResponseDTO {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, address, status);
+        return Objects.hash(id, name, address, description, status);
     }
 
 }
