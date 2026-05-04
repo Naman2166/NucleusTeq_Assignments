@@ -73,10 +73,12 @@ async function getCurrentCartView() {
     };
 }
 
-// Renders the cart sidebar 
+// Renders the sidebar cart
 async function renderCart() {
     const cart = await getCurrentCartView();
-    const items = cart?.items || [];
+    let items = cart?.items || [];
+    items.sort((a, b) => a.id - b.id);
+
     syncActiveCartRestaurantFromCart(cart);
 
     if (!items.length) {
@@ -94,8 +96,9 @@ async function renderCart() {
         cartContainer.innerHTML = items.map((item) => `
             <div class="cart-item">
                 <div class="cart-item-main">
-                    <h4>${escapeHtml(item.menuItemName)}</h4>
-                    <p>${currency(Number(item.totalPrice) / Number(item.quantity || 1))} each</p>
+                    <h4>${item.menuItemName}</h4>
+                    <p>${currency(Number(item.totalPrice) * Number(item.quantity || 1))}</p>
+
                 </div>
                 <div class="cart-actions">
                     <button class="qty-btn" data-action="decrease" data-id="${item.id}" data-qty="${item.quantity}">-</button>
@@ -111,7 +114,7 @@ async function renderCart() {
         cartContainer.innerHTML = items.map((item) => `
             <div class="cart-item">
                 <div class="cart-item-main">
-                    <h4>${escapeHtml(item.name)}</h4>
+                    <h4>${item.name}</h4>
                     <p>${currency(item.price)} each</p>
                 </div>
                 <div class="cart-actions">
@@ -192,7 +195,7 @@ function renderMenu(categories, menuItemsByCategory) {
                 <div class="section-heading">
                     <div>
                         <p class="eyebrow">Category</p>
-                        <h3>${escapeHtml(category.name)}</h3>
+                        <h3>${category.name}</h3>
                     </div>
                     <span class="chip">${items.length} items</span>
                 </div>
@@ -201,9 +204,9 @@ function renderMenu(categories, menuItemsByCategory) {
                     ${items.length ? items.map((item) => `
                         <article class="menu-card">
                             <div class="menu-card-main">
-                                <img class="menu-thumb" src="${getMenuItemImage(item)}" alt="${escapeHtml(item.name)}">
+                                <img class="menu-thumb" src="${getMenuItemImage(item)}" alt="${item.name}">
                                 <div>
-                                    <h4>${escapeHtml(item.name)}</h4>
+                                    <h4>${item.name}</h4>
                                     <p>Simple and fresh menu item ready for online ordering.</p>
                                 </div>
                             </div>
@@ -264,7 +267,7 @@ async function initRestaurantPage() {
 
     restaurantNameElement.textContent = currentRestaurant.name;
     restaurantAddressElement.textContent = currentRestaurant.address || "Address unavailable";
-    restaurantStatusElement.innerHTML = `<span class="status-pill ${statusTone(currentRestaurant.status)}">${escapeHtml(currentRestaurant.status || "OPEN")}</span>`;
+    restaurantStatusElement.innerHTML = `<span class="status-pill ${statusTone(currentRestaurant.status)}">${currentRestaurant.status || "OPEN"}</span>`;
     restaurantDescriptionElement.textContent = currentRestaurant.description || "Explore menu categories and build your order.";
 
     const categories = await getCategoriesByRestaurant(currentRestaurant.id);
@@ -281,7 +284,8 @@ async function initRestaurantPage() {
 if (placeOrderButton) {
     placeOrderButton.addEventListener("click", async () => {
         const cart = await getCurrentCartView();
-        const items = cart?.items || [];
+        let items = cart?.items || [];
+        items.sort((a, b) => a.id - b.id);
 
         if (!items.length) {
             showRestaurantMessage("Add at least one item before checkout.", "danger");

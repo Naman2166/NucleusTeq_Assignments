@@ -9,22 +9,23 @@ const checkoutActiveOrders = document.getElementById("checkoutActiveOrders");
 let checkoutCartData = { items: [], totalPrice: 0 };
 let cancellationTimerId = null;
 
-// Shows checkout feedback in one consistent place.
+// Shows checkout message
 function showCheckoutMessage(message, tone = "info") {
     checkoutMessage.className = `banner ${tone}`;
     checkoutMessage.textContent = message;
 }
 
-// Refreshes the stored user from the backend so wallet values stay accurate.
+//refresh user to get latest data
 async function refreshCheckoutUser() {
     const user = await fetchCurrentUser();
     setUser(user);
     checkoutWallet.textContent = currency(user.walletBalance || 0);
 }
 
-// Draws the cart review list and disables ordering when the cart is empty.
+//render cart
 function renderCheckoutCart(cart) {
-    const items = cart?.items || [];
+    let items = cart?.items || [];
+    items.sort((a, b) => a.id - b.id);
     checkoutCartData = cart || { items: [], totalPrice: 0 };
     confirmOrderBtn.disabled = !items.length;
 
@@ -48,8 +49,8 @@ function renderCheckoutCart(cart) {
         ${items.map((item) => `
             <div class="list-row cart-row checkout-cart-row compact-cart-row">
                 <div class="checkout-item-copy">
-                    <strong>${escapeHtml(item.menuItemName)}</strong>
-                    <p>${currency(Number(item.totalPrice) / Number(item.quantity || 1))}</p>
+                    <strong>${item.menuItemName}</strong>
+                    <p>${currency(Number(item.totalPrice) * Number(item.quantity || 1))}</p>
                 </div>
                 <div class="checkout-item-actions">
                     <div class="price-qty-row">
@@ -109,13 +110,13 @@ function renderCheckoutCart(cart) {
     }
 }
 
-// Loads the server cart used for final checkout.
+// Load cart for final checkout
 async function loadCheckoutCart() {
     const cart = await fetchServerCart();
     renderCheckoutCart(cart || { items: [], totalPrice: 0 });
 }
 
-// Renders selectable delivery addresses and stores the current choice.
+// storing selected delivery addresses in localstorage
 function renderCheckoutAddresses(addresses) {
     if (!addresses.length) {
         localStorage.removeItem(APP_KEYS.selectedAddressId);
@@ -140,8 +141,8 @@ function renderCheckoutAddresses(addresses) {
             <div class="address-main">
                 <input type="radio" name="checkoutAddress" value="${address.id}" ${String(selectedAddressId) === String(address.id) ? "checked" : ""}>
                 <div>
-                    <strong>${escapeHtml(address.street)}</strong>
-                    <p>${escapeHtml(address.city)}, ${escapeHtml(address.state)} - ${escapeHtml(address.pincode)}</p>
+                    <strong>${address.street}</strong>
+                    <p>${address.city}, ${address.state} - ${address.pincode}</p>
                 </div>
             </div>
         </label>
@@ -155,13 +156,13 @@ function renderCheckoutAddresses(addresses) {
     });
 }
 
-// Loads all saved addresses for the checkout selector.
+// Loads all saved addresses for the checkout
 async function loadCheckoutAddresses() {
     const addresses = await fetchAddresses();
     renderCheckoutAddresses(addresses);
 }
 
-// Draws each active order with a cancellable countdown button.
+// Draws each active order with a cancellable countdown button
 function checkoutOrderCard(order) {
     const secondsLeft = Math.max(0, Math.ceil((CANCELLATION_WINDOW_MS - (Date.now() - new Date(order.orderTime).getTime())) / 1000));
     const canCancel = isOrderCancellable(order.orderTime, order.status);
@@ -171,14 +172,14 @@ function checkoutOrderCard(order) {
             <div class="inline-head">
                 <div>
                     <p class="eyebrow">${formatDate(order.orderTime)}</p>
-                    <h3>${escapeHtml(order.restaurantName)}</h3>
+                    <h3>${order.restaurantName}</h3>
                 </div>
-                <span class="status-pill ${statusTone(order.status)}">${escapeHtml(order.status)}</span>
+                <span class="status-pill ${statusTone(order.status)}">${order.status}</span>
             </div>
             <div class="stack soft-gap">
                 ${order.items.map((item) => `
                     <div class="list-row">
-                        <span>${escapeHtml(item.menuItemName)} x ${item.quantity}</span>
+                        <span>${item.menuItemName} x ${item.quantity}</span>
                         <strong>${currency(item.totalPrice)}</strong>
                     </div>
                 `).join("")}
@@ -223,7 +224,7 @@ async function loadCheckoutOrders() {
     refreshCancellationLabels();
 }
 
-// Updates cancel button labels every second without making extra API calls.
+// Updates cancel button every second without making extra API calls.
 function refreshCancellationLabels() {
     document.querySelectorAll("[data-cancel-order]").forEach((button) => {
         const orderTime = button.dataset.orderTime;
@@ -253,7 +254,8 @@ function startCancellationTicker() {
     }, 1000);
 }
 
-// Places the order only after the customer confirms checkout.
+
+// Places order
 async function handleConfirmOrder() {
     const selectedAddressId = getSelectedAddressId();
 
@@ -279,7 +281,7 @@ async function handleConfirmOrder() {
     }
 }
 
-// Boots the checkout page and sends guests to login before ordering.
+// intialize checkout page
 async function initCheckoutPage() {
     if (!isLoggedIn()) {
         window.location.href = "login.html";

@@ -5,26 +5,23 @@ let restaurantState = [];
 
 //restaurant card grid on home page
 function createRestaurantCard(restaurant) {
-    const categories = (restaurant.categories || []).slice(0, 3).map((item) => `<span class="chip">${escapeHtml(item.name)}</span>`).join("");
+    const categories = (restaurant.categories || []).slice(0, 3).map((item) => `<span class="chip">${item.name}</span>`).join("");
 
     return `
         <article class="restaurant-card panel">
             <div class="restaurant-image-wrap">
-                <img src="${getRestaurantImage(restaurant)}" alt="${escapeHtml(restaurant.name)}">
+                <img src="${getRestaurantImage(restaurant)}" alt="${restaurant.name}">
             </div>
             <div class="restaurant-body">
                 <div class="card-top">
                     <div>
-                        <h3>${escapeHtml(restaurant.name)}</h3>
-                        <p class="subtle">${escapeHtml(restaurant.address || "Address available on selection")}</p>
+                        <h3>${restaurant.name}</h3>
+                        <p class="address">${restaurant.address || "Address available on selection"}</p>
                     </div>
-                    <span class="status-pill ${statusTone(restaurant.status)}">${escapeHtml(restaurant.status || "OPEN")}</span>
+                    <span class="status-pill ${statusTone(restaurant.status)}"> ${restaurant.status || "OPEN"}</span>
                 </div>
-                <p class="restaurant-text">${escapeHtml(restaurant.description || "Fresh meals and simple online ordering.")}</p>
-                <div class="card-meta">
-                    <span class="eta-pill">${escapeHtml(restaurant.eta || "")}</span>
-                </div>
-                <div class="chip-row">${categories || '<span class="chip">Menu Available</span>'}</div>
+                <p class="restaurant-text">${restaurant.description || "Fresh meals and simple online ordering."}</p>
+                
                 <button class="primary-btn" data-restaurant="${restaurant.id}">View Menu</button>
             </div>
         </article>
