@@ -10,7 +10,6 @@ const placeOrderButton = document.getElementById("placeOrderBtn");
 const pageMessage = document.getElementById("restaurantMessage");
 let currentRestaurant = null;
 
-// Extracts the restaurant id from the current server cart shape safely.
 function getCartRestaurantId(cart) {
     if (!cart) {
         return null;
@@ -28,7 +27,8 @@ function getCartRestaurantId(cart) {
     return Number(firstItem?.restaurantId || firstItem?.menuItemRestaurantId || 0) || null;
 }
 
-// Stores the current cart restaurant id for strict cross-restaurant blocking.
+
+// Stores the current cart restaurant id
 function setActiveCartRestaurantId(restaurantId) {
     if (!restaurantId) {
         localStorage.removeItem(APP_KEYS.activeCartRestaurantId);
@@ -37,13 +37,12 @@ function setActiveCartRestaurantId(restaurantId) {
     localStorage.setItem(APP_KEYS.activeCartRestaurantId, String(restaurantId));
 }
 
-// Reads the tracked cart restaurant id, used when backend doesn't return it.
+
 function getActiveCartRestaurantId() {
     const value = localStorage.getItem(APP_KEYS.activeCartRestaurantId);
     return value ? Number(value) : null;
 }
 
-// Clears tracked restaurant id when cart becomes empty.
 function syncActiveCartRestaurantFromCart(cart) {
     const items = cart?.items || [];
     if (!items.length) {
@@ -57,13 +56,11 @@ function syncActiveCartRestaurantFromCart(cart) {
     }
 }
 
-// Shows short page-level feedback without interrupting the customer flow.
 function showRestaurantMessage(message, tone = "info") {
     pageMessage.className = `banner ${tone}`;
     pageMessage.textContent = message;
 }
 
-// Reads the active cart from the server for logged-in users and local storage for guests.
 async function getCurrentCartView() {
     if (isLoggedIn()) {
         return fetchServerCart();
@@ -76,7 +73,7 @@ async function getCurrentCartView() {
     };
 }
 
-// Renders the cart sidebar and wires quantity/remove controls.
+// Renders the cart sidebar 
 async function renderCart() {
     const cart = await getCurrentCartView();
     const items = cart?.items || [];
@@ -175,7 +172,7 @@ async function renderCart() {
     });
 }
 
-// Renders all category sections and adds items to cart without placing an order.
+// Renders all category sections and adds items to cart 
 function renderMenu(categories, menuItemsByCategory) {
     if (!categories.length) {
         menuContainer.innerHTML = `
@@ -256,7 +253,7 @@ function renderMenu(categories, menuItemsByCategory) {
     });
 }
 
-// Loads restaurant, category, menu, and cart data for the current restaurant detail page.
+// Loads all data for the current restaurant detail page
 async function initRestaurantPage() {
     currentRestaurant = await getRestaurantById(restaurantId);
 

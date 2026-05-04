@@ -6,13 +6,13 @@ const addressList = document.getElementById("addressList");
 const addressForm = document.getElementById("addressForm");
 const dashboardMessage = document.getElementById("dashboardMessage");
 
-// Shows customer dashboard feedback in a shared banner.
+// Shows customer dashboard message
 function showDashboardMessage(message, tone = "info") {
     dashboardMessage.className = `banner ${tone}`;
     dashboardMessage.textContent = message;
 }
 
-// Renders the current user's name and wallet from local storage.
+// Renders the current user data from local storage.
 function renderCustomerSummary() {
     const user = getUser();
 
@@ -85,7 +85,7 @@ function renderAddresses(addresses) {
     });
 }
 
-// Loads saved customer delivery addresses.
+// Loads saved customer delivery addresses
 async function loadAddresses() {
     try {
         const addresses = await fetchAddresses();
@@ -95,7 +95,7 @@ async function loadAddresses() {
     }
 }
 
-// Builds one order card for active and historical order sections.
+// order card for past order sections
 function orderCard(order, includeCancel) {
     return `
         <article class="order-card panel">
@@ -121,7 +121,7 @@ function orderCard(order, includeCancel) {
     `;
 }
 
-// Loads active and historical orders, then refreshes wallet data from the server.
+// Loads past orders, then refreshes wallet data from the server.
 async function loadOrders() {
     try {
         const orders = await fetchUserOrders();
@@ -172,7 +172,7 @@ if (addressForm) {
     });
 }
 
-// Boots the customer dashboard after verifying authentication.
+// intialize customer dashboard
 async function initCustomerPage() {
     if (!isLoggedIn()) {
         window.location.href = "login.html";
