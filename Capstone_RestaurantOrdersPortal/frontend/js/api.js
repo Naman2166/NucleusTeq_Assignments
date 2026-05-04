@@ -48,7 +48,6 @@ async function safeApi(path, options = {}) {
 
 
 //Restaurant and Menu API calls
-
 async function getRestaurants() {
     const remote = await safeApi("/restaurants");
     return Array.isArray(remote) ? applyRestaurantImageOverrides(remote) : [];
@@ -190,6 +189,7 @@ async function createRestaurant(payload) {
         body: JSON.stringify({
             name: payload.name,
             address: payload.address,
+            description: payload.description,
             status: payload.status,
             imageUrl: payload.imageUrl || null
         })
@@ -202,6 +202,7 @@ async function updateRestaurant(payload) {
         body: JSON.stringify({
             name: payload.name,
             address: payload.address,
+            description: payload.description,
             status: payload.status,
             imageUrl: payload.imageUrl || null
         })

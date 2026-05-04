@@ -16,7 +16,7 @@ let menuPreviewObjectUrl = "";
 function populateCategoryOptions(restaurantId, selectedCategoryId = "") {
     const categories = ownerCategories[restaurantId] || [];
     menuCategory.innerHTML = `<option value="">Choose category</option>${categories.map((category) => `
-        <option value="${category.id}" ${String(selectedCategoryId) === String(category.id) ? "selected" : ""}>${escapeHtml(category.name)}</option>
+        <option value="${category.id}" ${String(selectedCategoryId) === String(category.id) ? "selected" : ""}>${category.name}</option>
     `).join("")}`;
 }
 
@@ -108,17 +108,17 @@ function renderMenuManagement() {
                     <div class="inline-head">
                         <div>
                             <p class="eyebrow">Restaurant</p>
-                            <h3>${escapeHtml(restaurant.name)}</h3>
+                            <h3>${restaurant.name}</h3>
                         </div>
                         <span class="chip">${menuItems.length} items</span>
                     </div>
                     <div class="owner-subcard-list">
                         ${menuItems.length ? menuItems.map((item) => `
                             <div class="owner-menu-row compact-row">
-                                <img class="owner-menu-thumb" src="${getMenuItemImage(item)}" alt="${escapeHtml(item.name)}">
+                                <img class="owner-menu-thumb" src="${getMenuItemImage(item)}" alt="${item.name}">
                                 <div class="owner-menu-copy">
                                     <p class="eyebrow">Menu item</p>
-                                    <h3>${escapeHtml(item.name)}</h3>
+                                    <h3>${item.name}</h3>
                                     <p class="subtle">${currency(item.price)}</p>
                                 </div>
                                 <div class="inline-actions">

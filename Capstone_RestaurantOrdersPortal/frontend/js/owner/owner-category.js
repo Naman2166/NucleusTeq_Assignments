@@ -9,7 +9,7 @@ const showCategoryFormBtn = document.getElementById("showCategoryFormBtn");
 // provides restaurant select boxes used by category and menu forms
 function populateRestaurantOptions() {
     const options = ownerRestaurants.map((restaurant) => `
-        <option value="${restaurant.id}">${escapeHtml(restaurant.name)}</option>
+        <option value="${restaurant.id}">${restaurant.name}</option>
     `).join("");
 
     categoryRestaurant.innerHTML = `<option value="">Choose restaurant</option>${options}`;
@@ -45,14 +45,14 @@ function renderCategoryManagement() {
                     <div class="inline-head">
                         <div>
                             <p class="eyebrow">Restaurant</p>
-                            <h3>${escapeHtml(restaurant.name)}</h3>
+                            <h3>${restaurant.name}</h3>
                         </div>
                         <span class="chip">${categories.length} categories</span>
                     </div>
                     <div class="owner-subcard-list">
                         ${categories.length ? categories.map((category) => `
                             <div class="compact-row owner-mini-row">
-                                <span>${escapeHtml(category.name)}</span>
+                                <span>${category.name}</span>
                                 <div class="inline-actions">
                                     <button class="secondary-btn compact" data-edit-category="${category.id}" data-restaurant="${restaurant.id}">Update</button>
                                     <button class="ghost-btn compact" data-delete-category="${category.id}">Delete</button>

@@ -27,14 +27,14 @@ function renderIncomingOrders() {
                 <div class="inline-head">
                     <div>
                         <p class="eyebrow">${formatDate(order.orderTime)}</p>
-                        <h3>${escapeHtml(order.restaurantName)}</h3>
+                        <h3>${order.restaurantName}</h3>
                     </div>
-                    <span class="status-pill ${statusTone(order.status)}">${escapeHtml(order.status)}</span>
+                    <span class="status-pill ${statusTone(order.status)}">${order.status}</span>
                 </div>
                 <div class="stack soft-gap">
                     ${order.items.map((item) => `
                         <div class="list-row">
-                            <span>${escapeHtml(item.menuItemName)} x ${item.quantity}</span>
+                            <span>${item.menuItemName} x ${item.quantity}</span>
                             <strong>${currency(item.totalPrice)}</strong>
                         </div>
                     `).join("")}

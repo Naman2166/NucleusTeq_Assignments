@@ -1,5 +1,3 @@
-// --------------- Shared DOM References ---------------
-
 const ownerName = document.getElementById("ownerName");
 const ownerMessage = document.getElementById("ownerMessage");
 
@@ -39,7 +37,7 @@ async function refreshOwnerPage() {
     bindMenuActions();
 }
 
-// Loads all owner data once and stores it in page-level state
+// Loads all owner data once
 async function loadOwnerData() {
     ownerRestaurants = await fetchOwnerRestaurants();
 

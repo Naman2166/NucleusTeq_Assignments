@@ -16,7 +16,6 @@ const CANCELLATION_WINDOW_MS = 30 * 1000;
 
 
 //helper functions
-
 function getToken() {
     return localStorage.getItem(APP_KEYS.token);
 }
@@ -44,6 +43,7 @@ function logoutUser() {
     localStorage.removeItem(APP_KEYS.role);
     localStorage.removeItem(APP_KEYS.selectedAddressId);
 }
+
 
 function currency(amount) {
     return new Intl.NumberFormat("en-IN", {
@@ -255,23 +255,6 @@ function isOrderCancellable(orderTime, status) {
 
 function getQueryParam(name) {
     return new URLSearchParams(window.location.search).get(name);
-}
-
-function escapeHtml(value) {
-    return String(value ?? "").replace(/[&<>"']/g, (char) => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-    }[char]));
-}
-
-function slugify(value) {
-    return String(value || "")
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/^-|-$/g, "");
 }
 
 

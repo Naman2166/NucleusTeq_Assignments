@@ -91,13 +91,14 @@ function renderManagedRestaurants() {
 
             return `
                 <article class="panel owner-restaurant-card">
-                    <img class="owner-card-thumb" src="${getRestaurantImage(restaurant)}" alt="${escapeHtml(restaurant.name)}">
+                    <img class="owner-card-thumb" src="${getRestaurantImage(restaurant)}" alt="${restaurant.name}">
                     <div class="inline-head">
                         <div>
-                            <p class="eyebrow">${escapeHtml(restaurant.address)}</p>
-                            <h3>${escapeHtml(restaurant.name)}</h3>
+                            <p class="eyebrow">${restaurant.address}</p>
+                            <h3>${restaurant.name}</h3> 
+                            <p class="description">${restaurant.description || "No description"}</p>
                         </div>
-                        <span class="status-pill ${statusTone(restaurant.status)}">${escapeHtml(restaurant.status)}</span>
+                        <span class="status-pill ${statusTone(restaurant.status)}">${restaurant.status}</span>
                     </div>
                     <div class="owner-card-stats">
                         <span>${categories.length} categories</span>
@@ -125,6 +126,7 @@ function bindRestaurantActions() {
             restaurantForm.elements.id.value = restaurant.id;
             restaurantForm.elements.name.value = restaurant.name;
             restaurantForm.elements.address.value = restaurant.address;
+            restaurantForm.elements.description.value = restaurant.description;
             restaurantForm.elements.status.value = restaurant.status;
             if (restaurantForm.elements.imageUrl) {
                 restaurantForm.elements.imageUrl.value = restaurant.imageUrl || "";
@@ -157,7 +159,7 @@ function bindRestaurantActions() {
 
 
 
-//form submit
+//restauarnt form
 if (restaurantForm) {
     restaurantForm.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -169,16 +171,19 @@ if (restaurantForm) {
         const payload = {
             name: formData.get("name")?.trim(),
             address: formData.get("address")?.trim(),
+            description: formData.get("description")?.trim(),
             status: formData.get("status"),
             imageUrl: ""
         };
+
 
         if (!payload.name || !payload.address) {
             showOwnerMessage("Please fill the restaurant form before submitting.", "danger");
             return;
         }
-
+        
         try {
+            //calling api for image upload
             if (selectedFile) {
                 imageUrl = await uploadImage("restaurant", selectedFile);
                 if (restaurantForm.elements.imageUrl) {
@@ -186,6 +191,7 @@ if (restaurantForm) {
                 }
             }
 
+            //calling api to create or update restauarnt
             payload.imageUrl = imageUrl || "";
             if (id) {
                 const updated = await updateRestaurant({ id, ...payload });
@@ -207,7 +213,7 @@ if (restaurantForm) {
 }
 
 
-// Cancel and show-form buttons for restaurants
+// Cancel and showing form buttons for restaurants
 function bindRestaurantFormButtons() {
     if (restaurantCancelBtn) {
         restaurantCancelBtn.addEventListener("click", resetRestaurantForm);
