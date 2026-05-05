@@ -189,7 +189,7 @@
     border: 1px solid #eef2f7;
     border-radius: 10px;
     padding: 0.45rem 0.65rem;
-    background: #fbfcfe;
+    background: #f5f3f3;
 }
 
 .owner-mini-row {
@@ -289,6 +289,18 @@
 .owner-restaurant-card {
     padding: 0.9rem;
 }
+
+#ownerMenuList,
+#ownerCategoriesList,
+#ownerOrders {
+    display: grid;
+    grid-template-columns: 1fr; 
+    gap: 16px;
+}
+
+
+
+
 
 .owner-restaurant-card {
     background:
@@ -440,6 +452,20 @@
 .MenuItemTitle{
     position: relative;
      left: 35%;
+}
+
+.category-name{
+    color: #43454b;
+    padding-bottom: 3px;
+    font-weight: 600;
+    border: #122e7a;
+    border-bottom: 1px solid #d8dae0;
+    border-width: 2px;
+    margin-top: 15px;
+}
+
+.categories{
+    font-weight: 600;
 }
 
 

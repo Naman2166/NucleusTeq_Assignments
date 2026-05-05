@@ -9,7 +9,7 @@ const showMenuFormBtn = document.getElementById("showMenuFormBtn");
 const menuItemImageFile = document.getElementById("menuItemImageFile");
 const menuItemImagePreview = document.getElementById("menuItemImagePreview");
 
-let menuPreviewObjectUrl = "";
+let imgPreviewUrl = "";
 
 
 //prvovides category options based on the chosen restaurant
@@ -25,9 +25,9 @@ function populateCategoryOptions(restaurantId, selectedCategoryId = "") {
 function showLocalMenuPreview() {
     if (!menuItemImageFile || !menuItemImagePreview) return;
 
-    if (menuPreviewObjectUrl) {
-        URL.revokeObjectURL(menuPreviewObjectUrl);
-        menuPreviewObjectUrl = "";
+    if (imgPreviewUrl) {
+        URL.revokeObjectURL(imgPreviewUrl);
+        imgPreviewUrl = "";
     }
 
     const file = menuItemImageFile.files?.[0];
@@ -37,8 +37,8 @@ function showLocalMenuPreview() {
         return;
     }
 
-    menuPreviewObjectUrl = URL.createObjectURL(file);
-    menuItemImagePreview.src = menuPreviewObjectUrl;
+    imgPreviewUrl = URL.createObjectURL(file);
+    menuItemImagePreview.src = imgPreviewUrl;
     menuItemImagePreview.style.display = "block";
 }
 
@@ -81,9 +81,9 @@ function resetMenuForm() {
     if (menuItemImageFile) {
         menuItemImageFile.value = "";
     }
-    if (menuPreviewObjectUrl) {
-        URL.revokeObjectURL(menuPreviewObjectUrl);
-        menuPreviewObjectUrl = "";
+    if (imgPreviewUrl) {
+        URL.revokeObjectURL(imgPreviewUrl);
+        imgPreviewUrl = "";
     }
     if (menuItemImagePreview) {
         menuItemImagePreview.src = "";
@@ -98,44 +98,78 @@ function resetMenuForm() {
 }
 
 
-// Renders editable menu rows grouped by restaurant
+// fetching menu rows by restaurant
 function renderMenuManagement() {
     ownerMenuList.innerHTML = ownerRestaurants.length
-        ? ownerRestaurants.map((restaurant) => {
-            const menuItems = ownerMenuItems[restaurant.id] || [];
-            return `
-                <article class="panel owner-restaurant-card">
-                    <div class="inline-head">
-                        <div>
-                            <p class="eyebrow">Restaurant</p>
-                            <h3>${restaurant.name}</h3>
-                        </div>
-                        <span class="chip">${menuItems.length} items</span>
-                    </div>
-                    <div class="owner-subcard-list">
-                        ${menuItems.length ? menuItems.map((item) => `
-                            <div class="owner-menu-row compact-row">
-                                <img class="owner-menu-thumb" src="${getMenuItemImage(item)}" alt="${item.name}">
-                                <div class="owner-menu-copy">
-                                    <p class="eyebrow">Menu item</p>
-                                    <h3>${item.name}</h3>
-                                    <p class="subtle">${currency(item.price)}</p>
-                                </div>
-                                <div class="inline-actions">
-                                    <button class="secondary-btn compact" data-edit-menu="${item.id}" data-restaurant="${restaurant.id}">Update</button>
-                                    <button class="ghost-btn compact" data-delete-menu="${item.id}">Delete</button>
-                                </div>
-                            </div>
-                        `).join("") : `<p class="subtle">No menu items added yet.</p>`}
-                    </div>
-                </article>
-            `;
-        }).join("")
-        : `<div class="empty-state compact"><h3>No restaurants yet</h3><p>Create a restaurant before adding menu items.</p></div>`;
+        ? ownerRestaurants.map(renderRestaurant).join("")
+        : `<div class="empty-state compact">
+                <h3>No restaurants yet</h3>
+                <p>Create a restaurant before adding menu items.</p>
+           </div>`;
 }
 
 
+//fetching restauarnt with categories
+function renderRestaurant(restaurant) {
+    const items = ownerMenuItems[restaurant.id] || [];
+    const categories = ownerCategories[restaurant.id] || [];
 
+    return `
+        <article class="panel owner-restaurant-card">
+            <div class="inline-head">
+                <div>
+                  <p class="eyebrow">Restaurant</p>
+                  <h3>${restaurant.name}</h3>
+                </div>
+                <span class="chip">${items.length} items</span>
+            </div>
+
+            <div class="owner-subcard-list">
+              ${categories.map(category => {
+                 const filtered = items.filter(i => i.categoryId == category.id);
+                   return `
+                    <p class="category-name">${category.name}</p>
+                      ${filtered.length
+                        ? filtered.map(item => renderMenuItem(item, restaurant.id)).join("")
+                        : `<p class="subtle">No items</p>`
+                       }`;
+                    }).join("")
+                }
+            </div>
+        </article>
+    `;
+}
+
+
+//fetching menu items
+function renderMenuItem(item, restaurantId) {
+    return `
+        <div class="owner-menu-row compact-row">
+            <img class="owner-menu-thumb" src="${getMenuItemImage(item)}" alt="${item.name}">
+
+            <div class="owner-menu-copy">
+                <p class="eyebrow">Menu item</p>
+                <h3>${item.name}</h3>
+                <p class="subtle">${currency(item.price)}</p>
+            </div>
+
+            <div class="inline-actions">
+                <button class="secondary-btn compact"
+                    data-edit-menu="${item.id}"
+                    data-restaurant="${restaurantId}">
+                    Update
+                </button>
+
+                <button class="ghost-btn compact"
+                    data-delete-menu="${item.id}">
+                    Delete
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+// Loading item into form for updating
 function bindMenuActions() {
     document.querySelectorAll("[data-edit-menu]").forEach((button) => {
         button.addEventListener("click", () => {

@@ -52,7 +52,7 @@ function renderCategoryManagement() {
                     <div class="owner-subcard-list">
                         ${categories.length ? categories.map((category) => `
                             <div class="compact-row owner-mini-row">
-                                <span>${category.name}</span>
+                                <span class="categories">${category.name}</span>
                                 <div class="inline-actions">
                                     <button class="secondary-btn compact" data-edit-category="${category.id}" data-restaurant="${restaurant.id}">Update</button>
                                     <button class="ghost-btn compact" data-delete-category="${category.id}">Delete</button>

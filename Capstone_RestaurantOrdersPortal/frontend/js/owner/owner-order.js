@@ -5,9 +5,9 @@ const ownerOrders = document.getElementById("ownerOrders");
 function getAllowedStatuses(currentStatus) {
     switch (currentStatus) {
         case "PLACED":
-            return ["PLACED", "PENDING", "CANCELLED", "DELIVERED", "COMPLETED"];
+            return ["PLACED", "PENDING", "CANCELLED"];
         case "PENDING":
-            return ["PENDING", "DELIVERED", "COMPLETED", "CANCELLED"];
+            return ["PENDING", "CANCELLED", "DELIVERED",];
         case "DELIVERED":
             return ["DELIVERED", "COMPLETED"];
         case "COMPLETED":
@@ -22,7 +22,9 @@ function getAllowedStatuses(currentStatus) {
 // Renders incoming orders
 function renderIncomingOrders() {
     ownerOrders.innerHTML = ownerOrdersData.length
-        ? ownerOrdersData.map((order) => `
+        ? ownerOrdersData
+        .sort((a, b) => new Date(b.orderTime) - new Date(a.orderTime))
+        .map((order) => `
             <article class="panel order-card">
                 <div class="inline-head">
                     <div>
