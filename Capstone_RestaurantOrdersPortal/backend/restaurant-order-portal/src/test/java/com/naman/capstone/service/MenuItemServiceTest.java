@@ -42,7 +42,7 @@ class MenuItemServiceTest {
     MenuItemServiceImpl menuItemService;
 
     /**
-     * Test create menu item success.
+     * Test create menu item success
      */
     @Test
     void create_menu_item_success() {
@@ -79,7 +79,7 @@ class MenuItemServiceTest {
     }
 
     /**
-     * Test unauthorized create.
+     * Test unauthorized create
      */
     @Test
     void create_menu_item_unauthorized() {
@@ -104,7 +104,7 @@ class MenuItemServiceTest {
     }
 
     /**
-     * Test category mismatch.
+     * Test category mismatch
      */
     @Test
     void create_menu_item_category_mismatch() {
@@ -132,7 +132,7 @@ class MenuItemServiceTest {
     }
 
     /**
-     * Test update menu item.
+     * Test update menu item
      */
     @Test
     void update_menu_item_success() {
@@ -168,7 +168,7 @@ class MenuItemServiceTest {
     }
 
     /**
-     * Test delete unauthorized.
+     * Test delete unauthorized
      */
     @Test
     void delete_menu_item_unauthorized() {
@@ -189,7 +189,7 @@ class MenuItemServiceTest {
     }
 
     /**
-     * Test get menu items by restaurant.
+     * Test get menu items by restaurant
      */
     @Test
     void get_menu_items_by_restaurant_success() {
@@ -216,7 +216,7 @@ class MenuItemServiceTest {
     }
 
     /**
-     * Test get menu items by category.
+     * Test get menu items by category
      */
     @Test
     void get_menu_items_by_category_success() {
@@ -241,4 +241,129 @@ class MenuItemServiceTest {
 
         assertEquals(1, list.size());
     }
+
+
+    /**
+     * test create menu item when restaurant not found
+     */
+    @Test
+    void create_menu_item_restaurant_not_found() {
+
+        User owner = new User();
+        owner.setId(1L);
+
+        MenuItemRequestDTO request = new MenuItemRequestDTO();
+        request.setRestaurantId(1L);
+        request.setCategoryId(1L);
+
+        when(restaurantRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> menuItemService.createMenuItem(request, owner));
+    }
+
+
+    /**
+     * test create menu item when category not found
+     */
+    @Test
+    void create_menu_item_category_not_found() {
+
+        User owner = new User();
+        owner.setId(1L);
+
+        Restaurant restaurant = new Restaurant();
+        restaurant.setId(1L);
+        restaurant.setOwner(owner);
+
+        MenuItemRequestDTO request = new MenuItemRequestDTO();
+        request.setRestaurantId(1L);
+        request.setCategoryId(1L);
+
+        when(restaurantRepository.findById(1L)).thenReturn(Optional.of(restaurant));
+        when(categoryRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> menuItemService.createMenuItem(request, owner));
+    }
+
+
+    /**
+     * test update menu item when item not found
+     */
+    @Test
+    void update_menu_item_not_found() {
+
+        User owner = new User();
+        owner.setId(1L);
+
+        MenuItemRequestDTO request = new MenuItemRequestDTO();
+        request.setCategoryId(1L);
+
+        when(menuItemRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> menuItemService.updateMenuItem(1L, request, owner));
+    }
+
+
+    /**
+     * test delete menu item success
+     */
+    @Test
+    void delete_menu_item_success() {
+
+        User owner = new User();
+        owner.setId(1L);
+
+        Restaurant restaurant = new Restaurant();
+        restaurant.setOwner(owner);
+
+        MenuItem item = new MenuItem();
+        item.setRestaurant(restaurant);
+
+        when(menuItemRepository.findById(1L)).thenReturn(Optional.of(item));
+
+        assertDoesNotThrow(() -> menuItemService.deleteMenuItem(1L, owner));
+        verify(menuItemRepository).delete(item);
+    }
+
+
+    /**
+     * testing delete item when item not found
+     */
+    @Test
+    void delete_menu_item_not_found() {
+
+        User owner = new User();
+        owner.setId(1L);
+
+        when(menuItemRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class, () -> menuItemService.deleteMenuItem(1L, owner));
+    }
+
+
+    /**
+     * test get menu items by restaurant when restaurant not found
+     */
+    @Test
+    void get_menu_items_by_restaurant_not_found() {
+
+        when(restaurantRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class,
+                () -> menuItemService.getMenuItemsByRestaurant(1L));
+    }
+
+
+    /**
+     * test get menu items by category when category not found
+     */
+    @Test
+    void get_menu_items_by_category_not_found() {
+
+        when(categoryRepository.findById(1L)).thenReturn(Optional.empty());
+
+        assertThrows(ResourceNotFoundException.class,
+                () -> menuItemService.getMenuItemsByCategory(1L));
+    }
+
 }

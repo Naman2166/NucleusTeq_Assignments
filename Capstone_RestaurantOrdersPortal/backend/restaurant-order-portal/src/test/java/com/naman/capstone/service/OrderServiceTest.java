@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 
 
 /**
- * Unit tests for OrderService.
+ * tests for OrderService
  */
 @ExtendWith(MockitoExtension.class)
 class OrderServiceTest {
@@ -36,6 +36,9 @@ class OrderServiceTest {
 
     @Mock
     AddressRepository addressRepository;
+
+    @Mock
+    RestaurantRepository restaurantRepository;
 
     @Mock
     UserRepository userRepository;
@@ -349,6 +352,197 @@ class OrderServiceTest {
 
         when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
         assertThrows(OrderNotCancellableException.class, () -> orderService.cancelOrder(user, 1L));
+    }
+
+
+    /**
+     *  testing placing order when cart is not found
+     */
+    @Test
+    void place_order_cart_not_found() {
+
+        User user = new User();
+        user.setId(1L);
+
+        when(cartRepository.findByUser(user)).thenReturn(Optional.empty());
+        assertThrows(ResourceNotFoundException.class, () -> orderService.placeOrder(user, 1L));
+    }
+
+
+    /**
+     * testing cancel order when user is unauthorized
+     */
+    @Test
+    void cancel_order_unauthorized() {
+
+        User user = new User();
+        user.setId(1L);
+
+        User anotherUser = new User();
+        anotherUser.setId(2L);
+
+        Order order = new Order();
+        order.setUser(anotherUser);
+
+        when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+        assertThrows(UnauthorizedException.class, () -> orderService.cancelOrder(user, 1L));
+    }
+
+
+    /**
+     * testing cancelling order which is already canceled
+     */
+    @Test
+    void cancel_order_already_cancelled() {
+
+        User user = new User();
+        user.setId(1L);
+
+        Order order = new Order();
+        order.setUser(user);
+        order.setStatus(OrderStatus.CANCELLED);
+
+        when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+        assertDoesNotThrow(() -> orderService.cancelOrder(user, 1L));
+        verify(orderRepository, never()).save(any());
+    }
+
+
+    /**
+     * testing get all orders of specific restaurant
+     */
+    @Test
+    void get_orders_by_restaurant_success() {
+
+        User owner = new User();
+        owner.setId(1L);
+
+        Restaurant restaurant = new Restaurant();
+        restaurant.setId(10L);
+        restaurant.setOwner(owner);
+
+        Order order = new Order();
+        order.setRestaurant(restaurant);
+
+        when(restaurantRepository.findById(10L)).thenReturn(Optional.of(restaurant));
+        when(orderRepository.findByRestaurant(restaurant)).thenReturn(List.of(order));
+        List<OrderResponseDTO> result = orderService.getOrdersByRestaurant(10L, owner);
+
+        assertEquals(1, result.size());
+    }
+
+
+    /**
+     * testing get all order by restaurant if user is unauthorized
+     */
+    @Test
+    void get_orders_by_restaurant_unauthorized() {
+
+        User owner = new User();
+        owner.setId(1L);
+
+        User anotherOwner = new User();
+        anotherOwner.setId(2L);
+
+        Restaurant restaurant = new Restaurant();
+        restaurant.setOwner(anotherOwner);
+        when(restaurantRepository.findById(10L)).thenReturn(Optional.of(restaurant));
+
+        assertThrows(UnauthorizedException.class, () -> orderService.getOrdersByRestaurant(10L, owner));
+    }
+
+
+    /**
+     * testing update order status if user is unauthorized
+     */
+    @Test
+    void update_order_status_unauthorized() {
+
+        User owner = new User();
+        owner.setId(1L);
+
+        User anotherOwner = new User();
+        anotherOwner.setId(2L);
+
+        Restaurant restaurant = new Restaurant();
+        restaurant.setOwner(anotherOwner);
+
+        Order order = new Order();
+        order.setRestaurant(restaurant);
+
+        when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+
+        assertThrows(UnauthorizedException.class,
+                () -> orderService.updateOrderStatus(1L, OrderStatus.COMPLETED, owner));
+    }
+
+
+    /**
+     * testing Update Status To Cancelled Should Refund
+     */
+    @Test
+    void update_status_to_cancelled_should_refund() {
+
+        User owner = new User();
+        owner.setId(1L);
+
+        User customer = new User();
+        customer.setWalletBalance(new BigDecimal("100"));
+
+        Restaurant restaurant = new Restaurant();
+        restaurant.setOwner(owner);
+
+        Order order = new Order();
+        order.setRestaurant(restaurant);
+        order.setUser(customer);
+        order.setStatus(OrderStatus.PLACED);
+        order.setTotalPrice(new BigDecimal("200"));
+
+        when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+        orderService.updateOrderStatus(1L, OrderStatus.CANCELLED, owner);
+
+        assertEquals(OrderStatus.CANCELLED, order.getStatus());
+        verify(userRepository).save(customer);
+    }
+
+
+    /**
+     * testing get all order if restaurant not found
+     */
+    @Test
+    void get_orders_by_restaurant_not_found() {
+
+        User owner = new User();
+
+        when(restaurantRepository.findById(1L)).thenReturn(Optional.empty());
+        assertThrows(ResourceNotFoundException.class,
+                () -> orderService.getOrdersByRestaurant(1L, owner));
+    }
+
+
+    /**
+     * testing successful order cancellation and refund
+     */
+    @Test
+    void cancel_order_success() {
+
+        User user = new User();
+        user.setId(1L);
+        user.setWalletBalance(new BigDecimal("100"));
+
+        Order order = new Order();
+        order.setId(1L);
+        order.setUser(user);
+        order.setStatus(OrderStatus.PLACED);
+        order.setOrderTime(LocalDateTime.now());
+        order.setTotalPrice(new BigDecimal("200"));
+
+        when(orderRepository.findById(1L)).thenReturn(Optional.of(order));
+        orderService.cancelOrder(user, 1L);
+
+        assertEquals(OrderStatus.CANCELLED, order.getStatus());
+        verify(orderRepository).save(order);
+        verify(userRepository).save(user);
     }
 
 }
