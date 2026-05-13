@@ -1,6 +1,7 @@
 package com.naman.capstone.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 import java.util.Objects;
 
@@ -13,24 +14,28 @@ public class AddressRequestDTO {
      * Street address
      */
     @NotBlank(message = "Street is required")
+    @Pattern(regexp = "^[A-Za-z. ]+$", message = "street address must contain only letters")
     private String street;
 
     /**
      * City name
      */
     @NotBlank(message = "City is required")
+    @Pattern(regexp = "^[A-Za-z ]+$", message = "City must contain only letters")
     private String city;
 
     /**
      * State name
      */
     @NotBlank(message = "State is required")
+    @Pattern(regexp = "^[A-Za-z. ]+$", message = "State must contain only letters")
     private String state;
 
     /**
      * pincode of city
      */
     @NotBlank(message = "Pincode is required")
+    @Pattern(regexp = "^[0-9]{6}$", message = "Pincode must contain exactly 6 Numbers")
     private String pincode;
 
 

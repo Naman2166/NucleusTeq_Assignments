@@ -17,12 +17,14 @@ public class RegisterRequestDTO {
      * User first name
      */
     @NotBlank(message = "First name cannot be empty")
+    @Pattern(regexp = "^[A-Za-z ]+$", message = "name must contain only letters")
     private String firstName;
 
     /**
      * User last name
      */
     @NotBlank(message = "Last name cannot be empty")
+    @Pattern(regexp = "^[A-Za-z ]+$", message = "name must contain only letters")
     private String lastName;
 
     /**
@@ -43,7 +45,7 @@ public class RegisterRequestDTO {
      * must be 10 digits
      */
     @NotBlank(message = "Phone number cannot be empty")
-    @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must be 10 digits")
+    @Pattern(regexp = "^[0-9]{10}$", message = "Phone number must contains 10 digits")
     private String phoneNumber;
 
     /**
