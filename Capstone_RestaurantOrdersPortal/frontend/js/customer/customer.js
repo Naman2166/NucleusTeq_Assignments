@@ -58,7 +58,7 @@ function renderAddresses(addresses) {
                 <input type="radio" name="selectedAddress" value="${address.id}" ${String(selectedAddressId) === String(address.id) ? "checked" : ""}>
                 <div>
                     <strong>${address.street}</strong>
-                    <p>${address.city}, ${address.state} - $address.pincode}</p>
+                    <p>${address.city}, ${address.state} - ${address.pincode}</p>
                 </div>
             </div>
             <button type="button" class="text-btn" data-delete-address="${address.id}">Delete</button>

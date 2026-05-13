@@ -207,12 +207,16 @@ function renderMenu(categories, menuItemsByCategory) {
                                 <img class="menu-thumb" src="${getMenuItemImage(item)}" alt="${item.name}">
                                 <div>
                                     <h4>${item.name}</h4>
-                                    <p>Simple and fresh menu item ready for online ordering.</p>
                                 </div>
                             </div>
                             <div class="menu-card-side">
                                 <strong>${currency(item.price)}</strong>
-                                <button class="primary-btn compact" data-add="${item.id}">Add</button>
+                                
+                                <button class="primary-btn compact" data-add="${item.id}"
+                                  ${currentRestaurant.status !== "OPEN" ? "disabled" : ""}
+                                >
+                                  ${currentRestaurant.status !== "OPEN" ? "CLOSED" : "Add"}
+                                </button>
                             </div>
                         </article>
                     `).join("") : `<div class="empty-state compact"><h3>No items in this category</h3><p>Add menu items to make this section active.</p></div>`}
