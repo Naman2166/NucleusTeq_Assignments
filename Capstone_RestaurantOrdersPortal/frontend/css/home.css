@@ -141,14 +141,37 @@
     margin-bottom: 20px;
 }
 
-@media (max-width: 900px) {
-    .hero-block,
-    .restaurant-grid {
+
+
+@media (max-width: 1000px) {
+    .hero-block{
         grid-template-columns: 1fr;
+    }
+
+    .restaurant-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero-search {
+        width: 100%;
+        max-width: 100%;
+        min-width: unset;
     }
 
     .card-top {
         flex-direction: column;
+    }
+}
+
+
+@media (max-width: 600px) {
+    .restaurant-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-search {
+        border-radius: 12px;
+        overflow: hidden;
     }
 }
 
