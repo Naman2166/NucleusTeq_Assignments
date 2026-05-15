@@ -10,6 +10,7 @@ const placeOrderButton = document.getElementById("placeOrderBtn");
 const pageMessage = document.getElementById("restaurantMessage");
 let currentRestaurant = null;
 
+// getting restaurant id whose items are in cart
 function getCartRestaurantId(cart) {
     if (!cart) {
         return null;
@@ -28,7 +29,7 @@ function getCartRestaurantId(cart) {
 }
 
 
-// Stores the current cart restaurant id
+// Stores the current cart restaurant id in local storage
 function setActiveCartRestaurantId(restaurantId) {
     if (!restaurantId) {
         localStorage.removeItem(APP_KEYS.activeCartRestaurantId);
@@ -43,6 +44,8 @@ function getActiveCartRestaurantId() {
     return value ? Number(value) : null;
 }
 
+
+//Sync cart data with localStorage so data is not lost on page reload also 
 function syncActiveCartRestaurantFromCart(cart) {
     const items = cart?.items || [];
     if (!items.length) {
@@ -61,6 +64,7 @@ function showRestaurantMessage(message, tone = "info") {
     pageMessage.textContent = message;
 }
 
+//Get correct cart based on login status
 async function getCurrentCartView() {
     if (isLoggedIn()) {
         return fetchServerCart();
@@ -92,6 +96,7 @@ async function renderCart() {
         return;
     }
 
+    // logged in user cart
     if (isLoggedIn()) {
         cartContainer.innerHTML = items.map((item) => `
             <div class="cart-item">
@@ -110,7 +115,10 @@ async function renderCart() {
         `).join("");
 
         cartTotalElement.textContent = currency(cart.totalPrice);
-    } else {
+    } 
+
+    // guest user cart
+    else {
         cartContainer.innerHTML = items.map((item) => `
             <div class="cart-item">
                 <div class="cart-item-main">
@@ -175,7 +183,7 @@ async function renderCart() {
     });
 }
 
-// Renders all category sections and adds items to cart 
+// Display all categories and menu items
 function renderMenu(categories, menuItemsByCategory) {
     if (!categories.length) {
         menuContainer.innerHTML = `
@@ -226,6 +234,8 @@ function renderMenu(categories, menuItemsByCategory) {
         `;
     }).join("");
 
+
+    //getting all elements having data-add attribute and attach click event listener to add item to cart
     document.querySelectorAll("[data-add]").forEach((button) => {
         button.addEventListener("click", async () => {
             const itemId = Number(button.dataset.add);

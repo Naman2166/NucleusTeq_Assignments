@@ -22,7 +22,7 @@ async function refreshCheckoutUser() {
     checkoutWallet.textContent = currency(user.walletBalance || 0);
 }
 
-//render cart
+//Displays cart items on checkout page
 function renderCheckoutCart(cart) {
     let items = cart?.items || [];
     items.sort((a, b) => a.id - b.id);
@@ -211,7 +211,7 @@ function bindCheckoutOrderActions() {
     });
 }
 
-// Loads active orders for the cart page and starts live countdown updates.
+// Loads active orders for the cart page
 async function loadCheckoutOrders() {
     const allOrders = await fetchUserOrders();
     const activeOrders = allOrders.filter((order) => !["COMPLETED", "CANCELLED"].includes(order.status));

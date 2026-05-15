@@ -6,7 +6,7 @@ const categorySubmitBtn = document.getElementById("categorySubmitBtn");
 const categoryCancelBtn = document.getElementById("categoryCancelBtn");
 const showCategoryFormBtn = document.getElementById("showCategoryFormBtn");
 
-// provides restaurant select boxes used by category and menu forms
+// Fills restaurant dropdowns dynamically
 function populateRestaurantOptions() {
     const options = ownerRestaurants.map((restaurant) => `
         <option value="${restaurant.id}">${restaurant.name}</option>
@@ -14,7 +14,7 @@ function populateRestaurantOptions() {
 
     categoryRestaurant.innerHTML = `<option value="">Choose restaurant</option>${options}`;
 
-    // Also refresh the menu restaurant select if it exists on the page.
+    // Also refresh the menu restaurant select if it exists on the page
     const menuRestaurantEl = document.getElementById("menuRestaurant");
     if (menuRestaurantEl) {
         menuRestaurantEl.innerHTML = `<option value="">Choose restaurant</option>${options}`;
@@ -35,7 +35,7 @@ function resetCategoryForm() {
 }
 
 
-// Renders editable category 
+// display editable category 
 function renderCategoryManagement() {
     ownerCategoriesList.innerHTML = ownerRestaurants.length
         ? ownerRestaurants.map((restaurant) => {
@@ -66,7 +66,7 @@ function renderCategoryManagement() {
         : `<div class="empty-state compact"><h3>No restaurants yet</h3><p>Create a restaurant before adding categories.</p></div>`;
 }
 
-
+//activate edit and delete buttons for categories
 function bindCategoryActions() {
     document.querySelectorAll("[data-edit-category]").forEach((button) => {
         button.addEventListener("click", () => {
@@ -137,7 +137,7 @@ if (categoryForm) {
     });
 }
 
-// Cancel and show-form buttons for categories
+// actiavtes add category button
 function bindCategoryFormButtons() {
     if (categoryCancelBtn) {
         categoryCancelBtn.addEventListener("click", resetCategoryForm);

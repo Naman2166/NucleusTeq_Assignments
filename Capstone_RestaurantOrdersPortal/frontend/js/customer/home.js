@@ -1,12 +1,8 @@
 const restaurantContainer = document.getElementById("restaurantGrid");
-const walletValue = document.getElementById("walletValue");
 let restaurantState = [];
-
 
 //restaurant card grid on home page
 function createRestaurantCard(restaurant) {
-    const categories = (restaurant.categories || []).slice(0, 3).map((item) => `<span class="chip">${item.name}</span>`).join("");
-
     return `
         <article class="restaurant-card panel">
             <div class="restaurant-image-wrap">
@@ -28,7 +24,7 @@ function createRestaurantCard(restaurant) {
     `;
 }
 
-
+//Search restaurants
 function filterRestaurants(query) {
     const cards = document.querySelectorAll(".restaurant-card");
 
@@ -44,7 +40,7 @@ function filterRestaurants(query) {
 }
 
 
-
+//Display all restaurant cards on page
 function renderRestaurantCollections(restaurants) {
     if (!restaurantContainer) {
         return;
@@ -64,14 +60,7 @@ function renderRestaurantCollections(restaurants) {
     });
 }
 
-function renderWalletSummary() {
-    const user = getUser();
-
-    if (walletValue) {
-        walletValue.textContent = user ? currency(user.walletBalance || 1000) : currency(1000);
-    }
-}
-
+//Showing button based on login status
 function renderQuickAction() {
     const quickAction = document.getElementById("quickAction");
 
@@ -97,7 +86,6 @@ window.addEventListener("load", () => {
 async function initHomePage() {
     restaurantState = await getRestaurants();
     renderRestaurantCollections(restaurantState);
-    renderWalletSummary();
     renderQuickAction();
 
     setupSearch("searchInput", (query) => {

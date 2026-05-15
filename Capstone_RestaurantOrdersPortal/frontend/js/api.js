@@ -20,6 +20,7 @@ async function apiFetch(path, options = {}) {
         headers
     });
 
+    //no content return
     if (response.status === 204) {
         return null;
     }
@@ -37,7 +38,7 @@ async function apiFetch(path, options = {}) {
 }
 
 
-// Safe API call that returns null on error for graceful UI handling.
+// Safe API call that returns null on error for UI handling
 async function safeApi(path, options = {}) {
     try {
         return await apiFetch(path, options);

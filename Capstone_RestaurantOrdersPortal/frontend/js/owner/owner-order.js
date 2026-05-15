@@ -19,7 +19,7 @@ function getAllowedStatuses(currentStatus) {
 }
 
 
-// Renders incoming orders
+// display all incoming orders
 function renderIncomingOrders() {
     ownerOrders.innerHTML = ownerOrdersData.length
         ? ownerOrdersData

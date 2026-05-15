@@ -109,7 +109,7 @@ function renderMenuManagement() {
 }
 
 
-//fetching restauarnt with categories
+//display restauarnt with categories
 function renderRestaurant(restaurant) {
     const items = ownerMenuItems[restaurant.id] || [];
     const categories = ownerCategories[restaurant.id] || [];
@@ -141,7 +141,7 @@ function renderRestaurant(restaurant) {
 }
 
 
-//fetching menu items
+//display menu items
 function renderMenuItem(item, restaurantId) {
     return `
         <div class="owner-menu-row compact-row">
@@ -169,7 +169,7 @@ function renderMenuItem(item, restaurantId) {
     `;
 }
 
-// Loading item into form for updating
+// activating menu item edit and delete buttons
 function bindMenuActions() {
     document.querySelectorAll("[data-edit-menu]").forEach((button) => {
         button.addEventListener("click", () => {

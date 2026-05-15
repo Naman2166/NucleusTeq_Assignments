@@ -31,7 +31,7 @@ if (loginForm) {
         const errorMsg = document.getElementById("errorMsg");
         const successMsg = document.getElementById("successMsg");
         const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value.trim();
+        const password = btoa(document.getElementById("password").value.trim());     //here i have converted password in base64 format
 
         showMessage(errorMsg, successMsg);
 
@@ -49,6 +49,14 @@ if (loginForm) {
             localStorage.setItem(APP_KEYS.token, data.token);
             localStorage.setItem(APP_KEYS.role, data.role);
             setUser(data.user);
+
+            //clear server cart and transfer guest cart item to server cart so that cart items still present after login also
+            const guestCart = getGuestCart();
+
+            await clearServerCart();
+            for (const item of guestCart.items) {
+                await addServerCartItem(item.id, item.quantity);
+            }
 
             showMessage(errorMsg, successMsg, "", "Login successful. Redirecting...");
 
@@ -78,14 +86,14 @@ if (registerForm) {
             firstName: formData.get("firstName")?.trim(),
             lastName: formData.get("lastName")?.trim(),
             email: formData.get("email")?.trim(),
-            password: formData.get("password")?.trim(),
+            password: btoa(formData.get("password")?.trim()),       //here i have converted password in base64 format
             phoneNumber: formData.get("phoneNumber")?.trim(),
             role: formData.get("role")
         };
 
         showMessage(regError, regSuccess);
 
-       const { firstName, lastName, email, password, phoneNumber, role } = userData;
+        const { firstName, lastName, email, password, phoneNumber, role } = userData;
 
         if (!firstName && !lastName && !email && !password && !phoneNumber && !role) {
             showMessage(regError, regSuccess, "Form cannot be empty");

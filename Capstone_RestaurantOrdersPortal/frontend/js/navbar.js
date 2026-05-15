@@ -13,7 +13,7 @@ async function renderNavbar() {
 
     //updating user data in local storage
     if (user) {
-        setUser(user); 
+        setUser(user);
     }
     if (!authSection) {
         return;
@@ -35,15 +35,15 @@ async function renderNavbar() {
         ? `<div class="user-pill"></div>`
         : "";
 
-   const links = isLoggedIn()
-    ? `
+    const links = isLoggedIn()
+        ? `
         ${walletPill}
         ${role === "RESTAURANT_OWNER" ? "" : `<a href="index.html" class="nav-link ${activePage === "index.html" ? "active" : ""}">Home</a>`}
         <a href="${role === "RESTAURANT_OWNER" ? "owner.html" : "customer.html"}" class="nav-link ${["customer.html", "owner.html"].includes(activePage) ? "active" : ""}">Dashboard</a>
         ${cartLink}
         <button type="button" class="nav-link" id="logoutBtn">Logout</button>
     `
-    : `
+        : `
       
         <a href="index.html" class="nav-link ${activePage === "index.html" ? "active" : ""}">Home</a>
         <a href="login.html" class="nav-link ${activePage === "login.html" ? "active" : ""}">Login</a>
@@ -59,7 +59,27 @@ async function renderNavbar() {
     const logoutButton = document.getElementById("logoutBtn");
 
     if (logoutButton) {
-        logoutButton.addEventListener("click", () => {
+        logoutButton.addEventListener("click", async () => {
+
+            //clear guest cart and transfer server cart item to guest cart so that cart items still present after logout also
+            const serverCart = await fetchServerCart();
+
+            clearGuestCart();
+            for (const item of serverCart.items || []) {
+                for (let i = 0; i < item.quantity; i++) {
+                    addToGuestCart(
+                        {
+                        id: item.menuItemId,
+                        name: item.menuItemName,
+                        price: item.totalPrice / item.quantity
+                        },
+                        {
+                            id: item.restaurantId
+                        }
+                    );
+                }
+            }
+
             logoutUser();
             window.location.href = "index.html";
         });

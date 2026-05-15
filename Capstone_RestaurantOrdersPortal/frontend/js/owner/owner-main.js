@@ -59,7 +59,7 @@ async function loadOwnerData() {
     populateRestaurantOptions();
 }
 
-
+//Adding click events to navigation buttons
 function bindOwnerNavigation() {
     document.querySelectorAll("[data-owner-view]").forEach((button) => {
         button.addEventListener("click", () => {
@@ -71,7 +71,7 @@ function bindOwnerNavigation() {
     });
 }
 
-
+//Setup all owner form cancel/reset button actions
 function bindOwnerFormCancelButtons() {
     bindRestaurantFormButtons();
     bindCategoryFormButtons();

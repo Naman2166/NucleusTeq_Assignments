@@ -32,7 +32,7 @@ async function refreshCustomerSummary() {
     renderCustomerSummary();
 }
 
-// Renders saved addresses and keeps one valid address selected.
+// Display all saved addresses and keeps one valid address selected.
 function renderAddresses(addresses) {
     if (!addresses.length) {
         localStorage.removeItem(APP_KEYS.selectedAddressId);
@@ -52,6 +52,7 @@ function renderAddresses(addresses) {
         setSelectedAddressId(selectedAddressId);
     }
 
+    //address card
     addressList.innerHTML = addresses.map((address) => `
         <label class="address-card ${String(selectedAddressId) === String(address.id) ? "selected" : ""}">
             <div class="address-main">

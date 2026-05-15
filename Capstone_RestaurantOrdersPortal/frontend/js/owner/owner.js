@@ -80,7 +80,7 @@ function resetRestaurantForm() {
 }
 
 
-// Renders restaurant cards.
+// display restaurant cards
 function renderManagedRestaurants() {
     ownerName.textContent = getUser()?.firstName || "Owner";
 
@@ -115,7 +115,7 @@ function renderManagedRestaurants() {
 }
 
 
-
+// Actiavte edit and delete buttons for restaurants
 function bindRestaurantActions() {
     document.querySelectorAll("[data-edit-restaurant]").forEach((button) => {
         button.addEventListener("click", () => {

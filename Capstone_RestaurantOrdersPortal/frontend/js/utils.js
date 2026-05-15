@@ -37,11 +37,12 @@ function isLoggedIn() {
     return Boolean(getToken());
 }
 
-function logoutUser() {
+async function logoutUser() {
     localStorage.removeItem(APP_KEYS.token);
     localStorage.removeItem(APP_KEYS.user);
     localStorage.removeItem(APP_KEYS.role);
     localStorage.removeItem(APP_KEYS.selectedAddressId);
+    await clearServerCart();
 }
 
 
@@ -60,6 +61,7 @@ function formatDate(value) {
     }).format(new Date(value));
 }
 
+//Returning CSS class based on status
 function statusTone(status) {
     const tones = {
         OPEN: "success",
@@ -74,6 +76,8 @@ function statusTone(status) {
     return tones[status] || "neutral";
 }
 
+
+//Extracting error message from backend response
 function getErrorMessage(payload) {
     if (!payload) {
         return "Something went wrong.";
@@ -92,7 +96,8 @@ function getErrorMessage(payload) {
 }
 
 
-// image handling
+// image handling 
+// Getting saved image URLs from localStorage
 function getImageOverrides() {
     const raw = localStorage.getItem(APP_KEYS.imageOverrides);
     if (!raw) {
@@ -110,10 +115,12 @@ function getImageOverrides() {
     }
 }
 
+//Saves image data in localstorage
 function setImageOverrides(overrides) {
     localStorage.setItem(APP_KEYS.imageOverrides, JSON.stringify(overrides));
 }
 
+//Stores restaurant image URL in localStorage 
 function rememberRestaurantImage(restaurantId, imageUrl) {
     if (!restaurantId || !imageUrl) return;
     const overrides = getImageOverrides();
@@ -128,6 +135,7 @@ function rememberMenuItemImage(menuItemId, imageUrl) {
     setImageOverrides(overrides);
 }
 
+//Add locally saved images to restaurant objects even if backend not return them
 function applyRestaurantImageOverrides(restaurants) {
     const restaurantMap = getImageOverrides().restaurants;
     return (restaurants || []).map((restaurant) => ({
@@ -146,6 +154,7 @@ function applyMenuImageOverrides(items) {
 
 
 // cart for not logged-in users
+// Getting cart from localStorage
 function getGuestCart() {
     return JSON.parse(localStorage.getItem(APP_KEYS.guestCart)) || {
         restaurantId: null,
@@ -154,6 +163,7 @@ function getGuestCart() {
     };
 }
 
+//Saves guest cart
 function setGuestCart(cart) {
     localStorage.setItem(APP_KEYS.guestCart, JSON.stringify(cart));
 }
@@ -209,12 +219,28 @@ function updateGuestCartQuantity(itemId, quantity) {
 
 function clearGuestCart() {
     setGuestCart({ restaurantId: null, restaurantName: "", items: [] });
+    localStorage.removeItem(APP_KEYS.guestCart);
+    localStorage.removeItem(APP_KEYS.activeCartRestaurantId);
 }
 
+async function clearServerCart() {
+    const cart = await fetchServerCart();
+    const items = cart?.items || [];
+
+    for (const item of items) {
+        await removeServerCartItem(item.id);
+    }
+
+    localStorage.removeItem(APP_KEYS.activeCartRestaurantId);
+}
+
+
+//Calculates total price of items in guest cart
 function getGuestCartTotal(cart = getGuestCart()) {
     return cart.items.reduce((total, item) => total + Number(item.price) * Number(item.quantity), 0);
 }
 
+//Counts total items in guest cart
 function getGuestCartCount() {
     return getGuestCart().items.reduce((total, item) => total + Number(item.quantity), 0);
 }
@@ -230,7 +256,7 @@ function setSelectedAddressId(addressId) {
 }
 
 
-// wallet helper
+// wallet helper, here updating wallet amount
 function adjustWalletBalance(delta) {
     const user = getUser();
 
@@ -258,6 +284,7 @@ function getQueryParam(name) {
 }
 
 
+//creating full image url path 
 function resolveImageUrl(imageUrl) {
     if (!imageUrl) {
         return "";
