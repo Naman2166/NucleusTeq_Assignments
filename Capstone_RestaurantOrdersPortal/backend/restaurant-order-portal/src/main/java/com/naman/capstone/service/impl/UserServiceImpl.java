@@ -18,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.Base64;
 
 /**
  * this class contains logic for all user operations
@@ -55,8 +56,11 @@ public class UserServiceImpl implements UserService {
             throw new UserAlreadyExistsException("User with this email already exists");
         }
 
+        //decode base64 password sent from frontend to original form
+        String decodedPassword = new String(Base64.getDecoder().decode(requestDto.getPassword()));
+
         User user = UserMapper.toEntity(requestDto);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));     //here we have encrypted password before saving
+        user.setPassword(passwordEncoder.encode(decodedPassword));        //here i have encrypted password before saving
         user.setWalletBalance(AppConstants.DEFAULT_WALLET_BALANCE);       //setting default wallet balance
 
         User savedUser =  userRepository.save(user);
@@ -75,11 +79,15 @@ public class UserServiceImpl implements UserService {
     public LoginResponseDTO login(LoginRequestDTO requestDto) {
         logger.info("login request received for user with email: {}", requestDto.getEmail());
 
+        //decode base64 password sent from frontend to original form
+        String decodedPassword = new String(Base64.getDecoder().decode(requestDto.getPassword()));
+
         //authenticate user credentials
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         requestDto.getEmail(),
-                        requestDto.getPassword())
+                        decodedPassword
+                )
         );
 
         //fetching user from database
