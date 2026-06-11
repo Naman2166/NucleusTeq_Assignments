@@ -4,6 +4,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+### hiding application-local.properties and uploads folder from github ###
+src/main/resources/application-local.properties
+uploads/
+
 ### STS ###
 .apt_generated
 .classpath
