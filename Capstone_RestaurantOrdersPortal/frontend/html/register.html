@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+
+<body>
+
+    <div class="auth-container">
+
+        <!-- text section -->
+        <div class="auth-left">
+            <h1>Create Account</h1>
+            <p>
+                Register as a customer or restaurant owner <br>
+                Customers can order food easily and track orders. <br>
+                Owners can manage restaurants and menus.
+            </p>
+        </div>
+
+        <!-- form secction -->
+        <div class="auth-box">
+
+            <p class="close-btn-register" onclick="goHome()">X</p>
+
+            <h2>Register</h2>
+
+            <form id="registerForm" class="form-grid">
+
+                <div>
+                    <label>First Name</label>
+                    <input name="firstName" type="text" placeholder="Naman">
+                </div>
+
+                <div>
+                    <label>Last Name</label>
+                    <input name="lastName" type="text" placeholder="Patel">
+                </div>
+
+                <div>
+                    <label>Email</label>
+                    <input name="email" type="email" placeholder="example@email.com">
+                </div>
+
+                <div>
+                    <label>Phone</label>
+                    <input name="phoneNumber" type="text" placeholder="0000000000">
+                </div>
+
+                <div class="">
+                    <label>Password</label>
+                    <input name="password" type="password" placeholder="Enter password">
+                </div>
+
+                <div class="">
+                    <label>Role</label>
+                    <select name="role">
+                        <option value="">Select role</option>
+                        <option value="USER">Customer</option>
+                        <option value="RESTAURANT_OWNER">Restaurant Owner</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="full-width">Create Account</button>
+
+            </form>
+
+            <p id="regError" class="error-msg"></p>
+            <p id="regSuccess" class="success-msg"></p>
+
+            <p class="bottom-text">
+                Already have an account?
+                <a href="login.html">Login</a>
+            </p>
+        </div>
+
+    </div>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/auth.js"></script>
+
+</body>
+
+</html>

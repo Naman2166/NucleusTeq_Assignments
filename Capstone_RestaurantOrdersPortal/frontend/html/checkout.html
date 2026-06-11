@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/owner.css">
+</head>
+<body>
+
+    <!-- navbar -->
+    <header class="navbar">
+        <div class="navbar-inner">
+            <div class="logo">
+                <img src="../assets/images/logo.png" alt="Logo" class="logo-icon">
+                <a href="index.html" class="brand-mark">FoodBazaar</a>
+            </div>
+            <div class="nav-cluster">
+                <div id="authSection" class="auth-actions"></div>
+            </div>
+        </div>
+    </header>
+
+
+    <main class="page-shell checkout-shell">
+
+        <!-- information section -->
+        <section class="dashboard-hero panel">
+            <div>
+                <p class="eyebrow">Checkout</p>
+                <h1>Review and place order</h1>
+                <p class="hero-text">Confirm your cart, choose a delivery address, and place the order only when everything looks right.</p>
+            </div>
+            <div class="wallet-panel">
+                <p class="eyebrow">Wallet balance</p>
+                <h2 id="checkoutWallet">INR 0</h2>
+                <a href="index.html#discover" class="secondary-btn">Add more items</a>
+            </div>
+        </section>
+
+        <!-- suceess or error message -->
+        <p id="checkoutMessage" class="banner"></p>
+
+
+        <section class="checkout-stack">
+            <!-- cart section -->
+            <article class="panel checkout-panel">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Cart</p>
+                        <h2>Your items</h2>
+                    </div>
+                    <div id="checkoutCartHeaderActions" class="inline-actions"></div>
+                </div>
+                <div id="checkoutCart" class="stack"></div>
+            </article>
+
+            <!-- address section -->
+            <article class="panel checkout-panel">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Delivery</p>
+                        <h2>Choose available address</h2>
+                    </div>
+                </div>
+                <div id="checkoutAddresses" class="stack"></div>
+                <a href="customer.html#addressSection" class="secondary-btn full-width checkout-address-form">Add address</a>
+                <button id="confirmOrderBtn" class="primary-btn full-width checkout-confirm-btn">Place order</button>
+            </article>
+        
+            <!-- order cancellation section -->
+            <article class="panel checkout-panel">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Order cancellation</p>
+                        <h2>Cancel within 30 seconds</h2>
+                    </div>
+                </div>
+                <div id="checkoutActiveOrders" class="order-history-grid"></div>
+            </article>
+        </section>
+
+    </main>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/customer/checkout.js"></script>
+</body>
+</html>

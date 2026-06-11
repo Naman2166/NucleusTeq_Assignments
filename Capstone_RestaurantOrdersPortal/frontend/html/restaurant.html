@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu</title>
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/restaurant.css">
+</head>
+<body>
+
+    <!-- navbar -->
+    <header class="navbar">
+        <div class="navbar-inner">
+            <div class="logo">
+                <img src="../assets/images/logo.png" alt="Logo" class="logo-icon">
+                <a href="index.html" class="brand-mark">FoodBazaar</a>
+            </div>
+            <div class="nav-cluster">
+                <div id="authSection" class="auth-actions"></div>
+            </div>
+        </div>
+    </header>
+
+    
+
+    <main class="page-shell">
+
+        <!-- restaurant detail section -->
+        <section class="restaurant-hero panel">
+            <div>
+                <p class="eyebrow">Restaurant Detail</p>
+                <h1 id="restaurantName">Loading...</h1>
+                <p id="restaurantDescription" class="hero-text">Fetching restaurant details and menu categories.</p>
+                <div class="hero-meta">
+                    <span id="restaurantAddress" class="chip">Address loading</span>
+                    <span id="restaurantStatus"></span>
+                </div>
+            </div>
+            <div class="hero-actions">
+                <a href="index.html" class="ghost-btn">Explore Restaurants</a>
+            </div>
+        </section>
+
+        <!-- display success or error message -->
+        <p id="restaurantMessage" class="banner"></p>
+
+
+        <!-- menu and cart section -->
+        <section class="restaurant-layout">
+            <div id="menuContainer" class="menu-column"></div>
+            <aside class="cart-column panel">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Cart</p>
+                        <h2>Ready to checkout</h2>
+                    </div>
+                </div>
+                <div id="cartContainer"></div>
+                <div class="cart-footer">
+                    <div class="list-row emphasis">
+                        <span>Total</span>
+                        <strong id="cartTotal">INR 0</strong>
+                    </div>
+                    <button id="placeOrderBtn" class="primary-btn full-width">Checkout</button>
+                </div>
+            </aside>
+        </section>
+
+    </main>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/customer/restaurant.js"></script>
+</body>
+</html>

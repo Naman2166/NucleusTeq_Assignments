@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Dashboard</title>
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/owner.css">
+</head>
+
+<body class="owner-page">
+
+    <!-- navbar -->
+    <header class="navbar">
+        <div class="navbar-inner">
+            <div class="logo">
+                <img src="../assets/images/logo.png" alt="Logo" class="logo-icon">
+                <a href="index.html" class="brand-mark">FoodBazaar</a>
+            </div>
+            <div class="nav-cluster">
+                <div id="authSection" class="auth-actions"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-shell owner-shell">
+        <section class="dashboard-hero panel owner-hero">
+            <div>
+                <p class="eyebrow">Owner Dashboard</p>
+                <h1>Welcome, <span id="ownerName">Owner</span></h1>
+                <p class="hero-text">Create restaurants, build categories, publish menu items, and process incoming orders</p>
+            </div>
+        </section>
+
+        <!-- success or error message  -->
+        <p id="ownerMessage" class="banner"></p>
+
+
+        <section class="owner-workspace">
+
+            <!-- sidebar -->
+            <aside class="owner-sidebar">
+                <button class="owner-nav-item active" data-owner-view="restaurants">Dashboard</button>
+                <button class="owner-nav-item" data-owner-view="categories">Categories</button>
+                <button class="owner-nav-item" data-owner-view="menu">Menu</button>
+                <button class="owner-nav-item" data-owner-view="orders">Orders</button>
+            </aside>
+
+            <div class="owner-main">
+
+                <!-- restaurant management section -->
+                <section class="owner-panel active" data-owner-panel="restaurants">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">Restaurant management</p>
+                            <h2 id="restaurantFormTitle">Restaurants</h2>
+                        </div>
+                        <button type="button" class="primary-btn compact" id="showRestaurantFormBtn">
+                            Add restaurant
+                        </button>
+                    </div>
+
+                    <!--restauarnt add and update form -->
+                    <form id="restaurantForm" class="stack form-stack owner-form-row hidden-form">
+                        <h2 class="restauarntTitle">Restaurant</h2>
+                        <input name="id" type="hidden">
+                        <input name="imageUrl" type="hidden">
+                        <input name="name" type="text" placeholder="Restaurant name" required>
+                        <input name="address" type="text" placeholder="Address" required>
+                        <input name="description" type="text" placeholder="Description" required>
+                        <div class="owner-image-field">
+                            <img id="restaurantImagePreview" class="owner-form-preview" alt="Restaurant preview" />
+                            <input id="restaurantImageFile" name="imageFile" type="file" accept="image/*">
+                        </div>
+                        <select name="status">
+                            <option value="OPEN">OPEN</option>
+                            <option value="CLOSED">CLOSED</option>
+                        </select>
+                        <div class="form-action-row">
+                            <button type="submit" class="primary-btn" id="restaurantSubmitBtn">Save restaurant</button>
+                            <button type="button" class="ghost-btn" id="restaurantCancelBtn">Cancel</button>
+                        </div>
+                    </form>
+
+                    <div id="managedRestaurants" class="owner-restaurant-grid"></div>
+                </section>
+
+
+                <!-- category management section -->
+                <section class="owner-panel" data-owner-panel="categories">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">Category management</p>
+                            <h2 id="categoryFormTitle">Categories</h2>
+                        </div>
+                        <button type="button" class="primary-btn compact" id="showCategoryFormBtn">Add category</button>
+                    </div>
+                    <form id="categoryForm" class="stack form-stack owner-form-row hidden-form">
+                        <h2 class="categoryTitle">Categories</h2>
+                        <input name="id" type="hidden">
+                        <select id="categoryRestaurant" name="restaurantId" required></select>
+                        <input name="name" type="text" placeholder="Category name" required>
+                        <div class="form-action-row">
+                            <button type="submit" class="primary-btn" id="categorySubmitBtn">Save category</button>
+                            <button type="button" class="ghost-btn" id="categoryCancelBtn">Cancel</button>
+                        </div>
+                    </form>
+                    <div id="ownerCategoriesList" class="owner-restaurant-grid"></div>
+                </section>
+
+
+                <!-- menu management section -->
+                <section class="owner-panel" data-owner-panel="menu">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">Menu management</p>
+                            <h2 id="menuFormTitle">Menu Items</h2>
+                        </div>
+                        <button type="button" class="primary-btn compact" id="showMenuFormBtn">Add menu item</button>
+                    </div>
+                    <form id="menuItemForm" class="stack form-stack owner-form-row hidden-form">
+                        <h2 class="menuItemTitle">Menu Items</h2>
+
+                        <input name="id" type="hidden">
+                        <input name="imageUrl" type="hidden">
+                        <select id="menuRestaurant" name="restaurantId" required></select>
+                        <select id="menuCategory" name="categoryId" required></select>
+                        <input name="name" type="text" placeholder="Item name" required>
+                        <input name="price" type="number" min="1" placeholder="Price" required>
+                        <div class="owner-image-field">
+                            <img id="menuItemImagePreview" class="owner-form-preview" alt="Menu item preview" />
+                            <input id="menuItemImageFile" name="imageFile" type="file" accept="image/*">
+                        </div>
+                        <div class="form-action-row">
+                            <button type="submit" class="primary-btn" id="menuSubmitBtn">Save item</button>
+                            <button type="button" class="ghost-btn" id="menuCancelBtn">Cancel update</button>
+                        </div>
+                    </form>
+                    <div id="ownerMenuList" class="owner-restaurant-grid"></div>
+                </section>
+
+
+                <!-- orders management section -->
+                <section class="owner-panel" data-owner-panel="orders">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">Incoming orders</p>
+                            <h2>Process customer orders</h2>
+                        </div>
+                    </div>
+                    <div id="ownerOrders" class="order-history-grid"></div>
+                </section>
+
+            </div>
+        </section>
+    </main>
+
+    <script src="../js/config.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/owner/owner-main.js"></script>
+    <script src="../js/owner/owner.js"></script>
+    <script src="../js/owner/owner-category.js"></script>
+    <script src="../js/owner/owner-menu.js"></script>
+    <script src="../js/owner/owner-order.js"></script>
+    <script>initOwnerPage();</script>
+
+</body>
+
+</html>

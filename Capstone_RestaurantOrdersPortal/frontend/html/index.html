@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Orders Portal</title>
+    <link rel="stylesheet" href="../css/app.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/home.css">
+</head>
+
+<body>
+    <header class="navbar">
+        <div class="navbar-inner">
+            <div class="logo">
+                <img src="../assets/images/logo.png" alt="Logo" class="logo-icon">
+                <a href="index.html" class="brand-mark">FoodBazaar</a>
+            </div>
+            <div class="nav-cluster">
+                <div id="authSection" class="auth-actions"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- home page banner -->
+    <section class="hero-block">
+        <div class="hero-copy">
+            <p class="eyebrow">Restaurant Orders Portal</p>
+            <h1>Food ordering made simple and quick</h1>
+            <p class="hero-text">
+                Explore restaurants, order meals, and manage everything in one place.
+            </p>
+
+            <div class="hero-actions">
+                <a href="#discover" class="primary-btn">Explore Restaurants</a>
+                <span id="quickAction"></span>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- restauarnt list section -->
+    <section id="discover" class="section-block">
+        <div id="head" class="section-heading">
+            <div>
+                <p class="eyebrow">Restaurants</p>
+                <h2>Browse menus and place your order</h2>
+            </div>
+            <div class="hero-search">
+                <input type="text" id="searchInput" placeholder="Search restaurants">
+                <button id="searchBtn">Search</button>
+            </div>
+        </div>
+
+        <!-- restauarnt grid container -->
+        <div id="restaurantGrid" class="restaurant-grid"></div>   
+    </section>
+
+
+    <script src="../js/config.js"></script>
+    <script src="../js/utils.js"></script>
+    <script src="../js/api.js"></script>
+    <script src="../js/navbar.js"></script>
+    <script src="../js/customer/home.js"></script>
+</body>
+
+</html>
