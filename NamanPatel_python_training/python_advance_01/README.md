@@ -1,6 +1,6 @@
 # Python Advance Assignment 1
 
-Python advance 1 training assignments covering exception handling, iterators, generators, functional programming, regular expressions, testing, debugging, packaging, threading, and multiprocessing.
+Python advance assignment 1 covering exception handling, iterators, generators, functional programming, regular expressions, testing, debugging, packaging, threading, and multiprocessing.
 
 ---
 
