@@ -43,6 +43,12 @@ class UserLogin(BaseModel):
     )
 
 
+class LoginResponse(BaseModel):
+    access_token: str
+    role: str
+    token_type: str    
+
+
 class UserResponse(BaseModel):
     """
     Schema for returning user information

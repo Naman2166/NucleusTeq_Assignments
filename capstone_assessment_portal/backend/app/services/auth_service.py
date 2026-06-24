@@ -3,7 +3,7 @@ Authentication business logic
 """
 
 from app.config.database import db
-from app.schemas.user_schema import (UserRegister, UserLogin)
+from app.schemas.user_schema import (LoginResponse, UserRegister, UserLogin)
 from app.security.password import (hash_password, verify_password)
 from app.security.jwt_handler import create_token
 from app.utils.constants import STUDENT
@@ -49,8 +49,9 @@ class AuthService:
 
         token = create_token(existing_user)
 
-        return {
-            "access_token": token,
-            "token_type": "bearer"
-        }
+        return LoginResponse(
+            access_token=token,
+            role=existing_user["role"],
+            token_type="bearer"
+        )
     
