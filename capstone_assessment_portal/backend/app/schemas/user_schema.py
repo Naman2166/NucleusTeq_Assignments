@@ -45,6 +45,7 @@ class UserLogin(BaseModel):
 
 class LoginResponse(BaseModel):
     access_token: str
+    refresh_token: str
     role: str
     token_type: str    
 
@@ -58,3 +59,11 @@ class UserResponse(BaseModel):
     last_name: str
     email: EmailStr
     role: str
+
+
+class RefreshTokenRequest(BaseModel):
+    refresh_token: str
+
+class RefreshTokenResponse(BaseModel):
+    access_token: str
+    token_type: str

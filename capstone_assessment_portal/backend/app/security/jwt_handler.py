@@ -11,23 +11,48 @@ load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES"))
+REFRESH_TOKEN_EXPIRE_DAYS = int(os.getenv("REFRESH_TOKEN_EXPIRE_DAYS"))
 
 
-def create_token(existing_user: dict) -> str:         
+def create_access_token(existing_user: dict) -> str:         
     """
-    Create JWT token
+    Create JWT Access token
     """   
 
-    # token expire after 2 hrs
-    expiry = datetime.now(timezone.utc) + timedelta(hours=2)
+    # access token expire after 15 minutes
+    expiry = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
 
     # creating payload
     payload = {
         "user_id": str(existing_user["_id"]),
         "email": existing_user["email"],
         "role": existing_user["role"],
-        "exp": expiry
+        "exp": expiry,
+        "type": "access"
     }     
+
+    token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
+
+    return token
+
+
+
+def create_refresh_token(existing_user: dict) -> str:
+    """
+    Create JWT refresh token
+    """
+
+    # Refresh token expires after 7 days
+    expiry = datetime.now(timezone.utc) + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
+
+    payload = {
+        "user_id": str(existing_user["_id"]),
+        "email": existing_user["email"],
+        "role": existing_user["role"],
+        "exp": expiry,
+        "type": "refresh"
+    }
 
     token = jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
@@ -37,7 +62,7 @@ def create_token(existing_user: dict) -> str:
 
 def verify_token(token: str):
     """
-    Verify JWT token
+    Verify token
     """
     payload  = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
 

@@ -3,9 +3,9 @@ Authentication business logic
 """
 
 from app.config.database import db
-from app.schemas.user_schema import (LoginResponse, UserRegister, UserLogin)
+from app.schemas.user_schema import (LoginResponse, UserRegister, UserLogin, RefreshTokenResponse)
 from app.security.password import (hash_password, verify_password)
-from app.security.jwt_handler import create_token
+from app.security.jwt_handler import (create_access_token, create_refresh_token, verify_token)
 from app.utils.constants import STUDENT
 
 
@@ -47,11 +47,38 @@ class AuthService:
         if not verify_password( user.password, existing_user["password"]):
             raise ValueError("Invalid email or password")
 
-        token = create_token(existing_user)
+        access_token = create_access_token(existing_user)
+        refresh_token = create_refresh_token(existing_user)
 
         return LoginResponse(
-            access_token=token,
-            role=existing_user["role"],
-            token_type="bearer"
+            access_token = access_token,
+            refresh_token = refresh_token,
+            role = existing_user["role"],
+            token_type = "bearer"
         )
+    
+
+
+    @staticmethod
+    async def regenerate_access_token(refresh_token: str):
+        """
+        Regenerate access token using refresh token
+        """
+
+        payload = verify_token(refresh_token)
+
+        if payload["type"] != "refresh":
+            raise ValueError("Invalid refresh token")
+
+        access_token = create_access_token({
+            "_id": payload["user_id"],
+            "email": payload["email"],
+            "role": payload["role"]
+        })
+
+        return RefreshTokenResponse(
+            access_token = access_token,
+            token_type = "bearer"
+        )
+            
     
