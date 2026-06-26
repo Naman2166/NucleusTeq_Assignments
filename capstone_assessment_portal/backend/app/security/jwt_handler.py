@@ -5,7 +5,7 @@ Functions for creating and verifying JWT tokens
 from datetime import datetime, timedelta, timezone
 from jose import jwt
 from dotenv import load_dotenv
-from utils.logger import logger
+from app.utils.logger import logger
 import os
 
 load_dotenv()
