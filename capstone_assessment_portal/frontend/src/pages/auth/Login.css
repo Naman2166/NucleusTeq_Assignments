@@ -69,7 +69,7 @@ body{
 .login-card input{
     padding:15px;
     margin-bottom:18px;
-    border:1px solid #ddd;
+    border:1px solid #c2bebe;
     border-radius:8px;
     font-size:16px;
     outline:none;
@@ -114,4 +114,87 @@ body{
     width:100%;
     height:100%;
     object-fit:cover;
+}
+
+.error-message {
+  display: block;
+  color: #b90b0b;
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  margin-left: 5px;
+}
+
+.success-message {
+  display: block;
+  color: #0cad04;
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 10px;
+  margin-left: 5px;
+}
+
+/* Responsive styles for tablet */
+@media (max-width: 992px) {
+    .login-box {
+        width: 90%;
+        height: auto;
+    }
+
+    .login-right {
+        width: 100%;
+        padding: 40px;
+    }
+
+    .login-card {
+        max-width: 450px;
+    }
+}
+
+/* Responsive styles for mobile */
+@media (max-width: 700px) {
+
+    .login-container {
+        padding: 20px;
+    }
+
+    .login-box {
+        width: 100%;
+        border-radius: 15px;
+    }
+
+    .login-left{
+        display: none;
+    }
+
+    .login-right {
+        padding: 30px 20px;
+    }
+
+    .login-card h1 {
+        font-size: 32px;
+    }
+
+    .login-card h3 {
+        font-size: 18px;
+    }
+
+    .login-card p {
+        font-size: 15px;
+    }
+
+    .login-card input,
+    .login-card button {
+        font-size: 15px;
+        padding: 14px;
+    }
+
+    .error-message,
+    .success-message {
+        font-size: 13px;
+    }
+
+    .bottom-text {
+        font-size: 14px;
+    }
 }
