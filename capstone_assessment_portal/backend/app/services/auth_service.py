@@ -7,6 +7,7 @@ from app.schemas.user_schema import (LoginResponse, UserRegister, UserLogin, Ref
 from app.security.password import (hash_password, verify_password)
 from app.security.jwt_handler import (create_access_token, create_refresh_token, verify_token)
 from app.utils.constants import STUDENT
+from app.utils.logger import logger
 
 
 class AuthService:
@@ -16,18 +17,19 @@ class AuthService:
         """
         Register a new user
         """
-
+        logger.info(f"Registering user: {user.email}")
         existing_user = await db.users.find_one({"email": user.email})
 
         if existing_user:  
             raise ValueError("Email already exists")
         
-        user_data = user.model_dump()         # it converts user model to dictionary 
+        user_data = user.model_dump()         # converts user model to dictionary 
         user_data["role"] = STUDENT
         user_data["password"] = hash_password(user.password)
 
         # user saved to db
         await db.users.insert_one(user_data)
+        logger.info(f"User registered successfully: {user.email}")
 
         return {"message": "User registered successfully"}
 
@@ -38,10 +40,11 @@ class AuthService:
         """
         Login user
         """
-
+        logger.info(f"Login attempt: {user.email}")
         existing_user = await db.users.find_one({"email": user.email})
 
         if not existing_user:
+            logger.warning(f"Login failed. User not found: {user.email}")
             raise ValueError("Invalid email or password")
 
         if not verify_password( user.password, existing_user["password"]):
@@ -49,6 +52,8 @@ class AuthService:
 
         access_token = create_access_token(existing_user)
         refresh_token = create_refresh_token(existing_user)
+
+        logger.info(f"Login successful: {user.email}")
 
         return LoginResponse(
             access_token = access_token,
@@ -64,10 +69,11 @@ class AuthService:
         """
         Regenerate access token using refresh token
         """
-
+        logger.info("Refresh token request received")
         payload = verify_token(refresh_token)
 
         if payload["type"] != "refresh":
+            logger.warning("Invalid refresh token received")
             raise ValueError("Invalid refresh token")
 
         access_token = create_access_token({
@@ -75,6 +81,8 @@ class AuthService:
             "email": payload["email"],
             "role": payload["role"]
         })
+
+        logger.info(f"Access token regenerated for: {payload['email']}")
 
         return RefreshTokenResponse(
             access_token = access_token,

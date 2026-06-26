@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from app.schemas.user_schema import (UserRegister, UserLogin, RefreshTokenRequest)
 from app.services.auth_service import AuthService
 from app.security.auth import require_admin, require_student
-from utils.logger import logger
+from app.utils.logger import logger
 
 
 router = APIRouter(
