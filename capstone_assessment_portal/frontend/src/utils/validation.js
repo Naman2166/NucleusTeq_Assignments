@@ -7,6 +7,10 @@ export const validateForm = (formData) => {
        return "Form cannot be empty" 
   }
 
+  if (formData.password.length < 2 || formData.password.length > 20) {
+    return "Password must be between 2 to 20 characters";
+  }
+
   // when any field is empty
   for (const field in formData) {
       if (!formData[field].trim()) {
