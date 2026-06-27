@@ -1,5 +1,8 @@
 // function to Validate Login and Register form
 
+import validator from "validator";
+
+
 export const validateForm = (formData) => {
 
   // when all fields are empty
@@ -7,8 +10,9 @@ export const validateForm = (formData) => {
        return "Form cannot be empty" 
   }
 
-  if (formData.password.length < 2 || formData.password.length > 20) {
-    return "Password must be between 2 to 20 characters";
+  // email validation
+  if (formData.email && !validator.isEmail(formData.email)) {
+    return "Please enter a valid email address";
   }
 
   // when any field is empty
@@ -17,6 +21,11 @@ export const validateForm = (formData) => {
        return `${field.replace("_", " ")} is required`;
       }
   }
-  
+
+  // password validation
+  if (formData.password.length < 5 || formData.password.length > 20) {
+    return "Password must be between 5 to 20 characters";
+  }
+
   return null;
 };
