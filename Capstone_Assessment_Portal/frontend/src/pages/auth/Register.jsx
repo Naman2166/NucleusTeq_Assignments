@@ -67,11 +67,11 @@ function Register() {
           <div className="register-card">
 
             <h1>Register</h1>
-            <h3>Assessment Portal</h3>
             <p>Create Account to get started</p>
 
             <form onSubmit={handleSubmit}>
 
+              <label>First Name :</label>
               <input
                 type="text"
                 name="first_name"
@@ -80,6 +80,7 @@ function Register() {
                 onChange={handleChange}
               />
 
+              <label>Last Name :</label>
               <input
                 type="text"
                 name="last_name"
@@ -88,6 +89,7 @@ function Register() {
                 onChange={handleChange}
               />
 
+              <label>Email :</label>
               <input
                 type="text"
                 name="email"
@@ -96,6 +98,7 @@ function Register() {
                 onChange={handleChange}
               />
 
+              <label>Password :</label>
               <input
                 type="password"
                 name="password"

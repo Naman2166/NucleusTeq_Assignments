@@ -83,10 +83,11 @@ function Login() {
           <div className="login-card">
 
             <h1>Login</h1>
-            <h3>Assessment Portal</h3>
             <p>Welcome Back</p>
 
             <form onSubmit={handleSubmit}>
+
+              <label>Email :</label>
               <input
                 type="text"
                 name="email"
@@ -95,6 +96,7 @@ function Login() {
                 onChange={handleChange}
               />
 
+              <label>Password :</label>
               <input
                 type="password"
                 name="password"
