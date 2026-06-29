@@ -7,6 +7,9 @@ from app.schemas.category_schema import CategoryCreate, CategoryUpdate
 from bson import ObjectId
 from bson.errors import InvalidId
 from app.utils.logger import logger
+from app.exceptions.conflict_exception import ConflictException
+from app.exceptions.bad_request_exception import BadRequestException
+from app.exceptions.resource_not_found_exception import ResourceNotFoundException
 
 
 async def get_all_categories():
@@ -35,7 +38,7 @@ async def create_category(category: CategoryCreate):
     existing_category = await db.categories.find_one({"name": category.name.strip()})
 
     if existing_category:
-        raise ValueError("Category already exists")
+        raise ConflictException("Category already exists")
 
     # inserting new category in db
     await db.categories.insert_one({
@@ -59,13 +62,13 @@ async def update_category(category_id: str, category: CategoryUpdate):
     try:
         object_id = ObjectId(category_id)
     except InvalidId:
-        raise ValueError("Invalid category Id")
+        raise BadRequestException("Invalid category Id")
 
     # Checking if category exists or not
     existing_category = await db.categories.find_one({"_id": object_id})
 
     if not existing_category:
-        raise ValueError("Category not found")
+        raise ResourceNotFoundException("Category not found")
 
     update_data = {}
 
@@ -77,7 +80,7 @@ async def update_category(category_id: str, category: CategoryUpdate):
         })
 
         if duplicate_category:
-            raise ValueError("Category already exists")
+            raise ConflictException("Category already exists")
         
         update_data["name"] = category.name.strip()
 
@@ -105,13 +108,13 @@ async def delete_category(category_id: str):
     try:
         object_id = ObjectId(category_id)
     except InvalidId:
-        raise ValueError("Invalid category object_id")
+        raise BadRequestException("Invalid category object_id")
 
     # Check if category exists or not
     existing_category = await db.categories.find_one({"_id": object_id})
 
     if not existing_category:
-        raise ValueError("Category not found")
+        raise ResourceNotFoundException("Category not found")
 
     await db.categories.delete_one({"_id": object_id})
 
