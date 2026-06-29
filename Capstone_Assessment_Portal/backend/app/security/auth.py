@@ -5,10 +5,11 @@ Provides methods for validating tokens and checking user access
 from fastapi import Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from app.security.jwt_handler import verify_token
-from app.utils.constants import ADMIN, STUDENT
 from app.utils.logger import logger
-from app.exceptions.forbidden_exception import ForbiddenException
-from app.exceptions.unauthorized_exception import UnauthorizedException
+from app.exceptions.custom_exceptions import ForbiddenException
+from app.exceptions.custom_exceptions import UnauthorizedException
+from app.utils.constants import (Role, ExceptionMessage)
+
 
 # Extract token from request header
 security = HTTPBearer()
@@ -30,7 +31,7 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
     
     except Exception:
         logger.warning("Invalid or expired token received")
-        raise UnauthorizedException("Invalid or expired token")
+        raise UnauthorizedException(ExceptionMessage.INVALID_TOKEN)
 
 
 
@@ -40,8 +41,8 @@ def require_admin(user = Depends(get_current_user)):
     """
     logger.info(f"Checking admin access for {user['email']}")
 
-    if user.get("role") != ADMIN:
-        raise ForbiddenException("Admin access required")
+    if user.get("role") != Role.ADMIN:
+        raise ForbiddenException(ExceptionMessage.ADMIN_ACCESS_REQUIRED)
     
     logger.info(f"Admin access granted for {user['email']}")
     
@@ -55,8 +56,8 @@ def require_student(user = Depends(get_current_user)):
     """
     logger.info(f"Checking student access for {user['email']}")
     
-    if user.get("role") != STUDENT:
-        raise ForbiddenException("Student access required")
+    if user.get("role") != Role.STUDENT:
+        raise ForbiddenException(ExceptionMessage.STUDENT_ACCESS_REQUIRED)
     
     logger.info(f"Student access granted for {user['email']}")
     
