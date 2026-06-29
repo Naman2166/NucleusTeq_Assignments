@@ -11,3 +11,6 @@ __pycache__/
  
 # Pytest
 .pytest_cache/
+
+# Encryption Keys
+app/keys/*.pem

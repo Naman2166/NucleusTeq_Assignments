@@ -1,5 +1,6 @@
 from fastapi import Depends, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.exceptions.global_exception_handler import register_exception_handlers
 from app.routes.auth_routes import router as auth_router
 from app.routes.category_routes import router as category_router
 
@@ -13,6 +14,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# custom exception handlers
+register_exception_handlers(app)
 
 # routers
 app.include_router(auth_router)

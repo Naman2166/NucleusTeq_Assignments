@@ -1,4 +1,5 @@
 import axios from "axios";
+import API_ENDPOINTS from "./constants";
 
 const api = axios.create({
   baseURL: "http://127.0.0.1:8000",
@@ -31,7 +32,9 @@ api.interceptors.response.use(
   // Handling failed responses                   
   async (error) => {
 
-    if (error.response?.status === 401) {
+    if (error.response?.status === 401 && 
+        error.config.url !== API_ENDPOINTS.AUTH.LOGIN &&
+        error.config.url !== API_ENDPOINTS.AUTH.REGISTER) {
 
       const refreshToken = localStorage.getItem("refresh_token");
 

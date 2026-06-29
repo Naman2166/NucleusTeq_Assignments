@@ -2,11 +2,13 @@
 Authentication routes
 """
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, status
 from app.schemas.user_schema import (UserRegister, UserLogin, RefreshTokenRequest)
 from app.services.auth_service import AuthService
 from app.security.auth import require_admin, require_student
 from app.utils.logger import logger
+from app.exceptions.bad_request_exception import BadRequestException
+from app.exceptions.unauthorized_exception import UnauthorizedException
 
 
 router = APIRouter(
@@ -26,7 +28,8 @@ async def register(user: UserRegister):
     
     except ValueError as error:
         logger.error(f"Registration failed for {user.email}: {error}")
-        raise HTTPException(status_code=400, detail=str(error))
+        raise BadRequestException(str(error))
+
 
 
 @router.post("/login")
@@ -40,7 +43,7 @@ async def login(user: UserLogin):
 
     except ValueError as error:
         logger.error(f"Login failed for {user.email}: {error}")
-        raise HTTPException(status_code=401, detail=str(error))
+        raise UnauthorizedException(str(error))
 
 
 
@@ -55,7 +58,7 @@ async def refresh_access_token(data: RefreshTokenRequest):
 
     except ValueError as error:
         logger.error(f"Refresh token failed: {error}")
-        raise HTTPException(status_code=401, detail=str(error))
+        raise UnauthorizedException(str(error))
 
 
 
@@ -81,3 +84,12 @@ async def student_dashboard(current_user=Depends(require_student)):
         "message": "Welcome Student",
         "user": current_user
     }
+
+
+@router.get("/public-key")
+async def get_public_key():
+    """
+    Get public key
+    """
+    logger.info("Public key request received")
+    return await AuthService.get_public_key()

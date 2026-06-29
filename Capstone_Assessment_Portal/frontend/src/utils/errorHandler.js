@@ -4,6 +4,7 @@ export const getErrorMessage = (error) => {
 
   const detail = error.response?.data?.detail;
 
+  // custom exceptions from backend
   if (!Array.isArray(detail)) {
     return detail || "Something went wrong";
   }

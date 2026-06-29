@@ -23,11 +23,7 @@ class UserRegister(BaseModel):
 
     email: EmailStr
 
-    password: str = Field(
-        min_length=5, 
-        max_length=20, 
-        pattern=r"^[A-Za-z0-9@#$]+$"
-    )
+    password: str
 
 
 class UserLogin(BaseModel):
@@ -36,11 +32,7 @@ class UserLogin(BaseModel):
     """
     email: EmailStr
 
-    password: str = Field(
-        min_length=5, 
-        max_length=20, 
-        pattern=r"^[A-Za-z0-9@#$]+$"
-    )
+    password: str
 
 
 class LoginResponse(BaseModel):
@@ -63,6 +55,7 @@ class UserResponse(BaseModel):
 
 class RefreshTokenRequest(BaseModel):
     refresh_token: str
+
 
 class RefreshTokenResponse(BaseModel):
     access_token: str

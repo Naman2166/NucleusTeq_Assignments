@@ -6,8 +6,15 @@ from app.config.database import db
 from app.schemas.user_schema import (LoginResponse, UserRegister, UserLogin, RefreshTokenResponse)
 from app.security.password import (hash_password, verify_password)
 from app.security.jwt_handler import (create_access_token, create_refresh_token, verify_token)
+from app.security.decryption import decrypt_password
 from app.utils.constants import STUDENT
 from app.utils.logger import logger
+from app.exceptions.bad_request_exception import BadRequestException
+from app.exceptions.conflict_exception import ConflictException
+from app.exceptions.unauthorized_exception import UnauthorizedException
+
+
+PUBLIC_KEY_PATH = "app/keys/public_key.pem"
 
 
 class AuthService:
@@ -21,11 +28,23 @@ class AuthService:
         existing_user = await db.users.find_one({"email": user.email})
 
         if existing_user:  
-            raise ValueError("Email already exists")
+            raise ConflictException("Email already exists")
         
-        user_data = user.model_dump()         # converts user model to dictionary 
+        # decrypt the encrypted password
+        try:
+            original_password = decrypt_password(user.password)
+        except Exception:
+            raise BadRequestException("Invalid encrypted password")   
+        
+        if len(original_password) < 5 or len(original_password) > 20:
+            raise BadRequestException("Password must be between 5 to 20 characters")
+        
+        # converting user model to dictionary
+        user_data = user.model_dump()     
+
+        # hashing original password before saving to db
+        user_data["password"] = hash_password(original_password)    
         user_data["role"] = STUDENT
-        user_data["password"] = hash_password(user.password)
 
         # user saved to db
         await db.users.insert_one(user_data)
@@ -45,10 +64,18 @@ class AuthService:
 
         if not existing_user:
             logger.warning(f"Login failed. User not found: {user.email}")
-            raise ValueError("Invalid email or password")
+            raise UnauthorizedException("Invalid email or password")
+        
+        try:
+            original_password = decrypt_password(user.password)
+        except Exception:
+            raise BadRequestException("Invalid encrypted password")
 
-        if not verify_password( user.password, existing_user["password"]):
-            raise ValueError("Invalid email or password")
+        if len(original_password) < 5 or len(original_password) > 20:
+            raise BadRequestException("Password must be between 5 to 20 characters")
+
+        if not verify_password(original_password, existing_user["password"]):
+            raise UnauthorizedException("Invalid email or password")
 
         access_token = create_access_token(existing_user)
         refresh_token = create_refresh_token(existing_user)
@@ -74,7 +101,7 @@ class AuthService:
 
         if payload["type"] != "refresh":
             logger.warning("Invalid refresh token received")
-            raise ValueError("Invalid refresh token")
+            raise UnauthorizedException("Invalid refresh token")
 
         access_token = create_access_token({
             "_id": payload["user_id"],
@@ -89,4 +116,16 @@ class AuthService:
             token_type = "bearer"
         )
             
-    
+
+
+    @staticmethod
+    async def get_public_key():
+        """
+        Get public key
+        """
+        logger.info("Public key requested")
+
+        with open(PUBLIC_KEY_PATH, "r") as file:
+            public_key = file.read()
+
+        return {"publicKey": public_key}

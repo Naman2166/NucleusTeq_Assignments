@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../../utils/api";
 import API_ENDPOINTS from "../../utils/constants"
@@ -6,6 +6,7 @@ import "./Register.css";
 import registerImage from "../../assets/registerImage.jpg";
 import { validateForm } from "../../utils/validation";
 import { getErrorMessage } from "../../utils/errorHandler";
+import { encryptPassword } from "../../utils/encryption";
 
 
 function Register() {
@@ -14,12 +15,25 @@ function Register() {
 
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [publicKey, setPublicKey] = useState("");
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
     email: "",
     password: "",
   });
+
+  
+  // fetching public key when page loads
+  useEffect(() => {
+    const getPublicKey = async () => {
+        const response = await api.get(API_ENDPOINTS.AUTH.PUBLIC_KEY);
+        setPublicKey(response.data.publicKey);
+    };
+    
+    getPublicKey();
+  }, []);
+
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -42,7 +56,15 @@ function Register() {
     setError("");
 
     try {
-      const response = await api.post(API_ENDPOINTS.AUTH.REGISTER, formData);
+      // encrypting password using public key
+      const encryptedPassword = encryptPassword(formData.password, publicKey);
+
+      const payload = {
+        ...formData, 
+        password: encryptedPassword
+      };
+
+      const response = await api.post(API_ENDPOINTS.AUTH.REGISTER, payload);
       
       setSuccessMessage("Registration successful. Redirecting...");
       

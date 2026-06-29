@@ -2,11 +2,13 @@
 Provides methods for validating tokens and checking user access
 """
 
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from app.security.jwt_handler import verify_token
 from app.utils.constants import ADMIN, STUDENT
 from app.utils.logger import logger
+from app.exceptions.forbidden_exception import ForbiddenException
+from app.exceptions.unauthorized_exception import UnauthorizedException
 
 # Extract token from request header
 security = HTTPBearer()
@@ -28,7 +30,7 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
     
     except Exception:
         logger.warning("Invalid or expired token received")
-        raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid or expired token")
+        raise UnauthorizedException("Invalid or expired token")
 
 
 
@@ -39,7 +41,7 @@ def require_admin(user = Depends(get_current_user)):
     logger.info(f"Checking admin access for {user['email']}")
 
     if user.get("role") != ADMIN:
-        raise HTTPException(status.HTTP_403_FORBIDDEN, "Admin access required")
+        raise ForbiddenException("Admin access required")
     
     logger.info(f"Admin access granted for {user['email']}")
     
@@ -54,7 +56,7 @@ def require_student(user = Depends(get_current_user)):
     logger.info(f"Checking student access for {user['email']}")
     
     if user.get("role") != STUDENT:
-        raise HTTPException(status.HTTP_403_FORBIDDEN, "Student access required")
+        raise ForbiddenException("Student access required")
     
     logger.info(f"Student access granted for {user['email']}")
     
