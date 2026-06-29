@@ -4,12 +4,24 @@ Global exception handlers for custom exceptions
 
 from fastapi import FastAPI, Request, status
 from fastapi.responses import JSONResponse
-from app.exceptions.bad_request_exception import BadRequestException
-from app.exceptions.conflict_exception import ConflictException
-from app.exceptions.forbidden_exception import ForbiddenException
-from app.exceptions.resource_not_found_exception import ResourceNotFoundException
-from app.exceptions.unauthorized_exception import UnauthorizedException
 from app.utils.logger import logger
+from app.exceptions.custom_exceptions import (
+    BadRequestException,
+    ConflictException,
+    ResourceNotFoundException,
+    UnauthorizedException,
+    ForbiddenException,
+)
+
+
+def create_error_response(status_code: int, details: str):
+    """
+    Common JSON response for all exceptions
+    """
+    return JSONResponse(
+        status_code = status_code,
+        content = {"detail": details}
+    )
 
 
 def register_exception_handlers(app: FastAPI):
@@ -22,10 +34,8 @@ def register_exception_handlers(app: FastAPI):
         """
         Handles bad request exceptions
         """
-        return JSONResponse(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            content={"detail": str(exception)}
-        )
+        logger.error(str(exception))
+        return create_error_response(status.HTTP_400_BAD_REQUEST, str(exception))
 
 
     @app.exception_handler(UnauthorizedException)
@@ -33,10 +43,8 @@ def register_exception_handlers(app: FastAPI):
         """
         Handles unauthorized exceptions
         """
-        return JSONResponse(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            content={"detail": str(exception)}
-        )
+        logger.error(str(exception))
+        return create_error_response(status.HTTP_401_UNAUTHORIZED, str(exception))
 
 
     @app.exception_handler(ForbiddenException)
@@ -44,10 +52,8 @@ def register_exception_handlers(app: FastAPI):
         """
         Handles forbidden exceptions
         """
-        return JSONResponse(
-            status_code=status.HTTP_403_FORBIDDEN,
-            content={"detail": str(exception)}
-        )
+        logger.error(str(exception))
+        return create_error_response(status.HTTP_403_FORBIDDEN, str(exception))
 
 
     @app.exception_handler(ResourceNotFoundException)
@@ -55,10 +61,8 @@ def register_exception_handlers(app: FastAPI):
         """
         Handles resource not found exceptions
         """
-        return JSONResponse(
-            status_code=status.HTTP_404_NOT_FOUND,
-            content={"detail": str(exception)}
-        )
+        logger.error(str(exception))
+        return create_error_response(status.HTTP_404_NOT_FOUND, str(exception))
 
 
     @app.exception_handler(ConflictException)
@@ -66,10 +70,8 @@ def register_exception_handlers(app: FastAPI):
         """
         Handles conflict exceptions
         """
-        return JSONResponse(
-            status_code=status.HTTP_409_CONFLICT,
-            content={"detail": str(exception)}
-        )
+        logger.error(str(exception))
+        return create_error_response(status.HTTP_409_CONFLICT, str(exception))
 
 
     @app.exception_handler(Exception)
@@ -78,7 +80,7 @@ def register_exception_handlers(app: FastAPI):
         Handles all unexpected exceptions
         """
         logger.exception(f"Unhandled exception: {exception}")
-        return JSONResponse(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            content={"detail": "Internal Server Error"}
+        return create_error_response(
+            status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "Internal Server Error"
         )
