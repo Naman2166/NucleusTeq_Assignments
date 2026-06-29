@@ -1,10 +1,15 @@
 """
-Handles password hashing and verification
+Handles password hashing, verification and validation
 """
 
 from passlib.context import CryptContext
 from app.utils.logger import logger
+from app.exceptions.custom_exceptions import BadRequestException
+from app.utils.constants import ExceptionMessage
+import re
 
+
+PASSWORD_REGEX = r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%]).*$"
 
 # Password hashing configuration using bcrypt
 password_hasher = CryptContext(schemes=["bcrypt"])
@@ -24,3 +29,14 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     """
     logger.info("Verifying user password")
     return password_hasher.verify(plain_password, hashed_password)
+
+
+def validate_password(password: str) -> None:
+    """
+    Validate password length and format
+    """
+    if len(password) < 8 or len(password) > 30:
+        raise BadRequestException(ExceptionMessage.PASSWORD_LENGTH_ERROR)
+
+    if not re.match(PASSWORD_REGEX, password):
+        raise BadRequestException(ExceptionMessage.PASSWORD_FORMAT_ERROR)
