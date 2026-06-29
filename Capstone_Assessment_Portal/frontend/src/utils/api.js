@@ -1,5 +1,6 @@
 import axios from "axios";
 import API_ENDPOINTS from "./constants";
+import { clearAuth } from "./auth";
 
 const api = axios.create({
   baseURL: "http://127.0.0.1:8000",
@@ -55,12 +56,8 @@ api.interceptors.response.use(
         }
       }
       catch {
-
         // clearing local storage when Refresh token has expired
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("refresh_token");
-        localStorage.removeItem("role");
-
+        clearAuth()
         window.location.href = "/login";
       }
     }
