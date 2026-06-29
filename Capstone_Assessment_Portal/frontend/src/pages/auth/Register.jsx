@@ -4,7 +4,7 @@ import api from "../../utils/api";
 import API_ENDPOINTS from "../../utils/constants"
 import "./Register.css";
 import registerImage from "../../assets/registerImage.jpg";
-import { validateForm } from "../../utils/validation";
+import { validateRegisterForm } from "../../utils/validation";
 import { getErrorMessage } from "../../utils/errorHandler";
 import { encryptPassword } from "../../utils/encryption";
 
@@ -43,7 +43,7 @@ function Register() {
     e.preventDefault();
 
     // frontend validation
-    const error = validateForm(formData);
+    const error = validateRegisterForm(formData);
 
     if (error) {
       setSuccessMessage("");
@@ -67,10 +67,7 @@ function Register() {
       const response = await api.post(API_ENDPOINTS.AUTH.REGISTER, payload);
       
       setSuccessMessage("Registration successful. Redirecting...");
-      
-      setTimeout(() => {
-        navigate("/login");
-      }, 800);
+      navigate("/login");
 
     }
     catch (error) {

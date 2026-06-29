@@ -4,7 +4,7 @@ import api from "../../utils/api";
 import API_ENDPOINTS from "../../utils/constants";
 import "./Login.css";
 import RegisterImage from "../../assets/RegisterImage.jpg";
-import { validateForm } from "../../utils/validation";
+import { validateLoginForm } from "../../utils/validation";
 import { getErrorMessage } from "../../utils/errorHandler";
 import { encryptPassword } from "../../utils/encryption";
 
@@ -22,8 +22,8 @@ function Login() {
   // fetching public key when page loads
   useEffect(() => {
     const getPublicKey = async () => {
-        const response = await api.get(API_ENDPOINTS.AUTH.PUBLIC_KEY);
-        setPublicKey(response.data.publicKey);
+      const response = await api.get(API_ENDPOINTS.AUTH.PUBLIC_KEY);
+      setPublicKey(response.data.publicKey);
     };
 
     getPublicKey();
@@ -39,7 +39,7 @@ function Login() {
     e.preventDefault();
 
     // frontend validation
-    const error = validateForm(formData);
+    const error = validateLoginForm(formData);
 
     if (error) {
       setSuccessMessage("");
@@ -72,80 +72,78 @@ function Login() {
       setSuccessMessage("Login successful. Redirecting...");
 
       // redirecting based on role
-      setTimeout(() => {
-        if (role === "admin") {
-          navigate("/admin/dashboard");
-        } else {
-          navigate("/student/dashboard");
-        }
-      }, 1000);
+      if (role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/student/dashboard");
+      }
 
     }
     catch (error) {
-        setError(getErrorMessage(error));
-      }
-    };
+      setError(getErrorMessage(error));
+    }
+  };
 
-    return (
-      <div className="login-container">
+  return (
+    <div className="login-container">
 
-        <div className="login-box">
+      <div className="login-box">
 
-          {/* left Portion: image */}
-          <div className="login-left">
-            <img src={RegisterImage} alt="Login" />
-          </div>
+        {/* left Portion: image */}
+        <div className="login-left">
+          <img src={RegisterImage} alt="Login" />
+        </div>
 
-          {/* right Portion: form */}
-          <div className="login-right">
+        {/* right Portion: form */}
+        <div className="login-right">
 
-            <div className="login-card">
+          <div className="login-card">
 
-              <h1>Login</h1>
-              <p>Welcome Back</p>
+            <h1>Login</h1>
+            <p>Welcome Back</p>
 
-              <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
 
-                <label>Email :</label>
-                <input
-                  type="text"
-                  name="email"
-                  placeholder="Email Address"
-                  value={formData.email}
-                  onChange={handleChange}
-                />
+              <label>Email :</label>
+              <input
+                type="text"
+                name="email"
+                placeholder="Email Address"
+                value={formData.email}
+                onChange={handleChange}
+              />
 
-                <label>Password :</label>
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={formData.password}
-                  onChange={handleChange}
-                />
+              <label>Password :</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+              />
 
-                {error && <span className="error-message">{error}</span>}
-                {successMessage && <span className="success-message">{successMessage}</span>}
+              {error && <span className="error-message">{error}</span>}
+              {successMessage && <span className="success-message">{successMessage}</span>}
 
 
-                <button type="submit">
-                  Login
-                </button>
-              </form>
+              <button type="submit">
+                Login
+              </button>
+            </form>
 
-              <div className="bottom-text">
-                Don't have an account?
-                <Link to="/register"> Register</Link>
-              </div>
-
+            <div className="bottom-text">
+              Don't have an account?
+              <Link to="/register"> Register</Link>
             </div>
-          </div>
 
+          </div>
         </div>
 
       </div>
-    );
 
-  }
+    </div>
+  );
 
-  export default Login;
+}
+
+export default Login;
