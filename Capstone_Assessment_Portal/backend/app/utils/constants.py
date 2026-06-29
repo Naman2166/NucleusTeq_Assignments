@@ -21,3 +21,9 @@ class ExceptionMessage:
     FAILED_TO_LOAD_PRIVATE_KEY = "Failed to load private key"
     ENVIRONMENT_VARIABLE_MISSING = "Environment variable '{variable}' is missing"
     INTERNAL_SERVER_ERROR = "Internal Server Error"
+
+# Category module exception messages
+class CategoryMessage:
+    ALREADY_EXISTS = "Category already exists"
+    NOT_FOUND = "Category not found"
+    INVALID_ID = "Invalid category ID"

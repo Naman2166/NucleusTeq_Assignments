@@ -7,9 +7,9 @@ from app.schemas.category_schema import CategoryCreate, CategoryUpdate
 from bson import ObjectId
 from bson.errors import InvalidId
 from app.utils.logger import logger
-from app.exceptions.conflict_exception import ConflictException
-from app.exceptions.bad_request_exception import BadRequestException
-from app.exceptions.resource_not_found_exception import ResourceNotFoundException
+from app.exceptions.custom_exceptions import ConflictException, ResourceNotFoundException, BadRequestException
+from app.utils.constants import CategoryMessage
+
 
 
 async def get_all_categories():
@@ -38,7 +38,7 @@ async def create_category(category: CategoryCreate):
     existing_category = await db.categories.find_one({"name": category.name.strip()})
 
     if existing_category:
-        raise ConflictException("Category already exists")
+        raise ConflictException(CategoryMessage.ALREADY_EXISTS)
 
     # inserting new category in db
     await db.categories.insert_one({
@@ -62,13 +62,13 @@ async def update_category(category_id: str, category: CategoryUpdate):
     try:
         object_id = ObjectId(category_id)
     except InvalidId:
-        raise BadRequestException("Invalid category Id")
+        raise BadRequestException(CategoryMessage.INVALID_ID)
 
     # Checking if category exists or not
     existing_category = await db.categories.find_one({"_id": object_id})
 
     if not existing_category:
-        raise ResourceNotFoundException("Category not found")
+        raise ResourceNotFoundException(CategoryMessage.NOT_FOUND)
 
     update_data = {}
 
@@ -80,7 +80,7 @@ async def update_category(category_id: str, category: CategoryUpdate):
         })
 
         if duplicate_category:
-            raise ConflictException("Category already exists")
+            raise ConflictException(CategoryMessage.ALREADY_EXISTS)
         
         update_data["name"] = category.name.strip()
 
@@ -108,13 +108,13 @@ async def delete_category(category_id: str):
     try:
         object_id = ObjectId(category_id)
     except InvalidId:
-        raise BadRequestException("Invalid category object_id")
+        raise BadRequestException(CategoryMessage.INVALID_ID)
 
     # Check if category exists or not
     existing_category = await db.categories.find_one({"_id": object_id})
 
     if not existing_category:
-        raise ResourceNotFoundException("Category not found")
+        raise ResourceNotFoundException(CategoryMessage.NOT_FOUND)
 
     await db.categories.delete_one({"_id": object_id})
 
