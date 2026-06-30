@@ -11,6 +11,7 @@ from app.utils.logger import logger
 from app.exceptions.custom_exceptions import ConflictException
 from app.exceptions.custom_exceptions import UnauthorizedException
 from app.utils.constants import (Role, ExceptionMessage, AuthMessage)
+from app.schemas.common_schema import MessageResponse
 
 
 PUBLIC_KEY_PATH = "app/keys/public_key.pem"
@@ -42,7 +43,7 @@ class AuthService:
         await db.users.insert_one(user_data)
         logger.info(f"User registered successfully: {user.email}")
 
-        response =  {"message": AuthMessage.USER_REGISTERED_SUCCESSFULLY}
+        response = MessageResponse(message=AuthMessage.USER_REGISTERED_SUCCESSFULLY)
     
         return response
 
