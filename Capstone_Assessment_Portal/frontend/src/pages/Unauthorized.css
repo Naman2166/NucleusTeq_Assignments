@@ -1,0 +1,40 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.content {
+  text-align: center;
+}
+
+.content h1 {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+.content p {
+  font-size: 22px;
+}
+
+@media (max-width: 768px) {
+  .content h1 {
+    font-size: 40px;
+  }
+
+  .content p {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .content h1 {
+    font-size: 32px;
+  }
+
+  .content p {
+    font-size: 18px;
+  }
+}

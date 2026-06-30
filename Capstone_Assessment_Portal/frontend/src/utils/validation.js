@@ -1,67 +1,101 @@
-// Utility functions to Validate Login and Register form
-
+// Utility functions to validate Login and Register forms
 
 const isEmailValid = (email) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 };
 
+
 const isPasswordValid = (password) => {
-  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%]).*$/
+  const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%]).*$/;
   return passwordRegex.test(password);
 };
 
 
-// Validate login form 
-export const validateLoginForm = (formData) => {
-
-  // when all fields are empty
-  if (!formData.email && !formData.password) {
-    return "Form cannot be empty";
+// validate email
+const validateEmail = (email) => {
+  if (!email.trim()) {
+    return "Email is required";
   }
 
-  // when any field is empty
-  for (const field in formData) {
-    if (!formData[field].trim()) {
-      return `${field.replace("_", " ")} is required`;
-    }
-  }
-
-  if (!isEmailValid(formData.email)) {
+  if (!isEmailValid(email)) {
     return "Please enter a valid email address";
   }
 
-  return null;
+  return "";
 };
 
 
-
-// Validate Register form
-export const validateRegisterForm = (formData) => {
-
-  if (!formData.email && !formData.password && !formData.first_name && !formData.last_name) {
-    return "Form cannot be empty"
+//validate password
+const validatePassword = (password) => {
+  if (!password.trim()) {
+    return "Password is required";
   }
 
-  for (const field in formData) {
-    if (!formData[field].trim()) {
-      return `${field.replace("_", " ")} is required`;
-    }
-  }
-  
-  // email validation
-  if (!isEmailValid(formData.email)) {
-    return "Please enter a valid email address";
-  }
-
-  // password validation
-  if (formData.password.length < 8 || formData.password.length > 30) {
+  if (password.length < 8 || password.length > 30) {
     return "Password must be 8-30 characters";
   }
 
-  if (!isPasswordValid(formData.password)) {
-    return "Password must contain a letter, number and special character (@#$%).";
+  if (!isPasswordValid(password)) {
+    return "Password must contain a letter, number and special character (@#$%)";
   }
 
-  return null;
+  return "";
+};
+
+
+// validate required input fields
+const validateRequiredField = (value, fieldName) => {
+  if (!value.trim()) {
+    return `${fieldName} is required`;
+  }
+
+  return "";
+};
+
+
+// Validate Login Form
+export const validateLoginForm = (formData) => {
+  const errors = {};
+
+  const emailError = validateEmail(formData.email);
+  if (emailError) {
+    errors.email = emailError;
+  }
+
+  const passwordError = validateRequiredField(formData.password, "Password");
+
+  if (passwordError) {
+    errors.password = passwordError;
+  }
+
+  return errors;
+};
+
+
+// Validate Register Form
+export const validateRegisterForm = (formData) => {
+  const errors = {};
+
+  const firstNameError = validateRequiredField(formData.first_name, "First name");
+  if (firstNameError) {
+    errors.first_name = firstNameError;
+  }
+
+  const lastNameError = validateRequiredField(formData.last_name, "Last name");
+  if (lastNameError) {
+    errors.last_name = lastNameError;
+  }
+
+  const emailError = validateEmail(formData.email);
+  if (emailError) {
+    errors.email = emailError;
+  }
+
+  const passwordError = validatePassword(formData.password);
+  if (passwordError) {
+    errors.password = passwordError;
+  }
+
+  return errors;
 };
