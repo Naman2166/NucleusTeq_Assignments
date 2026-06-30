@@ -1,20 +1,20 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../../utils/api";
-import API_ENDPOINTS from "../../utils/constants";
 import "./Login.css";
+import API_ENDPOINTS from "../../utils/constants";
 import RegisterImage from "../../assets/RegisterImage.jpg";
 import { validateLoginForm } from "../../utils/validation";
 import { getErrorMessage } from "../../utils/errorHandler";
 import { encryptPassword } from "../../utils/encryption";
+import { toast } from "react-toastify";
 
 
 function Login() {
 
   const navigate = useNavigate();
 
-  const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const [errors, setErrors] = useState({});
   const [publicKey, setPublicKey] = useState("");
   const [formData, setFormData] = useState({ email: "", password: "" });
 
@@ -31,7 +31,10 @@ function Login() {
 
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    setFormData({...formData, [name]: value });
+    setErrors({...errors, [name]: "" });
   };
 
 
@@ -39,17 +42,15 @@ function Login() {
     e.preventDefault();
 
     // frontend validation
-    const error = validateLoginForm(formData);
+    const validationErrors = validateLoginForm(formData);
 
-    if (error) {
-      setSuccessMessage("");
-      setError(error)
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
       return;
     }
 
     // cleaning message before API call
-    setSuccessMessage("");
-    setError("");
+    setErrors({});
 
     try {
       // encrypting password using public key
@@ -69,7 +70,7 @@ function Login() {
       localStorage.setItem("refresh_token", refresh_token);
       localStorage.setItem("role", role);
 
-      setSuccessMessage("Login successful. Redirecting...");
+      toast.success("Login successful");
 
       // redirecting based on role
       if (role === "admin") {
@@ -80,7 +81,7 @@ function Login() {
 
     }
     catch (error) {
-      setError(getErrorMessage(error));
+      toast.error(getErrorMessage(error));
     }
   };
 
@@ -112,6 +113,9 @@ function Login() {
                 value={formData.email}
                 onChange={handleChange}
               />
+              {errors.email && ( 
+                <span className="error-message"> {errors.email} </span> 
+              )}
 
               <label>Password :</label>
               <input
@@ -121,14 +125,14 @@ function Login() {
                 value={formData.password}
                 onChange={handleChange}
               />
-
-              {error && <span className="error-message">{error}</span>}
-              {successMessage && <span className="success-message">{successMessage}</span>}
-
+              {errors.password && (
+                <span className="error-message"> {errors.password} </span>
+              )}
 
               <button type="submit">
                 Login
               </button>
+
             </form>
 
             <div className="bottom-text">
