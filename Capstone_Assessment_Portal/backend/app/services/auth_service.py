@@ -10,7 +10,7 @@ from app.security.decryption import decrypt_password
 from app.utils.logger import logger
 from app.exceptions.custom_exceptions import ConflictException
 from app.exceptions.custom_exceptions import UnauthorizedException
-from app.utils.constants import (Role, ExceptionMessage)
+from app.utils.constants import (Role, ExceptionMessage, AuthMessage)
 
 
 PUBLIC_KEY_PATH = "app/keys/public_key.pem"
@@ -27,7 +27,7 @@ class AuthService:
         existing_user = await db.users.find_one({"email": user.email})
 
         if existing_user:  
-            raise ConflictException(ExceptionMessage.EMAIL_ALREADY_EXISTS)
+            raise ConflictException(AuthMessage.EMAIL_ALREADY_EXISTS)
         
         # decrypt the encrypted password
         original_password = decrypt_password(user.password) 
@@ -60,12 +60,12 @@ class AuthService:
 
         if not existing_user:
             logger.warning(f"Login failed. User not found: {user.email}")
-            raise UnauthorizedException(ExceptionMessage.INVALID_CREDENTIALS)
+            raise UnauthorizedException(AuthMessage.INVALID_CREDENTIALS)
         
         original_password = decrypt_password(user.password)
 
         if not verify_password(original_password, existing_user["password"]):
-            raise UnauthorizedException(ExceptionMessage.INVALID_CREDENTIALS)
+            raise UnauthorizedException(AuthMessage.INVALID_CREDENTIALS)
 
         access_token = create_access_token(existing_user)
         refresh_token = create_refresh_token(existing_user)

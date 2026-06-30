@@ -5,7 +5,7 @@ Handles password hashing, verification and validation
 from passlib.context import CryptContext
 from app.utils.logger import logger
 from app.exceptions.custom_exceptions import BadRequestException
-from app.utils.constants import ExceptionMessage
+from app.utils.constants import AuthMessage
 import re
 
 
@@ -36,7 +36,7 @@ def validate_password(password: str) -> None:
     Validate password length and format
     """
     if len(password) < 8 or len(password) > 30:
-        raise BadRequestException(ExceptionMessage.PASSWORD_LENGTH_ERROR)
+        raise BadRequestException(AuthMessage.PASSWORD_LENGTH_ERROR)
 
     if not re.match(PASSWORD_REGEX, password):
-        raise BadRequestException(ExceptionMessage.PASSWORD_FORMAT_ERROR)
+        raise BadRequestException(AuthMessage.PASSWORD_FORMAT_ERROR)
