@@ -31,3 +31,5 @@ class CategoryMessage:
     ALREADY_EXISTS = "Category already exists"
     NOT_FOUND = "Category not found"
     INVALID_ID = "Invalid category ID"
+    NO_UPDATE_DATA = "No fields provided for update"
+    DELETED = "Category deleted successfully"
