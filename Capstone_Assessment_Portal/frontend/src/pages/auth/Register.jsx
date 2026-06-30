@@ -7,14 +7,14 @@ import registerImage from "../../assets/registerImage.jpg";
 import { validateRegisterForm } from "../../utils/validation";
 import { getErrorMessage } from "../../utils/errorHandler";
 import { encryptPassword } from "../../utils/encryption";
+import { toast } from "react-toastify";
 
 
 function Register() {
 
   const navigate = useNavigate();
 
-  const [error, setError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
+  const [errors, setErrors] = useState({});
   const [publicKey, setPublicKey] = useState("");
   const [formData, setFormData] = useState({
     first_name: "",
@@ -23,55 +23,57 @@ function Register() {
     password: "",
   });
 
-  
+
   // fetching public key when page loads
   useEffect(() => {
     const getPublicKey = async () => {
-        const response = await api.get(API_ENDPOINTS.AUTH.PUBLIC_KEY);
-        setPublicKey(response.data.publicKey);
+      const response = await api.get(API_ENDPOINTS.AUTH.PUBLIC_KEY);
+      setPublicKey(response.data.publicKey);
     };
-    
+
     getPublicKey();
   }, []);
 
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    setFormData({ ...formData, [name]: value });
+    setErrors({ ...errors, [name]: "" });
   };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // frontend validation
-    const error = validateRegisterForm(formData);
+    const validationErrors = validateRegisterForm(formData);
 
-    if (error) {
-      setSuccessMessage("");
-      setError(error);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
       return;
     }
 
     // cleaning message before API call
-    setSuccessMessage("");
-    setError("");
+    setErrors({});
 
     try {
       // encrypting password using public key
       const encryptedPassword = encryptPassword(formData.password, publicKey);
 
       const payload = {
-        ...formData, 
+        ...formData,
         password: encryptedPassword
       };
 
       const response = await api.post(API_ENDPOINTS.AUTH.REGISTER, payload);
-      
-      setSuccessMessage("Registration successful. Redirecting...");
+
+      toast.success("Registration successful");
       navigate("/login");
 
     }
     catch (error) {
-      setError(getErrorMessage(error));
+      toast.error(getErrorMessage(error));
     }
 
   };
@@ -98,6 +100,9 @@ function Register() {
                 value={formData.first_name}
                 onChange={handleChange}
               />
+              {errors.first_name && (
+                <span className="error-message"> {errors.first_name} </span>
+              )}
 
               <label>Last Name :</label>
               <input
@@ -107,6 +112,9 @@ function Register() {
                 value={formData.last_name}
                 onChange={handleChange}
               />
+              {errors.last_name && (
+                <span className="error-message"> {errors.last_name} </span>
+              )}
 
               <label>Email :</label>
               <input
@@ -116,6 +124,9 @@ function Register() {
                 value={formData.email}
                 onChange={handleChange}
               />
+              {errors.email && (
+                <span className="error-message"> {errors.email} </span>
+              )}
 
               <label>Password :</label>
               <input
@@ -125,9 +136,9 @@ function Register() {
                 value={formData.password}
                 onChange={handleChange}
               />
-
-              {error && <span className="error-message">{error}</span>}
-              {successMessage && <span className="success-message">{successMessage}</span>}
+              {errors.password && (
+                <span className="error-message"> {errors.password} </span>
+              )}
 
               <button type="submit">
                 Register

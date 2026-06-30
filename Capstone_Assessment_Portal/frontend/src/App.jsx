@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import AdminDashboard from "./pages/admin/AdminDashboard";
@@ -10,23 +11,35 @@ import Unauthorized from "./pages/Unauthorized";
 
 function App() {
   return (
-    <Routes>
-      {/* Auth Routes */}
-      <Route path="/" element={<Login />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-      <Route path="/unauthorized" element={<Unauthorized />} />
+    <>
+      {/* notification */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        theme="light"
+      />
 
-      {/* Admin Routes */}
-      <Route element={<ProtectedRoute allowedRole="admin" />}>
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-      </Route>
+      <Routes>
+        {/* Auth Routes */}
+        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
 
-      {/* Student Routes */}
-      <Route element={<ProtectedRoute allowedRole="student" />}>
-        <Route path="/student/dashboard" element={<StudentDashboard />} />
-      </Route>
-    </Routes>
+        {/* Admin Routes */}
+        <Route element={<ProtectedRoute allowedRole="admin" />}>
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        </Route>
+
+        {/* Student Routes */}
+        <Route element={<ProtectedRoute allowedRole="student" />}>
+          <Route path="/student/dashboard" element={<StudentDashboard />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 

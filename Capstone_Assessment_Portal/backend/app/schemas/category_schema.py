@@ -20,3 +20,12 @@ class CategoryUpdate(BaseModel):
     """
     name: Optional[str] = Field(None, min_length=3, max_length=50)
     description: Optional[str] = Field(None, min_length=5, max_length=200)
+
+
+class CategoryResponse(BaseModel):
+    """
+    Schema for returning category details
+    """
+    id: str
+    name: str
+    description: str

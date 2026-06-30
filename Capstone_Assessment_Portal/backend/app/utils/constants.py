@@ -24,12 +24,15 @@ class AuthMessage:
     PASSWORD_FORMAT_ERROR = "Password must contain a letter, number and special character (@#$%)"
     ADMIN_ACCESS_REQUIRED = "Admin access required"
     STUDENT_ACCESS_REQUIRED = "Student access required"
+    USER_REGISTERED_SUCCESSFULLY = "User registered successfully"
 
 # Category messages
 class CategoryMessage:
     ALREADY_EXISTS = "Category already exists"
     NOT_FOUND = "Category not found"
     INVALID_ID = "Invalid category ID"
+    NO_UPDATE_DATA = "No fields provided for update"
+    DELETED = "Category deleted successfully"
 
 # Quiz messages
 class QuizMessage:
