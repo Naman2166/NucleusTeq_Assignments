@@ -26,6 +26,7 @@ def category_helper(category: dict) -> dict:
 
 class CategoryService:
 
+    @staticmethod
     async def get_all_categories() -> list[CategoryResponse]:
         """
         Get all categories
@@ -45,6 +46,7 @@ class CategoryService:
 
 
 
+    @staticmethod
     async def create_category(category: CategoryCreate) -> CategoryResponse:
         """
         Create a new category
@@ -71,6 +73,7 @@ class CategoryService:
 
 
 
+    @staticmethod
     async def update_category(category_id: str, category: CategoryUpdate) -> CategoryResponse:
         """
         Update an existing category
@@ -123,6 +126,7 @@ class CategoryService:
 
 
 
+    @staticmethod
     async def delete_category(category_id: str) -> MessageResponse:
         """
         Delete a category
