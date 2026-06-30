@@ -8,7 +8,7 @@ from app.security.jwt_handler import verify_token
 from app.utils.logger import logger
 from app.exceptions.custom_exceptions import ForbiddenException
 from app.exceptions.custom_exceptions import UnauthorizedException
-from app.utils.constants import (Role, ExceptionMessage)
+from app.utils.constants import (Role, ExceptionMessage, AuthMessage)
 
 
 # Extract token from request header
@@ -42,7 +42,7 @@ def require_admin(user = Depends(get_current_user)):
     logger.info(f"Checking admin access for {user['email']}")
 
     if user.get("role") != Role.ADMIN:
-        raise ForbiddenException(ExceptionMessage.ADMIN_ACCESS_REQUIRED)
+        raise ForbiddenException(AuthMessage.ADMIN_ACCESS_REQUIRED)
     
     logger.info(f"Admin access granted for {user['email']}")
     
@@ -57,7 +57,7 @@ def require_student(user = Depends(get_current_user)):
     logger.info(f"Checking student access for {user['email']}")
     
     if user.get("role") != Role.STUDENT:
-        raise ForbiddenException(ExceptionMessage.STUDENT_ACCESS_REQUIRED)
+        raise ForbiddenException(AuthMessage.STUDENT_ACCESS_REQUIRED)
     
     logger.info(f"Student access granted for {user['email']}")
     
