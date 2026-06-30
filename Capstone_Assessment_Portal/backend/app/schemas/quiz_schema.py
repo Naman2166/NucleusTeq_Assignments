@@ -42,8 +42,6 @@ class QuizCreate(BaseModel):
         description="Number of attempts allowed"
     )
 
-    status: bool = True
-
 
 
 class QuizUpdate(BaseModel):
@@ -88,8 +86,6 @@ class QuizUpdate(BaseModel):
         description="Number of attempts allowed"
     )
 
-    status: Optional[bool] = None
-
 
 
 class QuizResponse(BaseModel):
@@ -104,4 +100,3 @@ class QuizResponse(BaseModel):
     total_marks: int
     passing_marks: int
     max_attempts: int
-    status: bool
