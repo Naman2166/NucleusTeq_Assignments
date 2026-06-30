@@ -29,24 +29,22 @@ class AuthService:
         if existing_user:  
             raise ConflictException(AuthMessage.EMAIL_ALREADY_EXISTS)
         
-        # decrypt the encrypted password
         original_password = decrypt_password(user.password) 
         
-        # Validating password
         validate_password(original_password)
         
         # converting user model to dictionary
         user_data = user.model_dump()     
 
-        # hashing original password before saving to db
         user_data["password"] = hash_password(original_password)    
         user_data["role"] = Role.STUDENT
 
-        # user saved to db
         await db.users.insert_one(user_data)
         logger.info(f"User registered successfully: {user.email}")
 
-        return {"message": "User registered successfully"}
+        response =  {"message": AuthMessage.USER_REGISTERED_SUCCESSFULLY}
+    
+        return response
 
 
 
@@ -72,12 +70,14 @@ class AuthService:
 
         logger.info(f"Login successful: {user.email}")
 
-        return LoginResponse(
+        response =  LoginResponse(
             access_token = access_token,
             refresh_token = refresh_token,
             role = existing_user["role"],
             token_type = "bearer"
         )
+        
+        return response
     
 
 
@@ -101,10 +101,12 @@ class AuthService:
 
         logger.info(f"Access token regenerated for: {payload['email']}")
 
-        return RefreshTokenResponse(
+        response = RefreshTokenResponse(
             access_token = access_token,
             token_type = "bearer"
         )
+
+        return response
             
 
 
@@ -118,4 +120,6 @@ class AuthService:
         with open(PUBLIC_KEY_PATH, "r") as file:
             public_key = file.read()
 
-        return {"publicKey": public_key}
+        response  = {"publicKey": public_key}
+
+        return response 
