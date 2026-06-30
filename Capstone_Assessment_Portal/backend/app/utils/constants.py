@@ -31,3 +31,11 @@ class CategoryMessage:
     NOT_FOUND = "Category not found"
     INVALID_ID = "Invalid category ID"
 
+# Quiz messages
+class QuizMessage:
+    INVALID_PASSING_MARKS = "Passing marks cannot be more than maximum marks"
+    ALREADY_EXISTS = "Quiz already exists"
+    INVALID_ID = "Invalid Quiz ID"
+    NOT_FOUND = "Quiz not found"
+    NO_UPDATE_DATA = "No fields provided for update"
+    DELETED = "Quiz deleted successfully"
