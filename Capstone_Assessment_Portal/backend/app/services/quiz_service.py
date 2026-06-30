@@ -6,6 +6,7 @@ from bson import ObjectId
 from bson.errors import InvalidId
 from app.config.database import db
 from app.schemas.quiz_schema import QuizCreate, QuizUpdate, QuizResponse
+from app.schemas.common_schema import MessageResponse
 from app.exceptions.custom_exceptions import (ConflictException, ResourceNotFoundException, BadRequestException)
 from app.utils.constants import CategoryMessage, QuizMessage
 from app.utils.logger import logger
@@ -92,7 +93,7 @@ class QuizService:
         Retrieve all quizzes
         """
         quizzes = []
-        saved_quizzes = await db.quizzes.find()
+        saved_quizzes = await db.quizzes.find().to_list(length=None)
 
         for quiz in saved_quizzes:
             quizzes.append(QuizResponse(**quiz_helper(quiz)))
@@ -147,7 +148,7 @@ class QuizService:
 
         quizzes = []
 
-        saved_quizzes = await db.quizzes.find({"category_id": category_object_id})
+        saved_quizzes = await db.quizzes.find({"category_id": category_object_id}).to_list(length=None)
 
         for quiz in saved_quizzes:
             quizzes.append(QuizResponse(**quiz_helper(quiz)))
@@ -246,7 +247,7 @@ class QuizService:
 
 
     @staticmethod
-    async def delete_quiz(quiz_id: str) -> dict:
+    async def delete_quiz(quiz_id: str) -> MessageResponse:
         """
         Delete a quiz by its ID
         """
@@ -266,6 +267,6 @@ class QuizService:
 
         logger.info("Quiz deleted successfully")
 
-        response = {"message": "Quiz deleted successfully"}
+        response = MessageResponse(message=QuizMessage.DELETED)
 
         return response
