@@ -1,0 +1,62 @@
+"""
+User request and response schemas
+"""
+
+from pydantic import BaseModel, EmailStr, Field
+
+
+class UserRegister(BaseModel):
+    """
+    Schema for user registration
+    """
+    first_name: str = Field(
+        min_length=2, 
+        max_length=20, 
+        pattern=r"^[A-Za-z]+$"
+    )
+
+    last_name: str = Field(
+        min_length=2, 
+        max_length=20,
+        pattern=r"^[A-Za-z]+$"
+    )
+
+    email: EmailStr
+
+    password: str
+
+
+class UserLogin(BaseModel):
+    """
+    Schema for user login
+    """
+    email: EmailStr
+
+    password: str
+
+
+class LoginResponse(BaseModel):
+    access_token: str
+    refresh_token: str
+    role: str
+    token_type: str    
+
+
+class UserResponse(BaseModel):
+    """
+    Schema for returning user information
+    """
+    id: str
+    first_name: str
+    last_name: str
+    email: EmailStr
+    role: str
+
+
+class RefreshTokenRequest(BaseModel):
+    refresh_token: str
+
+
+class RefreshTokenResponse(BaseModel):
+    access_token: str
+    token_type: str

@@ -1,0 +1,199 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:"Segoe UI","Open Sans",sans-serif;
+}
+
+body{
+    background:#dfd6f0;
+}
+
+.register-container{
+    width:100%;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px;
+}
+
+.register-box{
+    width:1100px;
+    height:655px;
+    background:white;
+    border-radius:25px;
+    overflow:hidden;
+    display:flex;
+    box-shadow:0 20px 60px rgba(0,0,0,.25);
+}
+
+.register-left{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:50px;
+}
+
+.register-card{
+    width:100%;
+    max-width:380px;
+}
+
+.register-card h1{
+    font-size:36px;
+    color:#7c3aed;
+    margin-bottom:5px;
+}
+
+.register-card p{
+    color:#686666;
+    margin-bottom:15px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.register-card form{
+    display:flex;
+    flex-direction:column;
+}
+
+.register-card label{
+    color:#666565;
+    margin-bottom:6px;
+    margin-left:2px;
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.register-card input{
+    padding:14px;
+    border:1.2px solid #b8b4b4;
+    border-radius:8px;
+    font-size:15px;
+    outline:none;
+}
+
+.register-card input::placeholder {
+    color: #888;  
+    opacity: 0.8;      
+}
+
+.register-card input:focus{
+    border-color:#7c3aed;
+}
+
+.register-card button{
+    margin-top:14px;
+    padding:15px;
+    border:none;
+    border-radius:8px;
+    background:linear-gradient(90deg,#c026d3,#7c3aed);
+    color:white;
+    font-size:17px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.register-card button:hover{
+    opacity:.9;
+}
+
+.bottom-text{
+    margin-top:8px;
+    text-align:center;
+}
+
+.bottom-text a{
+    color:#7c3aed;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.register-right{
+    flex:1.2;
+}
+
+.register-right img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.register-card .error-message {
+  display: block;
+  color: #b90b0b;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 3px;
+  margin-bottom: 7px;
+  margin-left: 5px;
+}
+
+
+/* Responsive styles for tablets */
+@media (max-width: 992px) {
+    .register-box {
+        width: 90%;
+        height: auto;
+    }
+
+    .register-left {
+        width: 100%;
+        padding: 40px;
+    }
+
+    .register-card {
+        max-width: 450px;
+    }
+}
+
+/* Responsive styles for mobile */
+@media (max-width: 700px) {
+
+    .register-container {
+        padding: 20px;
+    }
+
+    .register-box {
+        width: 100%;
+        border-radius: 15px;
+    }
+
+    .register-right {
+        display: none;
+    }
+
+    .register-left {
+        padding: 30px 20px;
+    }
+
+    .register-card h1 {
+        font-size: 32px;
+    }
+
+    .register-card h3 {
+        font-size: 18px;
+    }
+
+    .register-card p {
+        font-size: 15px;
+    }
+
+    .register-card input,
+    .register-card button {
+        font-size: 15px;
+        padding: 14px;
+    }
+
+    .error-message,
+    .success-message {
+        font-size: 13px;
+    }
+
+    .bottom-text {
+        font-size: 14px;
+    }
+}

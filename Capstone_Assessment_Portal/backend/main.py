@@ -1,1 +1,25 @@
+from fastapi import Depends, FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from app.exceptions.global_exception_handler import register_exception_handlers
+from app.routes.auth_routes import router as auth_router
 
+app = FastAPI()
+
+# CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# custom exception handlers
+register_exception_handlers(app)
+
+# routers
+app.include_router(auth_router)
+
+@app.get("/")
+def home():
+    return {"message": "Server started successfully"}

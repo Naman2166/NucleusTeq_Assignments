@@ -1,0 +1,16 @@
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment Variables
+.env
+
+# VS Code
+.vscode/
+ 
+# Pytest
+.pytest_cache/
+
+# Encryption Keys
+app/keys/*.pem
