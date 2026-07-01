@@ -6,6 +6,7 @@ from fastapi import APIRouter, status, Depends
 from app.schemas.quiz_schema import (QuizCreate, QuizUpdate)
 from app.services.quiz_service import QuizService
 from app.security.auth import get_current_user, require_admin
+from app.utils.logger import logger
 
 router = APIRouter(
     prefix="/quizzes",
@@ -21,6 +22,7 @@ async def create_quiz(
     """
     Create a new quiz
     """
+    logger.info(f"Create quiz: {quiz.title} requested by {current_user['email']}")
     response  = await QuizService.create_quiz(quiz)
     return response
 
@@ -28,8 +30,9 @@ async def create_quiz(
 @router.get("/", status_code=status.HTTP_200_OK)
 async def get_all_quizzes(current_user: dict = Depends(get_current_user)):
     """
-    Retrieve all quizzes.
+    Retrieve all quizzes
     """
+    logger.info(f"Get all quizzes requested by {current_user['email']}")
     response  = await QuizService.get_all_quizzes()
     return response
 
@@ -42,11 +45,12 @@ async def get_quiz_by_id(
     """
     Retrieve a quiz by its ID
     """
+    logger.info(f"Get quiz with ID: {quiz_id} requested by {current_user['email']}")
     response = await QuizService.get_quiz_by_id(quiz_id)
     return response
 
 
-@router.get("/category/{category_id}")
+@router.get("/category/{category_id}", status_code=status.HTTP_200_OK)
 async def get_quizzes_by_category(
     category_id: str,
     current_user: dict = Depends(get_current_user)
@@ -54,11 +58,12 @@ async def get_quizzes_by_category(
     """
     Retrieve all quizzes for a specific category
     """
+    logger.info(f"Get quizzes for category ID: {category_id} requested by {current_user['email']}")
     response = await QuizService.get_quizzes_by_category(category_id)
     return response
 
 
-@router.put("/{quiz_id}", status_code=status.HTTP_200_OK,)
+@router.put("/{quiz_id}", status_code=status.HTTP_200_OK)
 async def update_quiz(
     quiz_id: str,
     quiz: QuizUpdate,
@@ -67,6 +72,7 @@ async def update_quiz(
     """
     Update an existing quiz
     """
+    logger.info(f"Update quiz with ID: {quiz_id} requested by {current_user['email']}")
     response = await QuizService.update_quiz(quiz_id, quiz)
     return response
 
@@ -79,5 +85,6 @@ async def delete_quiz(
     """
     Delete a quiz
     """
+    logger.info(f"Delete quiz with ID: {quiz_id} requested by {current_user['email']}")
     response = await QuizService.delete_quiz(quiz_id)
     return response
