@@ -47,6 +47,31 @@ class CategoryService:
 
 
     @staticmethod
+    async def get_category_by_id(category_id: str) -> CategoryResponse:
+        """
+        Get category by id
+        """
+        logger.info(f"Fetching category with id: {category_id}")
+    
+        try:
+            object_id = ObjectId(category_id)
+        except InvalidId:
+            raise BadRequestException(CategoryMessage.INVALID_ID)
+    
+        category = await CategoryRepository.get_category_by_id(object_id)
+
+        if not category:
+            raise ResourceNotFoundException(CategoryMessage.NOT_FOUND)
+
+        logger.info(f"Category fetched successfully: {category_id}")
+    
+        response = CategoryResponse(**category_helper(category))
+
+        return response
+
+
+
+    @staticmethod
     async def create_category(category: CategoryCreate) -> CategoryResponse:
         """
         Create a new category

@@ -25,6 +25,18 @@ async def get_all(user = Depends(get_current_user)):
     return result
 
 
+@router.get("/{category_id}")
+async def get_by_id(category_id: str, user=Depends(get_current_user)):
+    """
+    Get category by id
+    """
+    logger.info(f"Get category with ID: {category_id} requested by {user['email']}")
+
+    result = await CategoryService.get_category_by_id(category_id)
+    return result
+
+
+
 @router.post("/")
 async def create(category: CategoryCreate, user=Depends(require_admin)):
     """
