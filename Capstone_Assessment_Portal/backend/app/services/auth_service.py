@@ -2,7 +2,6 @@
 Authentication business logic
 """
 
-from app.config.database import db
 from app.schemas.user_schema import (LoginResponse, UserRegister, UserLogin, RefreshTokenResponse)
 from app.security.password import (hash_password, verify_password, validate_password)
 from app.security.jwt_handler import (create_access_token, create_refresh_token, verify_token)
@@ -12,6 +11,7 @@ from app.exceptions.custom_exceptions import ConflictException
 from app.exceptions.custom_exceptions import UnauthorizedException
 from app.utils.constants import (Role, ExceptionMessage, AuthMessage)
 from app.schemas.common_schema import MessageResponse
+from app.repositories.user_repository import UserRepository
 
 
 PUBLIC_KEY_PATH = "app/keys/public_key.pem"
@@ -25,7 +25,7 @@ class AuthService:
         Register a new user
         """
         logger.info(f"Registering user: {user.email}")
-        existing_user = await db.users.find_one({"email": user.email})
+        existing_user = await UserRepository.get_user_by_email(user.email)
 
         if existing_user:  
             raise ConflictException(AuthMessage.EMAIL_ALREADY_EXISTS)
@@ -40,7 +40,7 @@ class AuthService:
         user_data["password"] = hash_password(original_password)    
         user_data["role"] = Role.STUDENT
 
-        await db.users.insert_one(user_data)
+        await UserRepository.create_user(user_data)
         logger.info(f"User registered successfully: {user.email}")
 
         response = MessageResponse(message=AuthMessage.USER_REGISTERED_SUCCESSFULLY)
@@ -55,7 +55,7 @@ class AuthService:
         Login user
         """
         logger.info(f"Login attempt: {user.email}")
-        existing_user = await db.users.find_one({"email": user.email})
+        existing_user = await UserRepository.get_user_by_email(user.email)
 
         if not existing_user:
             logger.warning(f"Login failed. User not found: {user.email}")
