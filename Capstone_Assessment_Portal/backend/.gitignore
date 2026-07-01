@@ -11,6 +11,9 @@ __pycache__/
  
 # Pytest
 .pytest_cache/
+.coverage
+htmlcov/
+.coverage.*
 
 # Encryption Keys
 app/keys/*.pem
