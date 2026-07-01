@@ -2,7 +2,6 @@
 Category business logic
 """
 
-from app.config.database import db
 from app.schemas.category_schema import CategoryCreate, CategoryResponse, CategoryUpdate
 from app.schemas.common_schema import MessageResponse
 from bson import ObjectId
@@ -10,6 +9,7 @@ from bson.errors import InvalidId
 from app.utils.logger import logger
 from app.exceptions.custom_exceptions import ConflictException, ResourceNotFoundException, BadRequestException
 from app.utils.constants import CategoryMessage
+from app.repositories.category_repository import CategoryRepository
 
 
 def category_helper(category: dict) -> dict:
@@ -33,7 +33,7 @@ class CategoryService:
         """
         logger.info("Fetching all categories")
 
-        categories = await db.categories.find().to_list(length=None)
+        categories = await CategoryRepository.get_all_categories()
 
         response = []
 
@@ -53,17 +53,17 @@ class CategoryService:
         """
         logger.info(f"Creating category: {category.name}")
     
-        existing_category = await db.categories.find_one({"name": category.name.strip()})
+        existing_category = await CategoryRepository.get_category_by_name(category.name.strip())
     
         if existing_category:
             raise ConflictException(CategoryMessage.ALREADY_EXISTS)
 
-        result = await db.categories.insert_one({
+        result = await CategoryRepository.create_category({
             "name": category.name.strip(),
             "description": category.description.strip()
         })
         
-        created_category = await db.categories.find_one({"_id": result.inserted_id})
+        created_category = await CategoryRepository.get_category_by_id(result.inserted_id)
         
         logger.info(f"Category created successfully: {created_category['name']}")
 
@@ -86,7 +86,7 @@ class CategoryService:
         except InvalidId:
             raise BadRequestException(CategoryMessage.INVALID_ID)
 
-        existing_category = await db.categories.find_one({"_id": object_id})
+        existing_category = await CategoryRepository.get_category_by_id(object_id)
     
         if not existing_category:
             raise ResourceNotFoundException(CategoryMessage.NOT_FOUND)
@@ -95,10 +95,10 @@ class CategoryService:
     
         if category.name is not None:
             # checking if new category name already exist or not
-            duplicate_category = await db.categories.find_one({
-                "name": category.name.strip(),
-                "_id": {"$ne": object_id}    
-            })
+            duplicate_category = await CategoryRepository.get_duplicate_category(
+                category.name.strip(),
+                object_id
+            )
 
             if duplicate_category:
                 raise ConflictException(CategoryMessage.ALREADY_EXISTS)
@@ -111,12 +111,9 @@ class CategoryService:
         if not update_data:
             raise BadRequestException(CategoryMessage.NO_UPDATE_DATA)
     
-        await db.categories.update_one(
-           {"_id": object_id},
-           {"$set": update_data}
-        )
+        await CategoryRepository.update_category(object_id, update_data)
 
-        updated_category = await db.categories.find_one({"_id": object_id}) 
+        updated_category = await CategoryRepository.get_category_by_id(object_id)
 
         logger.info(f"Category updated successfully: {category_id}")
 
@@ -138,13 +135,13 @@ class CategoryService:
         except InvalidId:
             raise BadRequestException(CategoryMessage.INVALID_ID)
 
-        existing_category = await db.categories.find_one({"_id": object_id})
+        existing_category = await CategoryRepository.get_category_by_id(object_id)
 
         if not existing_category:
             raise ResourceNotFoundException(CategoryMessage.NOT_FOUND)
 
-        await db.categories.delete_one({"_id": object_id})
-
+        await CategoryRepository.delete_category(object_id)
+        
         logger.info(f"Category deleted successfully: {category_id}")
 
         response = MessageResponse(message=CategoryMessage.DELETED)
