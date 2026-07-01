@@ -4,12 +4,12 @@ Quiz business logic
 
 from bson import ObjectId
 from bson.errors import InvalidId
-from app.config.database import db
 from app.schemas.quiz_schema import QuizCreate, QuizUpdate, QuizResponse
 from app.schemas.common_schema import MessageResponse
 from app.exceptions.custom_exceptions import (ConflictException, ResourceNotFoundException, BadRequestException)
 from app.utils.constants import CategoryMessage, QuizMessage
 from app.utils.logger import logger
+from app.repositories.quiz_repository import QuizRepository
 
 
 def quiz_helper(quiz):
@@ -44,7 +44,7 @@ class QuizService:
             logger.warning(CategoryMessage.INVALID_ID)
             raise BadRequestException(CategoryMessage.INVALID_ID)
 
-        category = await db.categories.find_one({"_id": category_object_id})
+        category = await QuizRepository.get_category_by_id(category_object_id)
 
         if not category:
             logger.warning(CategoryMessage.NOT_FOUND)
@@ -54,10 +54,10 @@ class QuizService:
             logger.warning(QuizMessage.INVALID_PASSING_MARKS)
             raise BadRequestException(QuizMessage.INVALID_PASSING_MARKS)
 
-        existing_quiz = await db.quizzes.find_one({
-                "title": quiz.title,
-                "category_id": category_object_id
-            })
+        existing_quiz = await QuizRepository.get_quiz_by_title_and_category(
+            quiz.title,
+            category_object_id
+        )
 
         if existing_quiz:
             logger.warning(QuizMessage.ALREADY_EXISTS)
@@ -73,11 +73,9 @@ class QuizService:
             "max_attempts": quiz.max_attempts,
         }
 
-        result = await db.quizzes.insert_one(quiz_data)
+        result = await QuizRepository.create_quiz(quiz_data)
 
-        created_quiz = await db.quizzes.find_one(
-            {"_id": result.inserted_id}
-        )
+        created_quiz = await QuizRepository.get_quiz_by_id(result.inserted_id)
 
         logger.info("Quiz created successfully")
 
@@ -93,7 +91,7 @@ class QuizService:
         Retrieve all quizzes
         """
         quizzes = []
-        saved_quizzes = await db.quizzes.find().to_list(length=None)
+        saved_quizzes = await QuizRepository.get_all_quizzes()
 
         for quiz in saved_quizzes:
             quizzes.append(QuizResponse(**quiz_helper(quiz)))
@@ -115,7 +113,7 @@ class QuizService:
             logger.warning(QuizMessage.INVALID_ID)
             raise BadRequestException(QuizMessage.INVALID_ID)
 
-        quiz = await db.quizzes.find_one({"_id": object_id})
+        quiz = await QuizRepository.get_quiz_by_id(object_id)
 
         if not quiz:
             logger.warning(QuizMessage.NOT_FOUND)
@@ -140,7 +138,7 @@ class QuizService:
             logger.warning(CategoryMessage.INVALID_ID)
             raise BadRequestException(CategoryMessage.INVALID_ID)
 
-        category = await db.categories.find_one({"_id": category_object_id})
+        category = await QuizRepository.get_category_by_id(category_object_id)
 
         if not category:
             logger.warning(CategoryMessage.NOT_FOUND)
@@ -148,7 +146,7 @@ class QuizService:
 
         quizzes = []
 
-        saved_quizzes = await db.quizzes.find({"category_id": category_object_id}).to_list(length=None)
+        saved_quizzes = await QuizRepository.get_quizzes_by_category(category_object_id)
 
         for quiz in saved_quizzes:
             quizzes.append(QuizResponse(**quiz_helper(quiz)))
@@ -170,7 +168,7 @@ class QuizService:
             logger.warning(QuizMessage.INVALID_ID)
             raise BadRequestException(QuizMessage.INVALID_ID)
 
-        existing_quiz = await db.quizzes.find_one({"_id": quiz_object_id})
+        existing_quiz = await QuizRepository.get_quiz_by_id(quiz_object_id)
 
         if not existing_quiz:
             logger.warning(QuizMessage.NOT_FOUND)
@@ -189,7 +187,7 @@ class QuizService:
                 logger.warning(CategoryMessage.INVALID_ID)
                 raise BadRequestException(CategoryMessage.INVALID_ID)
 
-            category = await db.categories.find_one({"_id": category_object_id})
+            category = await QuizRepository.get_category_by_id(category_object_id)
 
             if not category:
                 logger.warning(CategoryMessage.NOT_FOUND)
@@ -221,22 +219,19 @@ class QuizService:
             existing_quiz["category_id"]
         )
 
-        duplicate_quiz = await db.quizzes.find_one({
-                "title": quiz_title,
-                "category_id": category_id,
-                "_id": {"$ne": quiz_object_id}
-            })
+        duplicate_quiz = await QuizRepository.get_duplicate_quiz(
+            quiz_title,
+            category_id,
+            quiz_object_id
+        )
 
         if duplicate_quiz:
             logger.warning(QuizMessage.ALREADY_EXISTS)
             raise ConflictException(QuizMessage.ALREADY_EXISTS)
 
-        await db.quizzes.update_one(
-            {"_id": quiz_object_id},
-            {"$set": update_data}
-        )
+        await QuizRepository.update_quiz(quiz_object_id, update_data)
 
-        updated_quiz = await db.quizzes.find_one({"_id": quiz_object_id})
+        updated_quiz = await QuizRepository.get_quiz_by_id(quiz_object_id)
 
         logger.info("Quiz updated successfully")
 
@@ -257,13 +252,13 @@ class QuizService:
             logger.warning(QuizMessage.INVALID_ID)
             raise BadRequestException(QuizMessage.INVALID_ID)
 
-        quiz = await db.quizzes.find_one({"_id": object_id})
+        quiz = await QuizRepository.get_quiz_by_id(object_id)
 
         if not quiz:
             logger.warning(QuizMessage.NOT_FOUND)
             raise ResourceNotFoundException(QuizMessage.NOT_FOUND)
 
-        await db.quizzes.delete_one({"_id": object_id})
+        await QuizRepository.delete_quiz(object_id)
 
         logger.info("Quiz deleted successfully")
 
