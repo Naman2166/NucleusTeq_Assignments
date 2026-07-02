@@ -8,7 +8,7 @@ from app.security.jwt_handler import (create_access_token, create_refresh_token,
 from app.security.decryption import decrypt_password
 from app.utils.logger import logger
 from app.exceptions.custom_exceptions import ConflictException
-from app.exceptions.custom_exceptions import UnauthorizedException
+from app.exceptions.custom_exceptions import (UnauthorizedException, ResourceNotFoundException)
 from app.utils.constants import (Role, ExceptionMessage, AuthMessage)
 from app.schemas.common_schema import MessageResponse
 from app.repositories.user_repository import UserRepository
@@ -59,7 +59,7 @@ class AuthService:
 
         if not existing_user:
             logger.warning(f"Login failed. User not found: {user.email}")
-            raise UnauthorizedException(AuthMessage.INVALID_CREDENTIALS)
+            raise ResourceNotFoundException(AuthMessage.INVALID_CREDENTIALS)
         
         original_password = decrypt_password(user.password)
 
