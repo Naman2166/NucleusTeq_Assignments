@@ -3,6 +3,7 @@ Test cases for authentication routes
 """
 
 from unittest.mock import AsyncMock
+from app.exceptions.custom_exceptions import UnauthorizedException
 from main import app
 from app.security.auth import require_admin, require_student
 from app.utils.constants import AuthMessage
@@ -124,6 +125,36 @@ def test_admin_dashboard(client):
     assert response.json()["message"] == "Welcome Admin"
 
     app.dependency_overrides.clear()
+
+
+
+def test_admin_dashboard_without_token(client):
+    """
+    Test protected endpoint without JWT token
+    """
+
+    response = client.get("/auth/admin/dashboard")
+
+    assert response.status_code == 401
+
+
+
+def test_admin_dashboard_with_expired_token(client, mocker):
+    """
+    Test protected endpoint with expired JWT token
+    """
+
+    mocker.patch(
+        "app.security.auth.verify_token",
+        side_effect=UnauthorizedException("Token has expired")
+    )
+
+    response = client.get(
+        "/auth/admin/dashboard",
+        headers={"Authorization": "Bearer expired_token"},
+    )
+
+    assert response.status_code == 401
 
 
 
