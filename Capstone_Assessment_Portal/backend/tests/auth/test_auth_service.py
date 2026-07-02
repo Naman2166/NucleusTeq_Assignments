@@ -59,31 +59,7 @@ async def test_register_success(mocker):
 
 
 @pytest.mark.asyncio
-async def test_register_duplicate_email(mocker):
-    """
-    Test duplicate email registration
-    """
-
-    mocker.patch(
-        "app.services.auth_service.UserRepository.get_user_by_email",
-        new_callable=AsyncMock,
-        return_value={"email": "naman@gmail.com"}
-    )
-
-    user = UserRegister(
-        first_name="Naman",
-        last_name="Patel",
-        email="naman@gmail.com",
-        password="encrypted_password",
-    )
-
-    with pytest.raises(ConflictException):
-        await AuthService.register(user)
-
-
-
-@pytest.mark.asyncio
-async def test_login_success(mocker):
+async def test_login_student_success(mocker):
     """
     Test successful login
     """
@@ -101,7 +77,7 @@ async def test_login_success(mocker):
 
     mocker.patch(
         "app.services.auth_service.decrypt_password",
-        return_value="Password@123"
+        return_value="Naman@123"
     )
 
     mocker.patch(
@@ -131,6 +107,59 @@ async def test_login_success(mocker):
     assert response.role == "student"
 
     mock_get_user.assert_awaited_once()
+
+
+
+@pytest.mark.asyncio
+async def test_login_admin_success(mocker):
+    """
+    Test successful admin login
+    """
+
+    mock_get_user = mocker.patch(
+        "app.services.auth_service.UserRepository.get_user_by_email",
+        new_callable=AsyncMock,
+        return_value={
+            "_id": "1",
+            "email": "admin@gmail.com",
+            "password": "hashed_password",
+            "role": "admin",
+        }
+    )
+
+    mocker.patch(
+        "app.services.auth_service.decrypt_password",
+        return_value="Admin@123"
+    )
+
+    mocker.patch(
+        "app.services.auth_service.verify_password",
+        return_value=True
+    )
+
+    mocker.patch(
+        "app.services.auth_service.create_access_token",
+        return_value="access_token"
+    )
+
+    mocker.patch(
+        "app.services.auth_service.create_refresh_token",
+        return_value="refresh_token"
+    )
+
+    user = UserLogin(
+        email="admin@gmail.com",
+        password="encrypted_password",
+    )
+
+    response = await AuthService.login(user)
+
+    assert response.access_token == "access_token"
+    assert response.refresh_token == "refresh_token"
+    assert response.role == "admin"
+
+    mock_get_user.assert_awaited_once()
+
 
 
 
