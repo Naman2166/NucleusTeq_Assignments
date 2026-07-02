@@ -6,7 +6,7 @@ import pytest
 from unittest.mock import AsyncMock
 from app.services.auth_service import AuthService
 from app.schemas.user_schema import UserRegister, UserLogin
-from app.exceptions.custom_exceptions import (ConflictException, UnauthorizedException)
+from app.exceptions.custom_exceptions import (UnauthorizedException, ResourceNotFoundException)
 from app.utils.constants import AuthMessage
 
 
@@ -180,7 +180,7 @@ async def test_login_invalid_email(mocker):
         password="encrypted_password",
     )
 
-    with pytest.raises(UnauthorizedException):
+    with pytest.raises(ResourceNotFoundException):
         await AuthService.login(user)
 
 
