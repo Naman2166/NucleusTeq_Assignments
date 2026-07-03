@@ -12,7 +12,7 @@ from app.utils.constants import (Role, ExceptionMessage, AuthMessage)
 
 
 # Extract token from request header
-security = HTTPBearer()
+security = HTTPBearer(auto_error=False)
 
 
 def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)):
@@ -21,6 +21,10 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
     """
     try:
         logger.info("Token verification started")
+
+        if credentials is None:
+            logger.warning("Authorization header missing")
+            raise UnauthorizedException(ExceptionMessage.INVALID_TOKEN)
 
         token = credentials.credentials
         payload = verify_token(token)
