@@ -2,6 +2,8 @@
 constant values for using across the project
 """
 
+from enum import Enum
+
 # Roles
 class Role:
     ADMIN = "admin"
@@ -42,3 +44,22 @@ class QuizMessage:
     NOT_FOUND = "Quiz not found"
     NO_UPDATE_DATA = "No fields provided for update"
     DELETED = "Quiz deleted successfully"
+
+# Question module
+class QuestionType(str, Enum):
+    MCQ = "MCQ"
+    TRUE_FALSE = "TRUE_FALSE"
+
+class DifficultyLevel(str, Enum):
+    EASY = "Easy"
+    MEDIUM = "Medium"
+    HARD = "Hard"
+
+class QuestionMessage:
+    INVALID_OPTIONS = "MCQ must have between 2 and 4 options"
+    INVALID_TRUE_FALSE_OPTIONS = "True/False questions must have 'True' and 'False' as options"
+    INVALID_CORRECT_ANSWER = "Correct answer index is invalid"
+    MARKS_EXCEEDED = "Question marks exceed the total marks of the quiz"
+    NOT_FOUND = "Question not found"
+    INVALID_ID = "Invalid question ID"
+    DELETED = "Question deleted successfully"
