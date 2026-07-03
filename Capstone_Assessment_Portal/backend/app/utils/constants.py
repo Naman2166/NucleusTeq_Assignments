@@ -4,12 +4,10 @@ constant values for using across the project
 
 from enum import Enum
 
-# Roles
 class Role:
     ADMIN = "admin"
     STUDENT = "student"
 
-# Common exception Messages
 class ExceptionMessage:
     INVALID_TOKEN = "Invalid or expired token received"
     INVALID_ENCRYPTED_PASSWORD = "Invalid encrypted password"
@@ -18,7 +16,6 @@ class ExceptionMessage:
     ENVIRONMENT_VARIABLE_MISSING = "Environment variable '{variable}' is missing"
     INTERNAL_SERVER_ERROR = "Internal Server Error"
 
-# Auth messages
 class AuthMessage:
     INVALID_CREDENTIALS = "Invalid email or password"
     EMAIL_ALREADY_EXISTS = "Email already exists"
@@ -28,7 +25,6 @@ class AuthMessage:
     STUDENT_ACCESS_REQUIRED = "Student access required"
     USER_REGISTERED_SUCCESSFULLY = "User registered successfully"
 
-# Category messages
 class CategoryMessage:
     ALREADY_EXISTS = "Category already exists"
     NOT_FOUND = "Category not found"
@@ -36,7 +32,6 @@ class CategoryMessage:
     NO_UPDATE_DATA = "No fields provided for update"
     DELETED = "Category deleted successfully"
 
-# Quiz messages
 class QuizMessage:
     INVALID_PASSING_MARKS = "Passing marks cannot be more than maximum marks"
     ALREADY_EXISTS = "Quiz already exists"
@@ -44,16 +39,6 @@ class QuizMessage:
     NOT_FOUND = "Quiz not found"
     NO_UPDATE_DATA = "No fields provided for update"
     DELETED = "Quiz deleted successfully"
-
-# Question module
-class QuestionType(str, Enum):
-    MCQ = "MCQ"
-    TRUE_FALSE = "TRUE_FALSE"
-
-class DifficultyLevel(str, Enum):
-    EASY = "Easy"
-    MEDIUM = "Medium"
-    HARD = "Hard"
 
 class QuestionMessage:
     INVALID_OPTIONS = "MCQ must have between 2 and 4 options"
@@ -64,4 +49,13 @@ class QuestionMessage:
     INVALID_ID = "Invalid question ID"
     DUPLICATE_OPTIONS = "Duplicate options are not allowed"
     EMPTY_OPTION = "Question options cannot be empty"
-    DELETED = "Question deleted successfully"
+    DELETED = "Question deleted successfully"    
+
+class QuestionType(str, Enum):
+    MCQ = "MCQ"
+    TRUE_FALSE = "TRUE_FALSE"
+
+class DifficultyLevel(str, Enum):
+    EASY = "Easy"
+    MEDIUM = "Medium"
+    HARD = "Hard"
