@@ -10,6 +10,7 @@ from app.exceptions.custom_exceptions import (ConflictException, ResourceNotFoun
 from app.utils.constants import CategoryMessage, QuizMessage
 from app.utils.logger import logger
 from app.repositories.quiz_repository import QuizRepository
+from app.utils.helper import validate_object_id
 
 
 def quiz_helper(quiz):
@@ -38,11 +39,8 @@ class QuizService:
         """
         Create a new quiz
         """
-        try:
-            category_object_id = ObjectId(quiz.category_id)
-        except InvalidId:
-            logger.warning(CategoryMessage.INVALID_ID)
-            raise BadRequestException(CategoryMessage.INVALID_ID)
+        
+        category_object_id = validate_object_id(quiz.category_id, CategoryMessage.INVALID_ID)
 
         category = await QuizRepository.get_category_by_id(category_object_id)
 
@@ -107,11 +105,8 @@ class QuizService:
         """
         Retrieve a quiz by its ID
         """
-        try:
-            object_id = ObjectId(quiz_id)
-        except InvalidId:
-            logger.warning(QuizMessage.INVALID_ID)
-            raise BadRequestException(QuizMessage.INVALID_ID)
+
+        object_id = validate_object_id(quiz_id, QuizMessage.INVALID_ID)
 
         quiz = await QuizRepository.get_quiz_by_id(object_id)
 
@@ -132,11 +127,8 @@ class QuizService:
         """
         Retrieve all quizzes belonging to specific category
         """
-        try:
-            category_object_id = ObjectId(category_id)
-        except InvalidId:
-            logger.warning(CategoryMessage.INVALID_ID)
-            raise BadRequestException(CategoryMessage.INVALID_ID)
+
+        category_object_id = validate_object_id(category_id, CategoryMessage.INVALID_ID)
 
         category = await QuizRepository.get_category_by_id(category_object_id)
 
@@ -162,11 +154,8 @@ class QuizService:
         """
         Update an existing quiz
         """
-        try:
-            quiz_object_id = ObjectId(quiz_id)
-        except InvalidId:
-            logger.warning(QuizMessage.INVALID_ID)
-            raise BadRequestException(QuizMessage.INVALID_ID)
+
+        quiz_object_id = validate_object_id(quiz_id, QuizMessage.INVALID_ID)
 
         existing_quiz = await QuizRepository.get_quiz_by_id(quiz_object_id)
 
@@ -181,12 +170,11 @@ class QuizService:
             raise BadRequestException(QuizMessage.NO_UPDATE_DATA)
 
         if "category_id" in update_data:
-            try:
-                category_object_id = ObjectId(update_data["category_id"])
-            except InvalidId:
-                logger.warning(CategoryMessage.INVALID_ID)
-                raise BadRequestException(CategoryMessage.INVALID_ID)
-
+            category_object_id = validate_object_id(
+                update_data["category_id"], 
+                CategoryMessage.INVALID_ID
+            )
+            
             category = await QuizRepository.get_category_by_id(category_object_id)
 
             if not category:
@@ -246,11 +234,8 @@ class QuizService:
         """
         Delete a quiz by its ID
         """
-        try:
-            object_id = ObjectId(quiz_id)
-        except InvalidId:
-            logger.warning(QuizMessage.INVALID_ID)
-            raise BadRequestException(QuizMessage.INVALID_ID)
+        
+        object_id = validate_object_id(quiz_id, QuizMessage.INVALID_ID)
 
         quiz = await QuizRepository.get_quiz_by_id(object_id)
 
