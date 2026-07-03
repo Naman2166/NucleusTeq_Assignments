@@ -11,7 +11,7 @@ from app.exceptions.custom_exceptions import UnauthorizedException
 from app.utils.constants import (Role, ExceptionMessage, AuthMessage)
 
 
-# Extract token from request header
+
 security = HTTPBearer(auto_error=False)
 
 

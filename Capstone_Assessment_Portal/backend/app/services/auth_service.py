@@ -34,7 +34,6 @@ class AuthService:
         
         validate_password(original_password)
         
-        # converting user model to dictionary
         user_data = user.model_dump()     
 
         user_data["password"] = hash_password(original_password)    

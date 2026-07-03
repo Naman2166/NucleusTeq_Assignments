@@ -10,7 +10,7 @@ from app.utils.constants import ExceptionMessage
 from app.exceptions.custom_exceptions import BadRequestException
 
 
-# Path to private key 
+
 PRIVATE_KEY_PATH = "app/keys/private_key.pem"
 
 try:

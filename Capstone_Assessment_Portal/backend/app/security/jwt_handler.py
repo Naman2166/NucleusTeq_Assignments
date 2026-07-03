@@ -39,10 +39,10 @@ def create_access_token(existing_user: dict) -> str:
     """   
     logger.info(f"Creating access token for {existing_user['email']}")
 
-    # access token expiry time
+    
     expiry = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
 
-    # creating payload
+    
     payload = {
         "user_id": str(existing_user["_id"]),
         "email": existing_user["email"],
