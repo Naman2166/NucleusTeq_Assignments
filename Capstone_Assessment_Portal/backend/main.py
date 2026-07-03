@@ -4,6 +4,7 @@ from app.exceptions.global_exception_handler import register_exception_handlers
 from app.routes.auth_routes import router as auth_router
 from app.routes.category_routes import router as category_router
 from app.routes.quiz_routes import router as quiz_router
+from app.routes.question_routes import router as question_router
 
 app = FastAPI()
 
@@ -23,6 +24,7 @@ register_exception_handlers(app)
 app.include_router(auth_router)
 app.include_router(category_router)
 app.include_router(quiz_router)
+app.include_router(question_router)
 
 @app.get("/")
 def home():
