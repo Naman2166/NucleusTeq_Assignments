@@ -23,4 +23,4 @@ rules:
     title: No print() in production code
     details: >
       Flag any print() calls in non-test files.
-      Replace with the project logger at the appropriate log level. 
+      Replace with the project logger at the appropriate log level.  

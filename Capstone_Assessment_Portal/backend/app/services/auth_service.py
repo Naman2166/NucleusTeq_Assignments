@@ -123,4 +123,4 @@ class AuthService:
 
         response  = {"publicKey": public_key}
 
-        return response 
+        return response  
