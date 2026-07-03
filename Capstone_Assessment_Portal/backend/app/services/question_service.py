@@ -38,7 +38,21 @@ def validate_question(question_type: QuestionType, options: list[str], correct_a
     """
     Helper to Validate question type, options and correct answer
     """
+    options = [option.strip() for option in options]
+
+    if any(not option for option in options):
+        logger.warning(QuestionMessage.EMPTY_OPTION)
+        raise BadRequestException(QuestionMessage.EMPTY_OPTION)
+
     if question_type == QuestionType.MCQ:
+        if len(options) < 2:
+            logger.warning(QuestionMessage.INVALID_OPTIONS)
+            raise BadRequestException(QuestionMessage.INVALID_OPTIONS)
+        
+        if len(set(options)) != len(options):
+            logger.warning(QuestionMessage.DUPLICATE_OPTIONS)
+            raise BadRequestException(QuestionMessage.DUPLICATE_OPTIONS)
+
         if correct_answer < 1 or correct_answer > len(options):
             logger.warning(QuestionMessage.INVALID_CORRECT_ANSWER)
             raise BadRequestException(QuestionMessage.INVALID_CORRECT_ANSWER)
@@ -94,7 +108,7 @@ class QuestionService:
             "quiz_id": quiz_object_id,
             "question": question.question.strip(),
             "question_type": question.question_type,
-            "options": question.options,
+            "options": [option.strip() for option in question.options],
             "correct_answer": question.correct_answer,
             "difficulty": question.difficulty,
             "tags": question.tags,
@@ -188,6 +202,9 @@ class QuestionService:
             raise ResourceNotFoundException(QuestionMessage.NOT_FOUND)
     
         update_data = question.model_dump(exclude_unset=True)
+
+        if "options" in update_data:
+            update_data["options"] = [option.strip() for option in update_data["options"]]
     
         question_type = update_data.get(
             "question_type",

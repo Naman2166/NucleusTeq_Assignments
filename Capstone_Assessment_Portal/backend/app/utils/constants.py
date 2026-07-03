@@ -62,4 +62,6 @@ class QuestionMessage:
     MARKS_EXCEEDED = "Question marks exceed the total marks of the quiz"
     NOT_FOUND = "Question not found"
     INVALID_ID = "Invalid question ID"
+    DUPLICATE_OPTIONS = "Duplicate options are not allowed"
+    EMPTY_OPTION = "Question options cannot be empty"
     DELETED = "Question deleted successfully"
