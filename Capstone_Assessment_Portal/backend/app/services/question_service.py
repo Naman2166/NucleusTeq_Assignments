@@ -6,15 +6,16 @@ from bson import ObjectId
 from bson.errors import InvalidId
 from app.repositories.question_repository import QuestionRepository
 from app.repositories.quiz_repository import QuizRepository
-from app.schemas.question_schema import (QuestionCreate, QuestionUpdate, QuestionResponseAdmin)
+from app.schemas.question_schema import (QuestionCreate, QuestionResponseStudent, QuestionUpdate, QuestionResponseAdmin)
 from app.schemas.common_schema import MessageResponse
 from app.exceptions.custom_exceptions import (BadRequestException, ResourceNotFoundException)
 from app.utils.constants import (QuestionMessage, QuizMessage, QuestionType)
 from app.utils.logger import logger
+from app.utils.helper import validate_object_id
 
 
 
-def question_helper(question: dict) -> QuestionResponseAdmin:
+def question_helper_admin(question: dict) -> QuestionResponseAdmin:
     """
     Helper to Convert MongoDB document to QuestionResponseAdmin
     """
@@ -32,6 +33,21 @@ def question_helper(question: dict) -> QuestionResponseAdmin:
 
     return response
 
+
+def question_helper_student(question: dict) -> QuestionResponseStudent:
+    """
+    Helper to convert MongoDB document to QuestionResponseStudent
+    """
+    response = QuestionResponseStudent(
+        id=str(question["_id"]),
+        question=question["question"],
+        question_type=question["question_type"],
+        options=question["options"],
+        difficulty=question["difficulty"],
+        marks=question["marks"],
+    )
+
+    return response
 
 
 def validate_question(question_type: QuestionType, options: list[str], correct_answer: int) -> None:
@@ -79,12 +95,11 @@ class QuestionService:
         Create a new question
         """
         logger.info("Creating question")
-    
-        try:
-            quiz_object_id = ObjectId(question.quiz_id)
-        except InvalidId:
-            logger.warning(QuizMessage.INVALID_ID)
-            raise BadRequestException(QuizMessage.INVALID_ID)
+
+        quiz_object_id = validate_object_id(
+            question.quiz_id,
+            QuizMessage.INVALID_ID,
+        )
 
         quiz = await QuizRepository.get_quiz_by_id(quiz_object_id)
     
@@ -120,24 +135,20 @@ class QuestionService:
         created_question = await QuestionRepository.get_question_by_id(result.inserted_id)
     
         logger.info("Question created successfully")
-        response = question_helper(created_question)
+        response = question_helper_admin(created_question)
     
         return response
     
 
 
     @staticmethod
-    async def get_question_by_id(question_id: str) -> QuestionResponseAdmin:
+    async def get_question_by_id_student(question_id: str) -> QuestionResponseStudent:
         """
-        Get a question by its ID
+        Get a question by its ID for student
         """
         logger.info(f"Getting question with id: {question_id}")
-    
-        try:
-            object_id = ObjectId(question_id)
-        except InvalidId:
-            logger.warning(QuestionMessage.INVALID_ID)
-            raise BadRequestException(QuestionMessage.INVALID_ID)
+        
+        object_id = validate_object_id(question_id, QuestionMessage.INVALID_ID)
     
         question = await QuestionRepository.get_question_by_id(object_id)
     
@@ -145,7 +156,30 @@ class QuestionService:
             logger.warning(QuestionMessage.NOT_FOUND)
             raise ResourceNotFoundException(QuestionMessage.NOT_FOUND)
     
-        response = question_helper(question)
+        logger.info(f"Question retrieved successfully: {question_id}")
+    
+        response = question_helper_student(question)
+    
+        return response
+    
+
+
+    @staticmethod
+    async def get_question_by_id_admin(question_id: str) -> QuestionResponseAdmin:
+        """
+        Get a question by its ID for admin
+        """
+        logger.info(f"Getting question with id: {question_id}")
+        
+        object_id = validate_object_id(question_id, QuestionMessage.INVALID_ID)
+
+        question = await QuestionRepository.get_question_by_id(object_id)
+    
+        if not question:
+            logger.warning(QuestionMessage.NOT_FOUND)
+            raise ResourceNotFoundException(QuestionMessage.NOT_FOUND)
+    
+        response = question_helper_admin(question)
     
         logger.info(f"Question retrieved successfully: {question_id}")
     
@@ -154,17 +188,13 @@ class QuestionService:
 
 
     @staticmethod
-    async def get_questions_by_quiz(quiz_id: str) -> list[QuestionResponseAdmin]:
+    async def get_questions_by_quiz_student(quiz_id: str) -> list[QuestionResponseStudent]:
         """
-        Get all questions for a quiz
+        Get all questions for a quiz for student
         """
         logger.info(f"Getting questions for quiz: {quiz_id}")
-    
-        try:
-            object_id = ObjectId(quiz_id)
-        except InvalidId:
-            logger.warning(QuizMessage.INVALID_ID)
-            raise BadRequestException(QuizMessage.INVALID_ID)
+        
+        object_id = validate_object_id(quiz_id, QuizMessage.INVALID_ID)
     
         quiz = await QuizRepository.get_quiz_by_id(object_id)
     
@@ -174,7 +204,32 @@ class QuestionService:
     
         questions = await QuestionRepository.get_questions_by_quiz(object_id)
     
-        response = [question_helper(question) for question in questions]
+        response = [question_helper_student(question) for question in questions]
+    
+        logger.info("Questions retrieved successfully")
+    
+        return response
+    
+
+
+    @staticmethod
+    async def get_questions_by_quiz_admin(quiz_id: str) -> list[QuestionResponseAdmin]:
+        """
+        Get all questions for a quiz for admin
+        """
+        logger.info(f"Getting questions for quiz: {quiz_id}")
+    
+        object_id = validate_object_id(quiz_id, QuizMessage.INVALID_ID)
+    
+        quiz = await QuizRepository.get_quiz_by_id(object_id)
+    
+        if not quiz:
+            logger.warning(QuizMessage.NOT_FOUND)
+            raise ResourceNotFoundException(QuizMessage.NOT_FOUND)
+    
+        questions = await QuestionRepository.get_questions_by_quiz(object_id)
+    
+        response = [question_helper_admin(question) for question in questions]
     
         logger.info("Questions retrieved successfully")
     
@@ -188,13 +243,9 @@ class QuestionService:
         Update a question
         """
         logger.info(f"Updating question with id: {question_id}")
-    
-        try:
-            object_id = ObjectId(question_id)
-        except InvalidId:
-            logger.warning(QuestionMessage.INVALID_ID)
-            raise BadRequestException(QuestionMessage.INVALID_ID)
-    
+        
+        object_id = validate_object_id(question_id, QuestionMessage.INVALID_ID)
+
         existing_question = await QuestionRepository.get_question_by_id(object_id)
     
         if not existing_question:
@@ -253,7 +304,7 @@ class QuestionService:
         updated_question = await QuestionRepository.get_question_by_id(object_id)
     
         logger.info(f"Question updated successfully: {question_id}")
-        response = question_helper(updated_question)
+        response = question_helper_admin(updated_question)
     
         return response
     
@@ -266,11 +317,7 @@ class QuestionService:
         """
         logger.info(f"Deleting question with id: {question_id}")
     
-        try:
-            object_id = ObjectId(question_id)
-        except InvalidId:
-            logger.warning(QuestionMessage.INVALID_ID)
-            raise BadRequestException(QuestionMessage.INVALID_ID)
+        object_id = validate_object_id(question_id, QuestionMessage.INVALID_ID)
     
         existing_question = await QuestionRepository.get_question_by_id(object_id)
     
