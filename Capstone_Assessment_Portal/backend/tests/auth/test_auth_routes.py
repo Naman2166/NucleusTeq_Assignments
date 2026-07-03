@@ -3,7 +3,7 @@ Test cases for authentication routes
 """
 
 from unittest.mock import AsyncMock
-from app.exceptions.custom_exceptions import UnauthorizedException
+from app.exceptions.custom_exceptions import (ResourceNotFoundException, UnauthorizedException)
 from main import app
 from app.security.auth import require_admin, require_student
 from app.utils.constants import AuthMessage
@@ -87,6 +87,56 @@ def test_refresh_token_route(client, mocker):
 
     assert response.status_code == 200
     assert response.json()["access_token"] == "new_access_token"
+
+
+
+def test_login_route_invalid_email(client, mocker):
+    """
+    Test login route with invalid email
+    """
+
+    mocker.patch(
+        "app.routes.auth_routes.AuthService.login",
+        new=AsyncMock(
+            side_effect=ResourceNotFoundException(AuthMessage.INVALID_CREDENTIALS)
+        ),
+    )
+
+    response = client.post(
+        "/auth/login",
+        json={
+            "email": "invalid@gmail.com",
+            "password": "encrypted_password",
+        },
+    )
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == AuthMessage.INVALID_CREDENTIALS
+
+
+
+def test_login_route_invalid_password(client, mocker):
+    """
+    Test login route with invalid password
+    """
+
+    mocker.patch(
+        "app.routes.auth_routes.AuthService.login",
+        new=AsyncMock(
+            side_effect=UnauthorizedException(AuthMessage.INVALID_CREDENTIALS)
+        ),
+    )
+
+    response = client.post(
+        "/auth/login",
+        json={
+            "email": "naman@gmail.com",
+            "password": "wrong_password",
+        },
+    )
+
+    assert response.status_code == 401
+    assert response.json()["detail"] == AuthMessage.INVALID_CREDENTIALS
 
 
 
