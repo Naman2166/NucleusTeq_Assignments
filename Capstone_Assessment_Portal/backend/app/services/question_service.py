@@ -2,14 +2,12 @@
 Question business logic
 """
 
-from bson import ObjectId
-from bson.errors import InvalidId
 from app.repositories.question_repository import QuestionRepository
 from app.repositories.quiz_repository import QuizRepository
 from app.schemas.question_schema import (QuestionCreate, QuestionResponseStudent, QuestionUpdate, QuestionResponseAdmin)
 from app.schemas.common_schema import MessageResponse
 from app.exceptions.custom_exceptions import (BadRequestException, ResourceNotFoundException)
-from app.utils.constants import (QuestionMessage, QuizMessage, QuestionType)
+from app.utils.constants import (QuestionMessage, QuizMessage, QuestionType, Role)
 from app.utils.logger import logger
 from app.utils.helper import validate_object_id
 
@@ -142,9 +140,9 @@ class QuestionService:
 
 
     @staticmethod
-    async def get_question_by_id_student(question_id: str) -> QuestionResponseStudent:
+    async def get_question_by_id(question_id: str, current_user: dict) -> QuestionResponseStudent | QuestionResponseAdmin:
         """
-        Get a question by its ID for student
+        Get a question by its ID
         """
         logger.info(f"Getting question with id: {question_id}")
         
@@ -157,40 +155,20 @@ class QuestionService:
             raise ResourceNotFoundException(QuestionMessage.NOT_FOUND)
     
         logger.info(f"Question retrieved successfully: {question_id}")
-    
-        response = question_helper_student(question)
+
+        if current_user["role"] == Role.ADMIN:
+            response = question_helper_admin(question)
+        else:
+            response = question_helper_student(question)
     
         return response
     
 
 
     @staticmethod
-    async def get_question_by_id_admin(question_id: str) -> QuestionResponseAdmin:
+    async def get_questions_by_quiz(quiz_id: str, current_user: dict) -> list[QuestionResponseStudent | QuestionResponseAdmin]:
         """
-        Get a question by its ID for admin
-        """
-        logger.info(f"Getting question with id: {question_id}")
-        
-        object_id = validate_object_id(question_id, QuestionMessage.INVALID_ID)
-
-        question = await QuestionRepository.get_question_by_id(object_id)
-    
-        if not question:
-            logger.warning(QuestionMessage.NOT_FOUND)
-            raise ResourceNotFoundException(QuestionMessage.NOT_FOUND)
-    
-        response = question_helper_admin(question)
-    
-        logger.info(f"Question retrieved successfully: {question_id}")
-    
-        return response
-    
-
-
-    @staticmethod
-    async def get_questions_by_quiz_student(quiz_id: str) -> list[QuestionResponseStudent]:
-        """
-        Get all questions for a quiz for student
+        Get all questions for a quiz 
         """
         logger.info(f"Getting questions for quiz: {quiz_id}")
         
@@ -203,33 +181,11 @@ class QuestionService:
             raise ResourceNotFoundException(QuizMessage.NOT_FOUND)
     
         questions = await QuestionRepository.get_questions_by_quiz(object_id)
-    
-        response = [question_helper_student(question) for question in questions]
-    
-        logger.info("Questions retrieved successfully")
-    
-        return response
-    
 
-
-    @staticmethod
-    async def get_questions_by_quiz_admin(quiz_id: str) -> list[QuestionResponseAdmin]:
-        """
-        Get all questions for a quiz for admin
-        """
-        logger.info(f"Getting questions for quiz: {quiz_id}")
-    
-        object_id = validate_object_id(quiz_id, QuizMessage.INVALID_ID)
-    
-        quiz = await QuizRepository.get_quiz_by_id(object_id)
-    
-        if not quiz:
-            logger.warning(QuizMessage.NOT_FOUND)
-            raise ResourceNotFoundException(QuizMessage.NOT_FOUND)
-    
-        questions = await QuestionRepository.get_questions_by_quiz(object_id)
-    
-        response = [question_helper_admin(question) for question in questions]
+        if current_user["role"] == Role.ADMIN:
+            response = [question_helper_admin(question) for question in questions]
+        else:
+            response = [question_helper_student(question) for question in questions]
     
         logger.info("Questions retrieved successfully")
     

@@ -5,7 +5,7 @@ Question routes
 from fastapi import APIRouter, status, Depends
 from app.schemas.question_schema import (QuestionCreate, QuestionUpdate)
 from app.services.question_service import QuestionService
-from app.security.auth import require_admin, require_student
+from app.security.auth import require_admin, get_current_user
 from app.utils.logger import logger
 
 
@@ -28,55 +28,29 @@ async def create_question(
     return response
 
 
-@router.get("/admin/{question_id}", status_code=status.HTTP_200_OK)
-async def get_question_by_id_admin(
+@router.get("/{question_id}", status_code=status.HTTP_200_OK)
+async def get_question_by_id(
     question_id: str,
-    current_user: dict = Depends(require_admin)
+    current_user: dict = Depends(get_current_user)
 ):
     """
-    Get a question by its ID for admin
+    Get a question by its ID 
     """
-    logger.info(f"Admin {current_user['email']} requested question {question_id}")
-    response = await QuestionService.get_question_by_id_admin(question_id)
+    logger.info(f"{current_user['email']} requested question {question_id}")
+    response = await QuestionService.get_question_by_id(question_id, current_user)
     return response
 
 
-@router.get("/student/{question_id}", status_code=status.HTTP_200_OK)
-async def get_question_by_id_student(
-    question_id: str,
-    current_user: dict = Depends(require_student),
-):
-    """
-    Get a question by its ID for student
-    """
-    logger.info(f"Student {current_user['email']} requested question {question_id}")
-    response = await QuestionService.get_question_by_id_student(question_id)
-    return response
-
-
-@router.get("/admin/quiz/{quiz_id}", status_code=status.HTTP_200_OK)
-async def get_questions_by_quiz_admin(
+@router.get("/quiz/{quiz_id}", status_code=status.HTTP_200_OK)
+async def get_questions_by_quiz(
     quiz_id: str,
-    current_user: dict = Depends(require_admin)
+    current_user: dict = Depends(get_current_user)
 ):
     """
-    Get all questions for a quiz for admin
+    Get all questions for a quiz
     """
-    logger.info(f"Admin {current_user['email']} requested questions for quiz {quiz_id}")
-    response = await QuestionService.get_questions_by_quiz_admin(quiz_id)
-    return response
-
-
-@router.get("/student/quiz/{quiz_id}", status_code=status.HTTP_200_OK)
-async def get_questions_by_quiz_student(
-    quiz_id: str,
-    current_user: dict = Depends(require_student),
-):
-    """
-    Get all questions for a quiz for student
-    """
-    logger.info(f"Student {current_user['email']} requested questions for quiz {quiz_id}")
-    response = await QuestionService.get_questions_by_quiz_student(quiz_id)
+    logger.info(f"{current_user['email']} requested questions for quiz {quiz_id}")
+    response = await QuestionService.get_questions_by_quiz(quiz_id, current_user)
     return response
 
 
