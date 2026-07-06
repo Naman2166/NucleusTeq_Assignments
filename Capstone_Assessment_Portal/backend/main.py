@@ -6,6 +6,7 @@ from app.routes.category_routes import router as category_router
 from app.routes.quiz_routes import router as quiz_router
 from app.routes.question_routes import router as question_router
 from app.routes.quiz_attempt_routes import router as quiz_attempt_router
+from app.routes.result_routes import router as result_router
 
 app = FastAPI()
 
@@ -27,6 +28,7 @@ app.include_router(category_router)
 app.include_router(quiz_router)
 app.include_router(question_router)
 app.include_router(quiz_attempt_router)
+app.include_router(result_router)
 
 @app.get("/")
 def home():
