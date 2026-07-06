@@ -210,6 +210,11 @@ class QuizAttemptService:
         if attempt["student_id"] != ObjectId(current_user["user_id"]):
             logger.warning(QuizAttemptMessage.NOT_FOUND)
             raise ResourceNotFoundException(QuizAttemptMessage.NOT_FOUND)
+        
+        answer_map = {
+            answer["question_id"]: answer["selected_option"]
+            for answer in attempt["answers"]
+        }
     
         response = [
             AttemptQuestionResponse(
@@ -219,6 +224,7 @@ class QuizAttemptService:
                 options=question["options"],
                 difficulty=question["difficulty"],
                 marks=question["marks"],
+                selected_option=answer_map.get(question["question_id"]),
             )
             for question in attempt["snapshot"]["questions"]
         ]
