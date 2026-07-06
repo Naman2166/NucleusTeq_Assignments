@@ -195,21 +195,20 @@ class QuizAttemptService:
     
         attempt = await QuizAttemptRepository.get_attempt_by_id(object_id)
 
-        if (attempt 
-            and attempt["status"] == QuizAttemptStatus.IN_PROGRESS 
-            and check_attempt_time_expired(attempt)
-            ):
-            await auto_submit_attempt(object_id, attempt)
-            logger.warning(QuizAttemptMessage.TIME_EXPIRED)
-            raise BadRequestException(QuizAttemptMessage.TIME_EXPIRED)
-    
         if not attempt:
             logger.warning(QuizAttemptMessage.NOT_FOUND)
             raise ResourceNotFoundException(QuizAttemptMessage.NOT_FOUND)
     
         if attempt["student_id"] != ObjectId(current_user["user_id"]):
             logger.warning(QuizAttemptMessage.NOT_FOUND)
-            raise ResourceNotFoundException(QuizAttemptMessage.NOT_FOUND)
+            raise ResourceNotFoundException(QuizAttemptMessage.NOT_FOUND)        
+
+        if (attempt["status"] == QuizAttemptStatus.IN_PROGRESS 
+            and check_attempt_time_expired(attempt)
+            ):
+            await auto_submit_attempt(object_id, attempt)
+            logger.warning(QuizAttemptMessage.TIME_EXPIRED)
+            raise BadRequestException(QuizAttemptMessage.TIME_EXPIRED)
         
         answer_map = {
             answer["question_id"]: answer["selected_option"]
@@ -249,14 +248,6 @@ class QuizAttemptService:
     
         attempt = await QuizAttemptRepository.get_attempt_by_id(object_id)
 
-        if (attempt 
-            and attempt["status"] == QuizAttemptStatus.IN_PROGRESS 
-            and check_attempt_time_expired(attempt)
-            ):
-            await auto_submit_attempt(object_id, attempt)
-            logger.warning(QuizAttemptMessage.TIME_EXPIRED)
-            raise BadRequestException(QuizAttemptMessage.TIME_EXPIRED)
-    
         if not attempt:
             logger.warning(QuizAttemptMessage.NOT_FOUND)
             raise ResourceNotFoundException(QuizAttemptMessage.NOT_FOUND)
@@ -264,6 +255,13 @@ class QuizAttemptService:
         if attempt["student_id"] != ObjectId(current_user["user_id"]):
             logger.warning(QuizAttemptMessage.NOT_FOUND)
             raise ResourceNotFoundException(QuizAttemptMessage.NOT_FOUND)
+
+        if (attempt["status"] == QuizAttemptStatus.IN_PROGRESS 
+            and check_attempt_time_expired(attempt)
+            ):
+            await auto_submit_attempt(object_id, attempt)
+            logger.warning(QuizAttemptMessage.TIME_EXPIRED)
+            raise BadRequestException(QuizAttemptMessage.TIME_EXPIRED)
     
         if attempt["status"] != QuizAttemptStatus.IN_PROGRESS:
             logger.warning(QuizAttemptMessage.ATTEMPT_ALREADY_SUBMITTED)
@@ -321,14 +319,6 @@ class QuizAttemptService:
     
         attempt = await QuizAttemptRepository.get_attempt_by_id(object_id)
 
-        if (attempt 
-            and attempt["status"] == QuizAttemptStatus.IN_PROGRESS 
-            and check_attempt_time_expired(attempt)
-            ):
-            await auto_submit_attempt(object_id, attempt)
-            logger.warning(QuizAttemptMessage.TIME_EXPIRED)
-            raise BadRequestException(QuizAttemptMessage.TIME_EXPIRED)
-    
         if not attempt:
             logger.warning(QuizAttemptMessage.NOT_FOUND)
             raise ResourceNotFoundException(QuizAttemptMessage.NOT_FOUND)
@@ -336,6 +326,13 @@ class QuizAttemptService:
         if attempt["student_id"] != ObjectId(current_user["user_id"]):
             logger.warning(QuizAttemptMessage.NOT_FOUND)
             raise ResourceNotFoundException(QuizAttemptMessage.NOT_FOUND)
+        
+        if (attempt["status"] == QuizAttemptStatus.IN_PROGRESS 
+            and check_attempt_time_expired(attempt)
+            ):
+            await auto_submit_attempt(object_id, attempt)
+            logger.warning(QuizAttemptMessage.TIME_EXPIRED)
+            raise BadRequestException(QuizAttemptMessage.TIME_EXPIRED)
     
         if attempt["status"] != QuizAttemptStatus.IN_PROGRESS:
             logger.warning(QuizAttemptMessage.ATTEMPT_ALREADY_SUBMITTED)
