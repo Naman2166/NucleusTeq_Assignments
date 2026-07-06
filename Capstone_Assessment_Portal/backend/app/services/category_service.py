@@ -10,6 +10,7 @@ from app.utils.logger import logger
 from app.exceptions.custom_exceptions import ConflictException, ResourceNotFoundException, BadRequestException
 from app.utils.constants import CategoryMessage
 from app.repositories.category_repository import CategoryRepository
+from app.utils.helper import validate_object_id
 
 
 def category_helper(category: dict) -> dict:
@@ -57,6 +58,11 @@ class CategoryService:
             object_id = ObjectId(category_id)
         except InvalidId:
             raise BadRequestException(CategoryMessage.INVALID_ID)
+        
+        object_id = validate_object_id(
+            category_id,
+            CategoryMessage.INVALID_ID,
+        )
     
         category = await CategoryRepository.get_category_by_id(object_id)
 
@@ -104,12 +110,11 @@ class CategoryService:
         Update an existing category
         """
         logger.info(f"Updating category with id: {category_id}")
-
-        # Validate category id
-        try:
-            object_id = ObjectId(category_id)
-        except InvalidId:
-            raise BadRequestException(CategoryMessage.INVALID_ID)
+        
+        object_id = validate_object_id(
+            category_id,
+            CategoryMessage.INVALID_ID,
+        )
 
         existing_category = await CategoryRepository.get_category_by_id(object_id)
     
@@ -119,7 +124,6 @@ class CategoryService:
         update_data = {}
     
         if category.name is not None:
-            # checking if new category name already exist or not
             duplicate_category = await CategoryRepository.get_duplicate_category(
                 category.name.strip(),
                 object_id
@@ -154,11 +158,11 @@ class CategoryService:
         Delete a category
         """
         logger.info(f"Deleting category with id: {category_id}")
-    
-        try:
-            object_id = ObjectId(category_id)
-        except InvalidId:
-            raise BadRequestException(CategoryMessage.INVALID_ID)
+        
+        object_id = validate_object_id(
+            category_id,
+            CategoryMessage.INVALID_ID,
+        )
 
         existing_category = await CategoryRepository.get_category_by_id(object_id)
 

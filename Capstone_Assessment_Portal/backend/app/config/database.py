@@ -4,7 +4,6 @@ import os
 
 load_dotenv()
 
-# reading values from .env
 MONGODB_URI = os.getenv("MONGODB_URI")
 DATABASE_NAME = os.getenv("DATABASE_NAME")
 

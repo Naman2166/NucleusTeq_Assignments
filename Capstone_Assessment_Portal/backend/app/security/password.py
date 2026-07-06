@@ -11,7 +11,6 @@ import re
 
 PASSWORD_REGEX = r"^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%]).*$"
 
-# Password hashing configuration using bcrypt
 password_hasher = CryptContext(schemes=["bcrypt"])
 
 

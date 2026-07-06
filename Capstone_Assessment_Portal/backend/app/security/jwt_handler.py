@@ -20,12 +20,10 @@ env_variables = {
     "REFRESH_TOKEN_EXPIRE_DAYS": os.getenv("REFRESH_TOKEN_EXPIRE_DAYS"),
 }
 
-# Validating environment variables
 for name, value in env_variables.items():
    if not value:
      raise RuntimeError(ExceptionMessage.ENVIRONMENT_VARIABLE_MISSING.format(name))
 
-# Loading validated environment variables
 SECRET_KEY = env_variables["SECRET_KEY"]
 ALGORITHM = env_variables["ALGORITHM"]
 ACCESS_TOKEN_EXPIRE_MINUTES = int(env_variables["ACCESS_TOKEN_EXPIRE_MINUTES"])
@@ -39,10 +37,8 @@ def create_access_token(existing_user: dict) -> str:
     """   
     logger.info(f"Creating access token for {existing_user['email']}")
 
-    # access token expiry time
     expiry = datetime.now(timezone.utc) + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
 
-    # creating payload
     payload = {
         "user_id": str(existing_user["_id"]),
         "email": existing_user["email"],
@@ -64,7 +60,6 @@ def create_refresh_token(existing_user: dict) -> str:
     """
     logger.info(f"Creating refresh token for {existing_user['email']}")
 
-    # Refresh token expires after 7 days
     expiry = datetime.now(timezone.utc) + timedelta(days=REFRESH_TOKEN_EXPIRE_DAYS)
 
     payload = {
