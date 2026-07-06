@@ -37,6 +37,15 @@ class QuestionRepository:
         questions_cursor = db.questions.find({"quiz_id": quiz_id})
         questions = await questions_cursor.to_list(length=None)
         return questions
+    
+
+    @staticmethod
+    async def delete_questions_by_quiz(quiz_id: ObjectId):
+        """
+        Delete all questions of a quiz
+        """
+        result = await db.questions.delete_many({"quiz_id": quiz_id})
+        return result
 
 
     @staticmethod
