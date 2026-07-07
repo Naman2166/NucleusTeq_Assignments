@@ -398,6 +398,11 @@ async def test_delete_quiz_success(mocker):
         return_value={"_id": ObjectId()},
     )
 
+    mocker.patch(
+    "app.services.quiz_service.QuestionRepository.delete_questions_by_quiz",
+    new_callable=AsyncMock,
+    )
+
     mock_delete = mocker.patch(
         "app.services.quiz_service.QuizRepository.delete_quiz",
         new_callable=AsyncMock,
