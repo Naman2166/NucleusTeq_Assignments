@@ -4,7 +4,7 @@ helper functions to use accross application
 
 from bson import ObjectId
 from bson.errors import InvalidId
-from fastapi import logger
+from app.utils.logger import logger
 from app.exceptions.custom_exceptions import BadRequestException
 
 
