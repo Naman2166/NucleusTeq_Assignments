@@ -59,3 +59,19 @@ class DifficultyLevel(str, Enum):
     EASY = "Easy"
     MEDIUM = "Medium"
     HARD = "Hard"
+
+class QuizAttemptMessage:
+    STARTED = "Quiz attempt started successfully"
+    ANSWER_SAVED = "Answer saved successfully"
+    SUBMITTED = "Quiz submitted successfully"
+    ATTEMPT_ALREADY_IN_PROGRESS = "You already have an active quiz attempt"
+    ATTEMPT_ALREADY_SUBMITTED = "Quiz attempt has already been submitted"
+    MAX_ATTEMPTS_REACHED = "Maximum number of quiz attempts reached"
+    INVALID_ID = "Invalid quiz attempt ID"
+    NOT_FOUND = "Quiz attempt not found"
+    TIME_EXPIRED = "Quiz time has expired, Your attempt has been submitted automatically"
+
+class QuizAttemptStatus(str, Enum):
+    IN_PROGRESS = "IN_PROGRESS"
+    SUBMITTED = "SUBMITTED"
+    TIME_EXPIRED = "TIME_EXPIRED"
