@@ -28,6 +28,17 @@ async def start_attempt(
     return response
 
 
+@router.get("/all", status_code=status.HTTP_200_OK)
+async def get_student_all_attempts(current_user: dict = Depends(require_student)):
+    """
+    Get all attempts of a logged-in student across all quiz
+    """
+    logger.info(f"{current_user['email']} requested all attempts")
+
+    response =  await QuizAttemptService.get_student_all_attempts(current_user)
+    return response
+
+
 @router.get("/{attempt_id}/questions", status_code=status.HTTP_200_OK)
 async def get_attempt_questions(
     attempt_id: str,

@@ -161,3 +161,40 @@ async def test_update_attempt(mocker):
         {"_id": attempt_id},
         {"$set": update_data},
     )
+
+
+
+@pytest.mark.asyncio
+async def test_get_student_all_attempts(mocker):
+    """
+    Test get all student attempts
+    """
+
+    mock_attempts = mocker.patch("app.repositories.quiz_attempt_repository.db.quiz_attempts")
+
+    student_id = ObjectId()
+    mock_cursor = MagicMock()
+    mock_cursor.to_list = AsyncMock(
+        return_value=[
+            {
+                "_id": ObjectId(),
+                "student_id": student_id,
+                "quiz_id": ObjectId(),
+                "status": QuizAttemptStatus.IN_PROGRESS,
+            },
+            {
+                "_id": ObjectId(),
+                "student_id": student_id,
+                "quiz_id": ObjectId(),
+                "status": QuizAttemptStatus.SUBMITTED,
+            },
+        ]
+    )
+
+    mock_attempts.find.return_value = mock_cursor
+
+    response = await QuizAttemptRepository.get_student_all_attempts(student_id)
+
+    assert len(response) == 2
+    mock_attempts.find.assert_called_once_with({"student_id": student_id})
+    mock_cursor.to_list.assert_awaited_once_with(length=None)

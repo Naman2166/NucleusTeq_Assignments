@@ -66,3 +66,13 @@ class QuizAttemptRepository:
             {"$set": update_data}
         )
         return result
+    
+
+    @staticmethod
+    async def get_student_all_attempts(student_id: ObjectId):
+        """
+        Get all attempts of a student across all quizzes
+        """
+        attempts_cursor = db.quiz_attempts.find({"student_id": student_id})
+        attempts = await attempts_cursor.to_list(length=None)
+        return attempts

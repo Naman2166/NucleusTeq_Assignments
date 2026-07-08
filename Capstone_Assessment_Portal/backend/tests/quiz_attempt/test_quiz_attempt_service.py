@@ -759,3 +759,48 @@ async def test_save_answer_attempt_already_submitted(mocker):
             ),
             {"user_id": student_id}
         )
+
+
+@pytest.mark.asyncio
+async def test_get_student_all_attempts(mocker):
+    """
+    Test get all attempts of logged-in student
+    """
+
+    student_id = ObjectId()
+
+    mocker.patch(
+        "app.services.quiz_attempt_service.QuizAttemptRepository.get_student_all_attempts",
+        new_callable=AsyncMock,
+        return_value=[
+            {
+                "_id": ObjectId(),
+                "quiz_id": ObjectId(),
+                "student_id": student_id,
+                "attempt_number": 1,
+                "status": QuizAttemptStatus.IN_PROGRESS,
+                "started_at": datetime.now(),
+                "submitted_at": None,
+            },
+            {
+                "_id": ObjectId(),
+                "quiz_id": ObjectId(),
+                "student_id": student_id,
+                "attempt_number": 1,
+                "status": QuizAttemptStatus.SUBMITTED,
+                "started_at": datetime.now(),
+                "submitted_at": datetime.now(),
+            },
+        ],
+    )
+
+    mocker.patch(
+        "app.services.quiz_attempt_service.check_attempt_time_expired",
+        return_value=False,
+    )
+
+    response = await QuizAttemptService.get_student_all_attempts({"user_id": str(student_id)})
+
+    assert len(response) == 2
+    assert response[0].status == QuizAttemptStatus.IN_PROGRESS
+    assert response[1].status == QuizAttemptStatus.SUBMITTED

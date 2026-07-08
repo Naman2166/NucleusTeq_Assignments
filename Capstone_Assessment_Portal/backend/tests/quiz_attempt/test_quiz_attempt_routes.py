@@ -178,3 +178,36 @@ def test_get_student_attempts_route(client, mocker):
 
     app.dependency_overrides.clear()
     
+
+
+def test_get_student_all_attempts_route(client, mocker):
+    """
+    Test get all student attempts endpoint
+    """
+
+    app.dependency_overrides[require_student] = lambda: {
+        "email": "student@gmail.com",
+        "role": "student",
+        "user_id": str(ObjectId()),
+    }
+
+    mocker.patch(
+        "app.routes.quiz_attempt_routes.QuizAttemptService.get_student_all_attempts",
+        new=AsyncMock(
+            return_value=[{
+                    "id": str(ObjectId()),
+                    "quiz_id": str(ObjectId()),
+                    "attempt_number": 1,
+                    "status": QuizAttemptStatus.IN_PROGRESS,
+                    "started_at": datetime.now(UTC),
+                    "submitted_at": None,
+                }]
+        )
+    )
+
+    response = client.get("/quiz-attempts/all")
+
+    assert response.status_code == 200
+    assert len(response.json()) == 1
+    assert response.json()[0]["status"] == QuizAttemptStatus.IN_PROGRESS
+    app.dependency_overrides.clear()
