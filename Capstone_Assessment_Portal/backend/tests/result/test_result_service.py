@@ -6,7 +6,6 @@ from datetime import datetime, UTC
 import pytest
 from unittest.mock import AsyncMock
 from bson import ObjectId
-
 from app.services.result_service import ResultService
 
 
@@ -160,34 +159,6 @@ async def test_get_all_results(mocker):
 
 
 @pytest.mark.asyncio
-async def test_result_breakdown(mocker):
-    """
-    Test Result breakdown
-    """
-
-    student_id = ObjectId()
-
-    mocker.patch(
-        "app.services.result_service.get_attempt",
-        new_callable=AsyncMock,
-        return_value=sample_attempt(student_id),
-    )
-
-    response = await ResultService.get_result(
-        str(ObjectId()),
-        {"user_id": str(student_id)},
-    )
-
-    question = response.questions[0]
-
-    assert question.question == "Python is?"
-    assert question.selected_option == 1
-    assert question.correct_answer == 1
-    assert question.obtained_marks == 10
-    assert question.is_correct is True
-
-
-@pytest.mark.asyncio
 async def test_get_result_student_not_owner(mocker):
     """
     Test student cannot access another student's result
@@ -206,3 +177,52 @@ async def test_get_result_student_not_owner(mocker):
             str(ObjectId()),
             {"user_id": str(ObjectId())},
         )
+
+
+@pytest.mark.asyncio
+async def test_result_breakdown_student(mocker):
+    """
+    Test Result breakdown for student
+    """
+
+    student_id = ObjectId()
+
+    mocker.patch(
+        "app.services.result_service.get_attempt",
+        new_callable=AsyncMock,
+        return_value=sample_attempt(student_id),
+    )
+
+    response = await ResultService.get_result(
+        str(ObjectId()),
+        {"user_id": str(student_id)},
+    )
+
+    assert response.score == 8
+    assert response.percentage == 80
+    assert "questions" not in response.model_dump()
+
+
+@pytest.mark.asyncio
+async def test_result_breakdown_admin(mocker):
+    """
+    Test admin result contains question breakdown
+    """
+
+    student_id = ObjectId()
+
+    mocker.patch(
+        "app.services.result_service.get_attempt",
+        new_callable=AsyncMock,
+        return_value=sample_attempt(student_id),
+    )
+
+    response = await ResultService.get_result_admin(str(ObjectId()))
+
+    question = response.questions[0]
+
+    assert question.question == "Python is?"
+    assert question.selected_option == 1
+    assert question.correct_answer == 1
+    assert question.obtained_marks == 10
+    assert question.is_correct is True

@@ -4,20 +4,43 @@ Result business logic
 
 from bson import ObjectId
 from app.repositories.result_repository import ResultRepository
-from app.schemas.result_schema import (ResultResponse, ResultQuestionResponse, AttemptHistoryResponse)
+from app.schemas.result_schema import ResultResponseAdmin, ResultResponseStudent, ResultQuestionResponse, AttemptHistoryResponse
 from app.exceptions.custom_exceptions import ResourceNotFoundException
 from app.utils.constants import QuizAttemptMessage
 from app.utils.helper import validate_object_id
 from app.utils.logger import logger
 
 
-def result_helper(attempt: dict) -> ResultResponse:
+
+def result_student_helper(attempt: dict) -> ResultResponseStudent:
     """
-    Helper to convert MongoDB document to ResultResponse
+    Helper to convert MongoDB document to ResultResponseStudent
     """
     total_marks = attempt["snapshot"]["total_marks"]
     score = attempt["score"]
     passing_marks = attempt["snapshot"]["passing_marks"]
+
+    return ResultResponseStudent(
+        attempt_id=str(attempt["_id"]),
+        quiz_id=str(attempt["quiz_id"]),
+        quiz_title=attempt["snapshot"]["title"],
+        attempt_number=attempt["attempt_number"],
+        score=score,
+        total_marks=total_marks,
+        percentage=(score / total_marks) * 100,
+        passing_marks=passing_marks,
+        is_pass=score >= passing_marks,
+        started_at=attempt["started_at"],
+        submitted_at=attempt["submitted_at"],
+    )
+
+
+def result_admin_helper(attempt: dict) -> ResultResponseAdmin:
+    """
+    Helper to convert MongoDB document to ResultResponseAdmin
+    """
+
+    student_response = result_student_helper(attempt)
 
     answer_map = {
         answer["question_id"]: answer["selected_option"]
@@ -28,9 +51,7 @@ def result_helper(attempt: dict) -> ResultResponse:
 
     for question in attempt["snapshot"]["questions"]:
         selected_option = answer_map.get(question["question_id"])
-
         is_correct = selected_option == question["correct_answer"]
-
         obtained_marks = question["marks"] if is_correct else 0
 
         questions.append(
@@ -44,23 +65,14 @@ def result_helper(attempt: dict) -> ResultResponse:
                 is_correct=is_correct,
             )
         )
-
-    response = ResultResponse(
-        attempt_id=str(attempt["_id"]),
-        quiz_id=str(attempt["quiz_id"]),
-        quiz_title=attempt["snapshot"]["title"],
-        attempt_number=attempt["attempt_number"],
-        score=score,
-        total_marks=total_marks,
-        percentage=(score / total_marks) * 100,
-        passing_marks=passing_marks,
-        is_pass=score >= passing_marks,
-        started_at=attempt["started_at"],
-        submitted_at=attempt["submitted_at"],
+    
+    response = ResultResponseAdmin(
+        **student_response.model_dump(),
         questions=questions,
     )
 
     return response
+
 
 
 def history_helper(attempt: dict) -> AttemptHistoryResponse:
@@ -110,9 +122,9 @@ class ResultService:
     """
 
     @staticmethod
-    async def get_result(attempt_id: str, current_user: dict) -> ResultResponse:
+    async def get_result(attempt_id: str, current_user: dict) -> ResultResponseStudent:
         """
-        Get result of a quiz attempt
+        Get result of quiz attempt of current student
         """
         logger.info(f"Getting result for attempt: {attempt_id}")
 
@@ -123,7 +135,7 @@ class ResultService:
             raise ResourceNotFoundException(QuizAttemptMessage.NOT_FOUND)
 
         logger.info("Result retrieved successfully")
-        response = result_helper(attempt)
+        response = result_student_helper(attempt)
 
         return response
 
@@ -149,7 +161,7 @@ class ResultService:
 
 
     @staticmethod
-    async def get_result_admin(attempt_id: str) -> ResultResponse:
+    async def get_result_admin(attempt_id: str) -> ResultResponseAdmin:
         """
         Get result of any student's quiz attempt
         """
@@ -158,7 +170,7 @@ class ResultService:
         attempt = await get_attempt(attempt_id)
     
         logger.info("Result retrieved successfully")
-        response = result_helper(attempt)
+        response = result_admin_helper(attempt)
     
         return response
     

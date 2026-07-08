@@ -5,7 +5,12 @@ Test cases for result schemas
 from datetime import datetime, UTC
 import pytest
 from pydantic import ValidationError
-from app.schemas.result_schema import ResultQuestionResponse, ResultResponse, AttemptHistoryResponse
+from app.schemas.result_schema import (
+    ResultQuestionResponse, 
+    ResultResponseStudent, 
+    ResultResponseAdmin, 
+    AttemptHistoryResponse
+)
 
 
 def test_result_question_response_schema():
@@ -29,12 +34,35 @@ def test_result_question_response_schema():
 
 
 
-def test_result_response_schema():
+def test_result_response_student_schema():
     """
-    Test ResultResponse schema
+    Test ResultResponseStudent schema
     """
 
-    result = ResultResponse(
+    result = ResultResponseStudent(
+        attempt_id="attempt123",
+        quiz_id="quiz123",
+        quiz_title="Python Quiz",
+        attempt_number=1,
+        score=8,
+        total_marks=10,
+        percentage=80,
+        passing_marks=5,
+        is_pass=True,
+        started_at=datetime.now(UTC),
+        submitted_at=datetime.now(UTC),
+    )
+
+    assert result.score == 8
+    assert result.percentage == 80
+
+
+def test_result_response_admin_schema():
+    """
+    Test ResultResponseAdmin schema
+    """
+
+    result = ResultResponseAdmin(
         attempt_id="attempt123",
         quiz_id="quiz123",
         quiz_title="Python Quiz",
@@ -51,6 +79,7 @@ def test_result_response_schema():
 
     assert result.score == 8
     assert result.percentage == 80
+    assert result.questions == []
 
 
 
@@ -60,7 +89,7 @@ def test_result_response_invalid_percentage():
     """
 
     with pytest.raises(ValidationError):
-        ResultResponse(
+        ResultResponseStudent(
             attempt_id="attempt123",
             quiz_id="quiz123",
             quiz_title="Python Quiz",
@@ -71,8 +100,7 @@ def test_result_response_invalid_percentage():
             passing_marks=5,
             is_pass=True,
             started_at=datetime.now(UTC),
-            submitted_at=datetime.now(UTC),
-            questions=[],
+            submitted_at=datetime.now(UTC)
         )
 
 

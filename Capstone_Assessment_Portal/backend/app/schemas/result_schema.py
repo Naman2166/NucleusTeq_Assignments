@@ -19,7 +19,7 @@ class ResultQuestionResponse(BaseModel):
     is_correct: bool
 
 
-class ResultResponse(BaseModel):
+class ResultResponseAdmin(BaseModel):
     """
     Detailed quiz result
     """
@@ -35,6 +35,23 @@ class ResultResponse(BaseModel):
     started_at: datetime
     submitted_at: datetime
     questions: list[ResultQuestionResponse]
+
+
+class ResultResponseStudent(BaseModel):
+    """
+    Student quiz result
+    """
+    attempt_id: str
+    quiz_id: str
+    quiz_title: str
+    attempt_number: int = Field(gt=0)
+    score: int = Field(ge=0)
+    total_marks: int = Field(gt=0)
+    percentage: float = Field(ge=0, le=100)
+    passing_marks: int = Field(ge=0)
+    is_pass: bool
+    started_at: datetime
+    submitted_at: datetime
 
 
 class AttemptHistoryResponse(BaseModel):
