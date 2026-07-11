@@ -2,8 +2,7 @@
 Quiz business logic
 """
 
-from bson import ObjectId
-from bson.errors import InvalidId
+from app.repositories.question_repository import QuestionRepository
 from app.schemas.quiz_schema import QuizCreate, QuizUpdate, QuizResponse
 from app.schemas.common_schema import MessageResponse
 from app.exceptions.custom_exceptions import (ConflictException, ResourceNotFoundException, BadRequestException)
@@ -243,6 +242,7 @@ class QuizService:
             logger.warning(QuizMessage.NOT_FOUND)
             raise ResourceNotFoundException(QuizMessage.NOT_FOUND)
 
+        await QuestionRepository.delete_questions_by_quiz(object_id)
         await QuizRepository.delete_quiz(object_id)
 
         logger.info("Quiz deleted successfully")

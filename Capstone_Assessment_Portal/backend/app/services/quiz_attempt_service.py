@@ -399,3 +399,28 @@ class QuizAttemptService:
         response = [attempt_helper(attempt) for attempt in attempts]
     
         return response
+    
+
+
+    @staticmethod
+    async def get_student_all_attempts(current_user: dict) -> list[AttemptResponse]:
+        """
+        Get all attempts of a student across all quiz
+        """
+        logger.info("Getting all student attempts")
+        student_object_id = ObjectId(current_user["user_id"])
+    
+        attempts = await QuizAttemptRepository.get_student_all_attempts(student_object_id)
+    
+        for attempt in attempts:
+            if (attempt["status"] == QuizAttemptStatus.IN_PROGRESS
+                and check_attempt_time_expired(attempt)
+                ):
+                await auto_submit_attempt(attempt["_id"], attempt)
+    
+        attempts = await QuizAttemptRepository.get_student_all_attempts(student_object_id)
+    
+        logger.info("Student attempts retrieved successfully")
+        response = [attempt_helper(attempt) for attempt in attempts]
+
+        return response

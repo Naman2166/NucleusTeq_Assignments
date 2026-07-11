@@ -2,6 +2,8 @@
 Category business logic
 """
 
+from app.repositories.question_repository import QuestionRepository
+from app.repositories.quiz_repository import QuizRepository
 from app.schemas.category_schema import CategoryCreate, CategoryResponse, CategoryUpdate
 from app.schemas.common_schema import MessageResponse
 from bson import ObjectId
@@ -168,6 +170,12 @@ class CategoryService:
 
         if not existing_category:
             raise ResourceNotFoundException(CategoryMessage.NOT_FOUND)
+
+        quizzes = await QuizRepository.get_quizzes_by_category(object_id)
+
+        for quiz in quizzes:
+            await QuestionRepository.delete_questions_by_quiz(quiz["_id"])
+            await QuizRepository.delete_quiz(quiz["_id"])
 
         await CategoryRepository.delete_category(object_id)
         
