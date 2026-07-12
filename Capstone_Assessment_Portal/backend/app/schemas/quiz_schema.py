@@ -3,44 +3,31 @@ Quiz request and response schemas
 """
 
 from typing import Optional
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
+from app.utils.helper import contains_alphabet
 
 
 class QuizCreate(BaseModel):
     """
     Schema for creating a quiz
     """
-    title: str = Field(
-        min_length=3, 
-        max_length=100
-    )
-
-    description: str = Field(
-        min_length=5, 
-        max_length=500
-    )
-
+    title: str = Field(min_length=3, max_length=100)
+    description: str = Field(min_length=5, max_length=500)
     category_id: str
+    duration: int = Field(gt=0, description="Duration in minutes")
+    total_marks: int = Field(gt=0, description="Total marks for the quiz")
+    passing_marks: int = Field(ge=0, description="Marks required to pass")
+    max_attempts: int = Field(default=1, gt=0, description="Number of attempts allowed")
 
-    duration: int = Field(
-        gt=0, 
-        description="Duration in minutes"
-    )
+    @field_validator("title")
+    @classmethod
+    def validate_title(cls, value):
+        return contains_alphabet("Quiz title", value)
 
-    total_marks: int = Field(
-        gt=0, 
-        description="Total marks for the quiz"
-    )
-
-    passing_marks: int = Field(
-        ge=0, 
-        description="Marks required to pass"
-    )
-    max_attempts: int = Field(
-        default=1, 
-        gt=0, 
-        description="Number of attempts allowed"
-    )
+    @field_validator("description")
+    @classmethod
+    def validate_description(cls, value):
+        return contains_alphabet("Description", value)
 
 
 
@@ -48,43 +35,27 @@ class QuizUpdate(BaseModel):
     """
     Schema for updating a quiz
     """
-    title: Optional[str] = Field(
-        None, 
-        min_length=3, 
-        max_length=100
-    )
-
-    description: Optional[str] = Field(
-        None, 
-        min_length=5, 
-        max_length=500
-    )
-
+    title: Optional[str] = Field(None, min_length=3, max_length=100)
+    description: Optional[str] = Field(None, min_length=5, max_length=500)
     category_id: Optional[str] = None
+    duration: Optional[int] = Field(None, gt=0, description="Duration in minutes")
+    total_marks: Optional[int] = Field(None, gt=0, description="Total marks for the quiz")
+    passing_marks: Optional[int] = Field(None, ge=0, description="Marks required to pass")
+    max_attempts: Optional[int] = Field(None, gt=0, description="Number of attempts allowed")
 
-    duration: Optional[int] = Field(
-        None,
-        gt=0, 
-        description="Duration in minutes"
-    )
+    @field_validator("title")
+    @classmethod
+    def validate_title(cls, value):
+        if value is None:
+            return value
+        return contains_alphabet("Quiz title", value)
 
-    total_marks: Optional[int] = Field(
-        None, 
-        gt=0, 
-        description="Total marks for the quiz"
-    )
-
-    passing_marks: Optional[int] = Field(
-        None, 
-        ge=0, 
-        description="Marks required to pass"
-    )
-
-    max_attempts: Optional[int] = Field(
-        None, 
-        gt=0, 
-        description="Number of attempts allowed"
-    )
+    @field_validator("description")
+    @classmethod
+    def validate_description(cls, value):
+        if value is None:
+            return value
+        return contains_alphabet("Description", value)
 
 
 
