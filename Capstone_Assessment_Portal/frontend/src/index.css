@@ -1,0 +1,45 @@
+/* ===========================
+   Global Reset & Base
+=========================== */
+
+* {
+  box-sizing: border-box;
+}
+
+/* Prevent full-page horizontal scroll — tables scroll inside their own wrapper */
+body {
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Make images and embeds responsive by default */
+img,
+video,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ===========================
+   Responsive Typography
+=========================== */
+
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
+}
