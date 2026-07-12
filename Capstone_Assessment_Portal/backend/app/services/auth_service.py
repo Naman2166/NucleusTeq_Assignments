@@ -123,3 +123,15 @@ class AuthService:
         response  = {"publicKey": public_key}
 
         return response  
+    
+
+
+    @staticmethod
+    async def get_all_students():
+       """
+       Get all registered students
+       """
+       logger.info("Fetching all registered students")
+       response = await UserRepository.get_all_students()
+
+       return response

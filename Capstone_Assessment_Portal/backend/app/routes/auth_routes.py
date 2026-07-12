@@ -65,6 +65,16 @@ async def student_dashboard(current_user=Depends(require_student)):
     return response
 
 
+@router.get("/students")
+async def get_all_students(current_user=Depends(require_admin)):
+    """
+    Get all registered students
+    """
+    logger.info(f"Get all student requested by admin {current_user['email']}")
+    response = await AuthService.get_all_students()
+    return response
+
+
 @router.get("/public-key")
 async def get_public_key():
     """
@@ -73,3 +83,5 @@ async def get_public_key():
     logger.info("Public key request received")
     response = await AuthService.get_public_key()
     return response
+
+
