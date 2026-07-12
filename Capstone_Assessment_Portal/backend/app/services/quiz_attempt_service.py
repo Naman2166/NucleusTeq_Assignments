@@ -63,7 +63,7 @@ def check_attempt_time_expired(attempt: dict) -> bool:
     """
     Check whether the quiz attempt has exceeded the time limit
     """
-    time_spent = (datetime.utcnow() - attempt["started_at"]).total_seconds()
+    time_spent = (datetime.now() - attempt["started_at"]).total_seconds()
     allowed_time = attempt["snapshot"]["duration"] * 60
 
     has_time_expired =  time_spent >= allowed_time
@@ -98,12 +98,11 @@ async def auto_submit_attempt(attempt_id: ObjectId, attempt: dict) -> None:
 
     update_data = {
         "status": QuizAttemptStatus.TIME_EXPIRED,
-        "submitted_at": datetime.utcnow(),
+        "submitted_at": datetime.now(),
         "score": score,
     }
 
     await QuizAttemptRepository.update_attempt(attempt_id, update_data)
-
 
 
 
@@ -164,7 +163,7 @@ class QuizAttemptService:
             "quiz_id": quiz_object_id,
             "attempt_number": len(previous_attempts) + 1,
             "status": QuizAttemptStatus.IN_PROGRESS,
-            "started_at": datetime.utcnow(),
+            "started_at": datetime.now(),
             "submitted_at": None,
             "answers": [],
             "snapshot": snapshot.model_dump(),
@@ -182,7 +181,7 @@ class QuizAttemptService:
 
 
     @staticmethod
-    async def get_attempt_questions(attempt_id: str, current_user: dict) -> list[AttemptQuestionResponse]:
+    async def get_attempt_questions(attempt_id: str, index: int, current_user: dict) -> AttemptQuestionResponse:
         """
         Get questions for an attempt
         """
@@ -214,21 +213,28 @@ class QuizAttemptService:
             answer["question_id"]: answer["selected_option"]
             for answer in attempt["answers"]
         }
+
+        questions = attempt["snapshot"]["questions"]
+
+        if index < 0 or index >= len(questions):
+            logger.warning(QuizAttemptMessage.INVALID_QUESTION_INDEX)
+            raise BadRequestException(QuizAttemptMessage.INVALID_QUESTION_INDEX)
+        
+        question = questions[index]
     
-        response = [
-            AttemptQuestionResponse(
-                id=question["question_id"],
-                question=question["question"],
-                question_type=question["question_type"],
-                options=question["options"],
-                difficulty=question["difficulty"],
-                marks=question["marks"],
-                selected_option=answer_map.get(question["question_id"]),
-            )
-            for question in attempt["snapshot"]["questions"]
-        ]
+        response = AttemptQuestionResponse(
+            question_number = index + 1,
+            total_questions = len(questions),
+            id = question["question_id"],
+            question = question["question"],
+            question_type = question["question_type"],
+            options = question["options"],
+            difficulty = question["difficulty"],
+            marks = question["marks"],
+            selected_option = answer_map.get(question["question_id"]),
+        )
     
-        logger.info("Attempt questions retrieved successfully")
+        logger.info("Attempt question retrieved successfully")
     
         return response
     
@@ -342,7 +348,7 @@ class QuizAttemptService:
     
         update_data = {
             "status": QuizAttemptStatus.SUBMITTED,
-            "submitted_at": datetime.utcnow(),
+            "submitted_at": datetime.now(),
             "score": score,
         }
     

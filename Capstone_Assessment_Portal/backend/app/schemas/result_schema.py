@@ -59,6 +59,8 @@ class AttemptHistoryResponse(BaseModel):
     Student attempt history
     """
     attempt_id: str
+    student_name: str
+    category_name: str
     quiz_id: str
     quiz_title: str
     attempt_number: int = Field(gt=0)
