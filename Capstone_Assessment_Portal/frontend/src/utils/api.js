@@ -7,8 +7,7 @@ const api = axios.create({
 });
 
 
-// Request interceptor
-// runs before every API request to add access token in its header 
+// this request interceptor runs before every API request to add access token in its header 
 api.interceptors.request.use((request) => {
 
   const accessToken = localStorage.getItem("access_token");
@@ -21,16 +20,13 @@ api.interceptors.request.use((request) => {
 });
 
 
-// Response interceptor 
-// runs after every API response
+// this response interceptor  runs after every API response
 api.interceptors.response.use(
 
-  // Return successful responses
   (response) => {
     return response;
   },
-
-  // Handling failed responses                   
+                  
   async (error) => {
 
     if (error.response?.status === 401 && 
@@ -56,7 +52,6 @@ api.interceptors.response.use(
         }
       }
       catch {
-        // clearing local storage when Refresh token has expired
         clearAuth()
         window.location.href = "/login";
       }
