@@ -2,7 +2,7 @@
 Quiz Attempt routes
 """
 
-from fastapi import APIRouter, status, Depends
+from fastapi import APIRouter, status, Depends, Query
 from app.schemas.quiz_attempt_schema import (AttemptCreate, StudentAnswer)
 from app.services.quiz_attempt_service import QuizAttemptService
 from app.security.auth import require_student
@@ -42,13 +42,14 @@ async def get_student_all_attempts(current_user: dict = Depends(require_student)
 @router.get("/{attempt_id}/questions", status_code=status.HTTP_200_OK)
 async def get_attempt_questions(
     attempt_id: str,
+    index: int = Query(0, description="Zero based question index"),
     current_user: dict = Depends(require_student)
 ):
     """
-    Get questions for a quiz attempt
+    Get Single question at a time for a quiz attempt
     """
-    logger.info(f"{current_user['email']} requested questions for attempt {attempt_id}")
-    response = await QuizAttemptService.get_attempt_questions(attempt_id, current_user)
+    logger.info(f"{current_user['email']} requested question {index + 1} for attempt {attempt_id}")
+    response = await QuizAttemptService.get_attempt_questions(attempt_id, index, current_user)
     return response
 
 

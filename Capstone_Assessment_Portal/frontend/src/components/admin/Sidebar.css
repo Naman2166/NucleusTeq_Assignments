@@ -1,0 +1,120 @@
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  background-color: #151c28;
+  color: #ffffff;
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 72px;
+  left: 0;
+  z-index: 900;
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-link {
+  text-decoration: none;
+  color: #cbd5e1;
+  padding: 0.9rem 1.2rem;
+  margin: 0.3rem 0.6rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background 0.25s, color 0.25s;
+  white-space: nowrap;
+}
+
+.sidebar-link:hover {
+  background-color: #334155;
+  color: #ffffff;
+}
+
+.sidebar-link.active {
+  background-color: #246edd;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+@media (max-width: 1200px) {
+  .sidebar {
+    width: 220px; 
+  }
+
+  .sidebar-link {
+    font-size: 0.93rem;
+    padding: 0.85rem 1rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .sidebar {
+    width: 200px;
+  }
+
+  .sidebar-link {
+    padding: 0.75rem 0.9rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 68px;         
+    left: 0;
+    width: 100%;
+    height: 60px;
+    min-height: unset;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 6px;
+    background: #151c28;
+    border-bottom: 2px solid #246edd;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;  
+    z-index: 900;
+  }
+
+  .sidebar::-webkit-scrollbar {
+    display: none;       
+  }
+
+  .sidebar-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    min-width: max-content;  
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .sidebar-link {
+    margin: 0;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .sidebar-link {
+    padding: 6px 10px;
+    font-size: 0.78rem;
+  }
+}

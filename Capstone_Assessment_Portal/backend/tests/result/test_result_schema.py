@@ -112,6 +112,8 @@ def test_attempt_history_response_schema():
 
     history = AttemptHistoryResponse(
         attempt_id="attempt123",
+        student_name="Naman Patel",
+        category_name="Python",
         quiz_id="quiz123",
         quiz_title="Python Quiz",
         attempt_number=1,
@@ -122,5 +124,7 @@ def test_attempt_history_response_schema():
         submitted_at=datetime.now(UTC),
     )
 
+    assert history.student_name == "Naman Patel"
+    assert history.category_name == "Python"
     assert history.score == 9
     assert history.is_pass is True

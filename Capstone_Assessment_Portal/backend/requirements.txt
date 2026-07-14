@@ -3,7 +3,9 @@ uvicorn
 motor
 python-dotenv
 python-jose[cryptography]
+cryptography
 passlib[bcrypt]
+bcrypt
 pydantic
 email-validator
 pytest

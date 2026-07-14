@@ -59,24 +59,28 @@ def test_get_attempt_questions_route(client, mocker):
     }
 
     mocker.patch(
-        "app.routes.quiz_attempt_routes.QuizAttemptService.get_attempt_questions",
+       "app.routes.quiz_attempt_routes.QuizAttemptService.get_attempt_questions",
         new=AsyncMock(
-            return_value=[{
-                    "id": str(ObjectId()),
-                    "question": "Python is?",
-                    "question_type": "MCQ",
-                    "options": ["A", "B"],
-                    "difficulty": "Easy",
-                    "marks": 5,
-                    "selected_option": None,
-                }]
+            return_value={
+                "id": str(ObjectId()),
+                "question_number": 1,
+                "total_questions": 10,
+                "question": "Python is?",
+                "question_type": "MCQ",
+                "options": ["A", "B"],
+                "difficulty": "Easy",
+                "marks": 5,
+                "selected_option": None,
+            }
         )
     )
 
-    response = client.get(f"/quiz-attempts/{attempt_id}/questions")
+    response = client.get(f"/quiz-attempts/{attempt_id}/questions?index=0")
 
     assert response.status_code == 200
-    assert len(response.json()) == 1
+    assert response.json()["question_number"] == 1
+    assert response.json()["total_questions"] == 10
+    assert response.json()["question"] == "Python is?"
 
     app.dependency_overrides.clear()
 

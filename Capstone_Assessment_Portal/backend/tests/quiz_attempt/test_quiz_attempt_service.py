@@ -235,14 +235,14 @@ async def test_get_attempt_questions_success(mocker):
     )
 
     response = await QuizAttemptService.get_attempt_questions(
-        attempt_id,
-        {"user_id": student_id}
+        attempt_id, 0, {"user_id": student_id}
     )
 
-    assert len(response) == 1
-    assert response[0].question == "Python is?"
-    assert response[0].selected_option == 2
-    assert response[0].marks == 5
+    assert response.question_number == 1
+    assert response.total_questions == 1
+    assert response.question == "Python is?"
+    assert response.selected_option == 2
+    assert response.marks == 5
 
 
 
@@ -609,8 +609,7 @@ async def test_get_attempt_questions_time_expired(mocker):
 
     with pytest.raises(BadRequestException):
         await QuizAttemptService.get_attempt_questions(
-            attempt_id,
-            {"user_id": student_id}
+            attempt_id, 0, {"user_id": student_id}
         )
 
     mock_auto_submit.assert_awaited_once_with(
@@ -716,8 +715,7 @@ async def test_get_attempt_questions_student_not_owner(mocker):
 
     with pytest.raises(ResourceNotFoundException):
         await QuizAttemptService.get_attempt_questions(
-            attempt_id,
-            {"user_id": str(ObjectId())}
+            attempt_id, 0, {"user_id": str(ObjectId())}
         )
 
 

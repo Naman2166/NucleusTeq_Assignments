@@ -6,6 +6,7 @@ from datetime import datetime, UTC
 import pytest
 from unittest.mock import AsyncMock
 from bson import ObjectId
+from app.schemas.result_schema import AttemptHistoryResponse
 from app.services.result_service import ResultService
 
 
@@ -130,6 +131,23 @@ async def test_get_student_results(mocker):
         return_value=[sample_attempt(student_id)],
     )
 
+    mocker.patch(
+        "app.services.result_service.history_helper",
+        return_value=AttemptHistoryResponse(
+            attempt_id="attempt123",
+            student_name="Naman Patel",
+            category_name="Python",
+            quiz_id="quiz123",
+            quiz_title="Python Quiz",
+            attempt_number=1,
+            score=8,
+            total_marks=10,
+            percentage=80,
+            is_pass=True,
+            submitted_at=datetime.now(UTC),
+        ),
+    )
+
     response = await ResultService.get_student_results(
         {"user_id": str(student_id)}
     )
@@ -145,16 +163,45 @@ async def test_get_all_results(mocker):
     Test Fetch admin dashboard results
     """
 
+    category_id = ObjectId()
+
     mocker.patch(
         "app.services.result_service.ResultRepository.get_all_results",
         new_callable=AsyncMock,
         return_value=[sample_attempt(ObjectId())],
     )
 
+    mocker.patch(
+        "app.services.result_service.UserRepository.get_user_by_id",
+        new_callable=AsyncMock,
+        return_value={
+            "first_name": "Naman",
+            "last_name": "Patel",
+        },
+    )
+
+    mocker.patch(
+        "app.services.result_service.QuizRepository.get_quiz_by_id",
+        new_callable=AsyncMock,
+        return_value={
+            "category_id": category_id,
+        },
+    )
+
+    mocker.patch(
+        "app.services.result_service.CategoryRepository.get_category_by_id",
+        new_callable=AsyncMock,
+        return_value={
+            "name": "Python",
+        },
+    )
+
     response = await ResultService.get_all_results()
 
     assert len(response) == 1
     assert response[0].quiz_title == "Python Quiz"
+    assert response[0].student_name == "Naman Patel"
+    assert response[0].category_name == "Python"
 
 
 

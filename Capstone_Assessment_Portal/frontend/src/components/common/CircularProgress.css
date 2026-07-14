@@ -1,0 +1,80 @@
+.circular-progress-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.circular-progress-text {
+  font-size: 20px;
+  font-weight: 700;
+  fill: #1e293b;
+  font-family: inherit;
+}
+
+.circular-progress-label {
+  margin-top: 0.9rem;
+  color: #334155;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.circular-progress-count {
+  margin-top: 0.2rem;
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 992px) {
+  .circular-progress-text {
+    font-size: 18px;
+  }
+
+  .circular-progress-label {
+    font-size: 0.9rem;
+  }
+
+  .circular-progress-count {
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .circular-progress-item svg {
+    width: 110px;
+    height: 110px;
+  }
+
+  .circular-progress-text {
+    font-size: 17px;
+  }
+
+  .circular-progress-label {
+    margin-top: 0.8rem;
+    font-size: 0.88rem;
+  }
+
+  .circular-progress-count {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .circular-progress-item svg {
+    width: 95px;
+    height: 95px;
+  }
+
+  .circular-progress-text {
+    font-size: 15px;
+  }
+
+  .circular-progress-label {
+    margin-top: 0.7rem;
+    font-size: 0.82rem;
+  }
+
+  .circular-progress-count {
+    font-size: 0.75rem;
+  }
+}

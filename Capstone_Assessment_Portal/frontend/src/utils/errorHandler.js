@@ -4,11 +4,10 @@ export const getErrorMessage = (error) => {
 
   const detail = error.response?.data?.detail;
 
-  // custom exceptions from backend
   if (!Array.isArray(detail)) {
     return detail || "Something went wrong";
   }
-  
+
   const err = detail[0];
   const field = err.loc[1].replace("_", " ")
 
@@ -24,9 +23,11 @@ export const getErrorMessage = (error) => {
 
     case "string_too_long":
       return `${field} is too long`;
-    
+
     case "value_error":
-      return "Please enter a valid email address";
+      return err.msg
+        ? err.msg.replace("Value error, ", "")
+        : `Invalid input in ${field}`;
 
     default:
       return err.msg;

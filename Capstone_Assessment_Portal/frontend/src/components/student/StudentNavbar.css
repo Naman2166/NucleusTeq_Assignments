@@ -1,0 +1,103 @@
+.student-navbar {
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+.student-navbar-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.student-navbar-logo {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+}
+
+.student-navbar-brand {
+  display: flex;
+  flex-direction: column;
+}
+
+.student-navbar-title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #1e3a8a;
+  letter-spacing: 0.6px;
+  line-height: 1.1;
+}
+
+.student-navbar-subtitle {
+  margin: 2px 0 0;
+  font-size: 0.72rem;
+  color: #64748b;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.student-navbar-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.student-nav-link {
+  text-decoration: none;
+  color: #475569;
+  font-size: 1rem;
+  font-weight: 600;
+  padding-bottom: 6px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.student-nav-link:hover {
+  color: #2563eb;
+}
+
+.student-nav-link.active {
+  color: #2563eb;
+  border-bottom: 2px solid #2563eb;
+  font-weight: 700;
+}
+
+.student-navbar-right {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.student-logout-btn {
+  background: #ef4444;
+  color: #ffffff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.student-logout-btn:hover {
+  background: #dc2626;
+  transform: translateY(-1px);
+}

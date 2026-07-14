@@ -68,6 +68,7 @@ class QuizAttemptMessage:
     ATTEMPT_ALREADY_SUBMITTED = "Quiz attempt has already been submitted"
     MAX_ATTEMPTS_REACHED = "Maximum number of quiz attempts reached"
     INVALID_ID = "Invalid quiz attempt ID"
+    INVALID_QUESTION_INDEX = "Invalid question index"
     NOT_FOUND = "Quiz attempt not found"
     TIME_EXPIRED = "Quiz time has expired, Your attempt has been submitted automatically"
 

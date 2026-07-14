@@ -1,0 +1,152 @@
+.admin-results-page {
+  background: #f8fafc;
+  min-height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.admin-results-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.admin-results-header h1 {
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.admin-results-header p {
+  margin-top: 8px;
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.results-filters {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.results-search-box {
+  flex: 1;
+  min-width: 180px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 42px;
+  padding: 0 14px;
+  background: white;
+  border: 1px solid #dbe3ee;
+  border-radius: 10px;
+  transition: 0.2s;
+}
+
+.results-search-box svg {
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.results-search-box input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 0.92rem;
+  min-width: 0;
+}
+
+.results-search-box input::placeholder {
+  color: #94a3b8;
+}
+
+.results-search-box:focus-within {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.filter-group select {
+  width: 200px;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid #dbe3ee;
+  border-radius: 10px;
+  background: white;
+  font-size: 0.92rem;
+  outline: none;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.filter-group select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+.filter-group select:disabled {
+  background: #f1f5f9;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+
+@media (max-width: 1200px) {
+  .results-filters {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .results-search-box {
+    flex: 1;
+    min-width: 200px;
+  }
+
+  .filter-group select {
+    width: 170px;
+  }
+
+  .admin-results-header h1 {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .results-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .results-search-box {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .filter-group select {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .admin-results-header h1 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-results-header h1 {
+    font-size: 1.35rem;
+  }
+
+  .admin-results-header p {
+    font-size: 0.88rem;
+  }
+}

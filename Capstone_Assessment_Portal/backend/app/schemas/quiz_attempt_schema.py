@@ -128,16 +128,12 @@ class AttemptQuestionResponse(BaseModel):
     Schema for returning a question during a quiz attempt
     """
     id: str
-
+    question_number: int = Field(ge=1, description="Current question number")
+    total_questions: int = Field(ge=1, description="Total number of questions in the quiz")
     question: str
-
     question_type: QuestionType
-
     options: List[str]
-
     difficulty: DifficultyLevel
-    
     marks: int
-
     selected_option: int | None = None
         

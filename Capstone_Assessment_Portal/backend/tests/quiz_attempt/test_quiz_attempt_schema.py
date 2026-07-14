@@ -138,20 +138,38 @@ def test_attempt_response_schema():
     assert response.attempt_number == 1
 
 
+def test_attempt_response_invalid_attempt_number():
+    """
+    Test invalid attempt number
+    """
+    with pytest.raises(ValidationError):
+        AttemptResponse(
+            id="attempt123",
+            quiz_id="quiz123",
+            attempt_number=0,
+            status=QuizAttemptStatus.IN_PROGRESS,
+            started_at=datetime.now(),
+        )
+
 
 def test_attempt_question_response_schema():
     """
-    Test attempt question response schema
+    Test valid attempt question response schema
     """
     response = AttemptQuestionResponse(
         id="question123",
+        question_number=1,
+        total_questions=10,
         question="Python is interpreted?",
         question_type=QuestionType.TRUE_FALSE,
         options=["True", "False"],
         difficulty=DifficultyLevel.EASY,
         marks=2,
+        selected_option=None,
     )
 
     assert response.id == "question123"
+    assert response.question_number == 1
+    assert response.total_questions == 10
     assert response.question == "Python is interpreted?"
     assert response.selected_option is None
