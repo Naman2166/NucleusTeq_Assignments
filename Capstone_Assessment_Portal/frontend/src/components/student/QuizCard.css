@@ -1,0 +1,122 @@
+.quiz-card {
+  background: #ffffff;
+  border: 1px solid #e5e9f0;
+  border-radius: 14px;
+  padding: 1.5rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.4);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.quiz-card:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.17);
+}
+
+.quiz-card-header {
+  flex: 1;
+}
+
+.quiz-card-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #0f172a;
+  margin: 0 0 6px 0;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.quiz-card-desc {
+  color: #64748b;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.quiz-card-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 12px;
+  padding: 0.9rem 1rem;
+  background: #e8eaed;
+  border-radius: 10px;
+  border: 1px solid #f1f5f9;
+}
+
+.quiz-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #475569;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.quiz-meta-item svg {
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.quiz-start-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  width: 100%;
+  padding: 10px 0;
+  background: #249b36;
+  color: #e2e5e9;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.quiz-start-btn:hover {
+  background: #069510;
+  color: #ffffff;
+  transform: scale(1.03);
+}
+
+.quiz-attempts-left {
+  grid-column: 1 / -1;
+  margin-top: 0.3rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid #d6dce5;
+  font-size: 0.88rem;
+  color: #475569;
+  font-weight: 500;
+}
+
+.quiz-attempts-left strong {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.resume-btn {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.resume-btn:hover {
+  background: #1d4ed8;
+}
+
+@media (max-width: 480px) {
+  .quiz-card {
+    padding: 1.15rem;
+  }
+
+  .quiz-card-meta {
+    grid-template-columns: 1fr;
+  }
+}

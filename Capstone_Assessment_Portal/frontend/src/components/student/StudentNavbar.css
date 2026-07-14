@@ -36,7 +36,7 @@
   margin: 0;
   font-size: 1.6rem;
   font-weight: 800;
-  color: #1e3a8a;
+  color: #0f172a;
   letter-spacing: 0.6px;
   line-height: 1.1;
 }
@@ -69,12 +69,12 @@
 }
 
 .student-nav-link:hover {
-  color: #2563eb;
+  color: #133c9b;
 }
 
 .student-nav-link.active {
-  color: #2563eb;
-  border-bottom: 2px solid #2563eb;
+  color: #1f4292;
+  border-bottom: 2px solid #1f4292;
   font-weight: 700;
 }
 
