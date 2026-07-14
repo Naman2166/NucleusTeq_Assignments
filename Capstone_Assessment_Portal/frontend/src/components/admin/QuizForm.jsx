@@ -24,6 +24,7 @@ const QuizForm = ({
   };
 
   const [formData, setFormData] = useState(DEFAULT_FORM);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     setFormData(initialData || DEFAULT_FORM);

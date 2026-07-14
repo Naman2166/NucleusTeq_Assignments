@@ -1,7 +1,7 @@
 import { Eye } from "lucide-react";
 import "./ResultsTable.css";
 
-const ResultsTable = ({ title, results, currentPage,  itemsPerPage, onView, onViewAll }) => {
+const ResultsTable = ({ title, results, currentPage = 1,  itemsPerPage = results.length, onView, onViewAll }) => {
 
   return (
     <div className="results-table-card">
