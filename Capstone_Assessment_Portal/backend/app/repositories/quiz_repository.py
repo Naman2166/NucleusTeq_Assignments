@@ -55,7 +55,7 @@ class QuizRepository:
         """
         Get all quizzes
         """
-        quizzes = await db.quizzes.find().to_list(length=None)
+        quizzes = await db.quizzes.find().sort("_id", -1).to_list(length=None)
         return quizzes
 
 
@@ -64,9 +64,7 @@ class QuizRepository:
         """
         Get quizzes by category
         """
-        quizzes = await db.quizzes.find({
-            "category_id": category_id
-        }).to_list(length=None)
+        quizzes = await db.quizzes.find({ "category_id": category_id}).to_list(length=None)
         return quizzes
 
 

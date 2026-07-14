@@ -16,7 +16,7 @@ class CategoryRepository:
         """
         Get all categories
         """
-        categories = await db.categories.find().to_list(length=None)
+        categories = await db.categories.find().sort("_id", -1).to_list(length=None)
         return categories
 
 

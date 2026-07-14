@@ -34,7 +34,7 @@ class QuestionRepository:
         """
         Get all questions for a quiz
         """
-        questions_cursor = db.questions.find({"quiz_id": quiz_id})
+        questions_cursor = db.questions.find({"quiz_id": quiz_id}).sort("_id", -1)
         questions = await questions_cursor.to_list(length=None)
         return questions
     
