@@ -17,8 +17,10 @@ export const getAttemptsByQuiz = async (quizId) => {
   return response.data;
 };
 
-export const getAttemptQuestions = async (attemptId) => {
-  const response = await api.get(API_ENDPOINTS.QUIZ_ATTEMPT.GET_QUESTIONS(attemptId));
+export const getAttemptQuestions = async (attemptId, index = 0) => {
+  const response = await api.get(API_ENDPOINTS.QUIZ_ATTEMPT.GET_QUESTIONS(attemptId), {
+    params: { index },
+  });
   return response.data;
 };
 
