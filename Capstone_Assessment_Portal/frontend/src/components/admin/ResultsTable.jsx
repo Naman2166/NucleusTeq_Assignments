@@ -35,7 +35,6 @@ const ResultsTable = ({ title, results, currentPage = 1,  itemsPerPage = results
           <tbody>
             {results.length > 0 ? (
               [...results]
-                .sort((a, b) => new Date(b.submitted_at) - new Date(a.submitted_at))
                 .map((result, index) => (
                   <tr key={result.attempt_id}>
 

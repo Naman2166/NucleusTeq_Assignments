@@ -37,7 +37,7 @@ const Results = () => {
       setCategories(categories);
       setQuizzes(quizzes);
       setResults(results);
-    } 
+    }
     catch (error) {
       toast.error(getErrorMessage(error));
     }
@@ -59,9 +59,13 @@ const Results = () => {
     return (studentMatch && categoryMatch && quizMatch);
   });
 
-  const totalPages = Math.ceil(filteredResults.length / PAGE_SIZE);
+  const sortedResults = [...filteredResults].sort(
+    (a, b) => new Date(b.submitted_at) - new Date(a.submitted_at)
+  );
 
-  const paginatedResults = filteredResults.slice(
+  const totalPages = Math.ceil(sortedResults.length / PAGE_SIZE);
+
+  const paginatedResults = sortedResults.slice(
     (currentPage - 1) * PAGE_SIZE,
     currentPage * PAGE_SIZE
   );
@@ -94,7 +98,7 @@ const Results = () => {
       });
 
       setShowResultModal(true);
-    } 
+    }
     catch (error) {
       toast.error(getErrorMessage(error));
     }
@@ -148,7 +152,7 @@ const Results = () => {
           <select
             value={selectedQuiz}
             disabled={!selectedCategory}
-            onChange={(e) => {setSelectedQuiz(e.target.value); setCurrentPage(1);}}
+            onChange={(e) => { setSelectedQuiz(e.target.value); setCurrentPage(1); }}
           >
             <option value="">All Quizzes</option>
 
