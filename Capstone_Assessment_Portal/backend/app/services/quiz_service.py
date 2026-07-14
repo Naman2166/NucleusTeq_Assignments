@@ -51,18 +51,17 @@ class QuizService:
             logger.warning(QuizMessage.INVALID_PASSING_MARKS)
             raise BadRequestException(QuizMessage.INVALID_PASSING_MARKS)
 
-        existing_quiz = await QuizRepository.get_quiz_by_title_and_category(
-            quiz.title,
-            category_object_id
-        )
+        quizzes = await QuizRepository.get_all_quizzes()
 
-        if existing_quiz:
-            logger.warning(QuizMessage.ALREADY_EXISTS)
-            raise ConflictException(QuizMessage.ALREADY_EXISTS)
+        for existing_quiz in quizzes:
+            if (existing_quiz["category_id"] == category_object_id
+                and existing_quiz["title"].strip().lower() == quiz.title.strip().lower()):
+                logger.warning(QuizMessage.ALREADY_EXISTS)
+                raise ConflictException(QuizMessage.ALREADY_EXISTS)
 
         quiz_data = {
-            "title": quiz.title,
-            "description": quiz.description,
+            "title": quiz.title.strip(),
+            "description": quiz.description.strip(),
             "category_id": category_object_id,
             "duration": quiz.duration,
             "total_marks": quiz.total_marks,
@@ -149,81 +148,76 @@ class QuizService:
 
 
     @staticmethod
-    async def update_quiz( quiz_id: str, quiz: QuizUpdate) -> QuizResponse:
+    async def update_quiz(quiz_id: str, quiz: QuizUpdate) -> QuizResponse:
         """
         Update an existing quiz
         """
-
-        quiz_object_id = validate_object_id(quiz_id, QuizMessage.INVALID_ID)
-
+    
+        quiz_object_id = validate_object_id(
+            quiz_id,
+            QuizMessage.INVALID_ID,
+        )
+    
         existing_quiz = await QuizRepository.get_quiz_by_id(quiz_object_id)
-
+    
         if not existing_quiz:
             logger.warning(QuizMessage.NOT_FOUND)
             raise ResourceNotFoundException(QuizMessage.NOT_FOUND)
-
+    
         update_data = quiz.model_dump(exclude_unset=True)
-
+    
         if not update_data:
             logger.warning(QuizMessage.NO_UPDATE_DATA)
             raise BadRequestException(QuizMessage.NO_UPDATE_DATA)
-
+    
         if "category_id" in update_data:
             category_object_id = validate_object_id(
-                update_data["category_id"], 
-                CategoryMessage.INVALID_ID
+                update_data["category_id"],
+                CategoryMessage.INVALID_ID,
             )
-            
+    
             category = await QuizRepository.get_category_by_id(category_object_id)
-
+    
             if not category:
                 logger.warning(CategoryMessage.NOT_FOUND)
                 raise ResourceNotFoundException(CategoryMessage.NOT_FOUND)
-
+    
             update_data["category_id"] = category_object_id
-
-        total_marks = update_data.get(
-            "total_marks", 
-            existing_quiz["total_marks"]
-        )
-
-        passing_marks = update_data.get(
-            "passing_marks", 
-            existing_quiz["passing_marks"]
-        )
-
+    
+        total_marks = update_data.get("total_marks", existing_quiz["total_marks"])
+        passing_marks = update_data.get("passing_marks", existing_quiz["passing_marks"])
+    
         if passing_marks > total_marks:
             logger.warning(QuizMessage.INVALID_PASSING_MARKS)
             raise BadRequestException(QuizMessage.INVALID_PASSING_MARKS)
-
-        quiz_title = update_data.get(
-            "title", 
-            existing_quiz["title"]
-        )
-
-        category_id = update_data.get(
-            "category_id", 
-            existing_quiz["category_id"]
-        )
-
-        duplicate_quiz = await QuizRepository.get_duplicate_quiz(
-            quiz_title,
-            category_id,
-            quiz_object_id
-        )
-
-        if duplicate_quiz:
-            logger.warning(QuizMessage.ALREADY_EXISTS)
-            raise ConflictException(QuizMessage.ALREADY_EXISTS)
-
+    
+        quiz_title = update_data.get("title", existing_quiz["title"]).strip()
+        category_id = update_data.get("category_id", existing_quiz["category_id"])
+    
+        quizzes = await QuizRepository.get_all_quizzes()
+    
+        for existing in quizzes:
+            if (
+                existing["_id"] != quiz_object_id
+                and existing["category_id"] == category_id
+                and existing["title"].strip().lower() == quiz_title.lower()
+            ):
+                logger.warning(QuizMessage.ALREADY_EXISTS)
+                raise ConflictException(QuizMessage.ALREADY_EXISTS)
+    
+        if "title" in update_data:
+            update_data["title"] = quiz_title
+    
+        if "description" in update_data:
+            update_data["description"] = update_data["description"].strip()
+    
         await QuizRepository.update_quiz(quiz_object_id, update_data)
-
+    
         updated_quiz = await QuizRepository.get_quiz_by_id(quiz_object_id)
-
+    
         logger.info("Quiz updated successfully")
-
         response = QuizResponse(**quiz_helper(updated_quiz))
-
+    
         return response
 
 

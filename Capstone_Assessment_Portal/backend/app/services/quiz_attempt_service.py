@@ -106,7 +106,6 @@ async def auto_submit_attempt(attempt_id: ObjectId, attempt: dict) -> None:
 
 
 
-
 class QuizAttemptService:
     """
     Business logic for quiz attempt operations
@@ -135,6 +134,12 @@ class QuizAttemptService:
         if not questions:
             logger.warning(QuestionMessage.NOT_FOUND)
             raise ResourceNotFoundException(QuestionMessage.NOT_FOUND)
+        
+        total_question_marks = sum(question["marks"] for question in questions)
+
+        if total_question_marks != quiz["total_marks"]:
+            logger.warning(QuizAttemptMessage.QUIZ_NOT_READY)
+            raise BadRequestException(QuizAttemptMessage.QUIZ_NOT_READY)
     
         student_object_id = ObjectId(current_user["user_id"])
     
@@ -187,10 +192,7 @@ class QuizAttemptService:
         """
         logger.info(f"Getting questions for attempt: {attempt_id}")
     
-        object_id = validate_object_id(
-            attempt_id,
-            QuizAttemptMessage.INVALID_ID,
-        )
+        object_id = validate_object_id(attempt_id, QuizAttemptMessage.INVALID_ID)
     
         attempt = await QuizAttemptRepository.get_attempt_by_id(object_id)
 
@@ -200,11 +202,12 @@ class QuizAttemptService:
     
         if attempt["student_id"] != ObjectId(current_user["user_id"]):
             logger.warning(QuizAttemptMessage.NOT_FOUND)
-            raise ResourceNotFoundException(QuizAttemptMessage.NOT_FOUND)        
+            raise ResourceNotFoundException(QuizAttemptMessage.NOT_FOUND)   
 
-        if (attempt["status"] == QuizAttemptStatus.IN_PROGRESS 
-            and check_attempt_time_expired(attempt)
-            ):
+        time_spend = (datetime.now() - attempt["started_at"]).total_seconds()
+        time_remaining = max(attempt["snapshot"]["duration"] * 60 - int(time_spend), 0)     
+
+        if (attempt["status"] == QuizAttemptStatus.IN_PROGRESS and check_attempt_time_expired(attempt)):
             await auto_submit_attempt(object_id, attempt)
             logger.warning(QuizAttemptMessage.TIME_EXPIRED)
             raise BadRequestException(QuizAttemptMessage.TIME_EXPIRED)
@@ -232,6 +235,7 @@ class QuizAttemptService:
             difficulty = question["difficulty"],
             marks = question["marks"],
             selected_option = answer_map.get(question["question_id"]),
+            time_remaining=time_remaining,
         )
     
         logger.info("Attempt question retrieved successfully")
