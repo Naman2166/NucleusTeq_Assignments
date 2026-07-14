@@ -11,7 +11,6 @@ from app.exceptions.custom_exceptions import (ConflictException, ResourceNotFoun
 from app.utils.constants import CategoryMessage
 
 
-
 @pytest.mark.asyncio
 async def test_get_all_categories(mocker):
     """
@@ -67,9 +66,9 @@ async def test_create_category_success(mocker):
     """
 
     mocker.patch(
-        "app.services.category_service.CategoryRepository.get_category_by_name",
+        "app.services.category_service.CategoryRepository.get_all_categories",
         new_callable=AsyncMock,
-        return_value=None,
+        return_value=[],
     )
 
     inserted_result = MagicMock()
@@ -111,9 +110,13 @@ async def test_create_category_duplicate(mocker):
     """
 
     mocker.patch(
-        "app.services.category_service.CategoryRepository.get_category_by_name",
+        "app.services.category_service.CategoryRepository.get_all_categories",
         new_callable=AsyncMock,
-        return_value={"name": "Programming"},
+        return_value=[{
+            "_id": ObjectId(),
+            "name": "Programming",
+            "description": "Programming quizzes",
+        }],
     )
 
     category = CategoryCreate(
@@ -210,6 +213,22 @@ async def test_delete_category_success(mocker):
             "_id": ObjectId(),
             "name": "Programming",
         },
+    )
+
+    mocker.patch(
+        "app.services.category_service.QuizRepository.get_quizzes_by_category",
+        new_callable=AsyncMock,
+        return_value=[],
+    )
+    
+    mocker.patch(
+        "app.services.category_service.QuestionRepository.delete_questions_by_quiz",
+        new_callable=AsyncMock,
+    )
+    
+    mocker.patch(
+        "app.services.category_service.QuizRepository.delete_quiz",
+        new_callable=AsyncMock,
     )
 
     mock_delete = mocker.patch(

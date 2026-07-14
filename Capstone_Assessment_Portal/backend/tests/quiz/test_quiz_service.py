@@ -29,9 +29,9 @@ async def test_create_quiz_success(mocker):
     )
 
     mocker.patch(
-        "app.services.quiz_service.QuizRepository.get_quiz_by_title_and_category",
+        "app.services.quiz_service.QuizRepository.get_all_quizzes",
         new_callable=AsyncMock,
-        return_value=None,
+        return_value=[],
     )
 
     mocker.patch(
@@ -290,9 +290,9 @@ async def test_update_quiz_success(mocker):
     )
 
     mocker.patch(
-        "app.services.quiz_service.QuizRepository.get_duplicate_quiz",
+        "app.services.quiz_service.QuizRepository.get_all_quizzes",
         new_callable=AsyncMock,
-        return_value=None,
+        return_value=[],
     )
 
     mock_update = mocker.patch(
@@ -365,6 +365,17 @@ async def test_update_quiz_duplicate(mocker):
         "passing_marks": 40,
         "max_attempts": 2,
     }
+    
+    duplicate_quiz = {
+        "_id": ObjectId(),
+        "title": "Updated",
+        "description": "Description",
+        "category_id": category_id,
+        "duration": 30,
+        "total_marks": 100,
+        "passing_marks": 40,
+        "max_attempts": 2,
+    }
 
     mocker.patch(
         "app.services.quiz_service.QuizRepository.get_quiz_by_id",
@@ -373,9 +384,9 @@ async def test_update_quiz_duplicate(mocker):
     )
 
     mocker.patch(
-        "app.services.quiz_service.QuizRepository.get_duplicate_quiz",
+        "app.services.quiz_service.QuizRepository.get_all_quizzes",
         new_callable=AsyncMock,
-        return_value={"_id": ObjectId()},
+        return_value=[duplicate_quiz],
     )
 
     with pytest.raises(ConflictException):

@@ -124,6 +124,7 @@ async def test_get_all_quizzes(mocker):
     ]
 
     cursor = MagicMock()
+    cursor.sort.return_value = cursor
     cursor.to_list = AsyncMock(return_value=quizzes)
 
     mock_quizzes.find.return_value = cursor
@@ -133,6 +134,8 @@ async def test_get_all_quizzes(mocker):
     assert response == quizzes
 
     mock_quizzes.find.assert_called_once_with()
+    cursor.sort.assert_called_once_with("_id", -1)
+    cursor.to_list.assert_awaited_once_with(length=None)
 
 
 
