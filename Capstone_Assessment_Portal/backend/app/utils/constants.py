@@ -71,6 +71,8 @@ class QuizAttemptMessage:
     INVALID_QUESTION_INDEX = "Invalid question index"
     NOT_FOUND = "Quiz attempt not found"
     TIME_EXPIRED = "Quiz time has expired, Your attempt has been submitted automatically"
+    QUIZ_NOT_READY = "Quiz is not ready yet"
+
 
 class QuizAttemptStatus(str, Enum):
     IN_PROGRESS = "IN_PROGRESS"

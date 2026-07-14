@@ -86,23 +86,24 @@ class CategoryService:
         """
         logger.info(f"Creating category: {category.name}")
     
-        existing_category = await CategoryRepository.get_category_by_name(category.name.strip())
+        categories = await CategoryRepository.get_all_categories()
     
-        if existing_category:
-            raise ConflictException(CategoryMessage.ALREADY_EXISTS)
-
+        for existing_category in categories:
+            if existing_category["name"].strip().lower() == category.name.strip().lower():
+                raise ConflictException(CategoryMessage.ALREADY_EXISTS)
+    
         result = await CategoryRepository.create_category({
             "name": category.name.strip(),
             "description": category.description.strip()
         })
-        
+    
         created_category = await CategoryRepository.get_category_by_id(result.inserted_id)
-        
+    
         logger.info(f"Category created successfully: {created_category['name']}")
-
         response = CategoryResponse(**category_helper(created_category))
     
         return response
+
 
 
 
@@ -112,12 +113,12 @@ class CategoryService:
         Update an existing category
         """
         logger.info(f"Updating category with id: {category_id}")
-        
+    
         object_id = validate_object_id(
             category_id,
             CategoryMessage.INVALID_ID,
         )
-
+    
         existing_category = await CategoryRepository.get_category_by_id(object_id)
     
         if not existing_category:
@@ -126,28 +127,28 @@ class CategoryService:
         update_data = {}
     
         if category.name is not None:
-            duplicate_category = await CategoryRepository.get_duplicate_category(
-                category.name.strip(),
-                object_id
-            )
-
-            if duplicate_category:
-                raise ConflictException(CategoryMessage.ALREADY_EXISTS)
-            
+            categories = await CategoryRepository.get_all_categories()
+    
+            for existing_category in categories:
+                if ( existing_category["_id"] != object_id
+                    and existing_category["name"].strip().lower() == category.name.strip().lower()
+                ):
+                    raise ConflictException(CategoryMessage.ALREADY_EXISTS)
+    
             update_data["name"] = category.name.strip()
-
+    
         if category.description is not None:
             update_data["description"] = category.description.strip()
-
+    
         if not update_data:
             raise BadRequestException(CategoryMessage.NO_UPDATE_DATA)
     
         await CategoryRepository.update_category(object_id, update_data)
-
+    
         updated_category = await CategoryRepository.get_category_by_id(object_id)
-
+    
         logger.info(f"Category updated successfully: {category_id}")
-
+    
         response = CategoryResponse(**category_helper(updated_category))
     
         return response

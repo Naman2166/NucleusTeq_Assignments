@@ -55,3 +55,10 @@ export default API_ENDPOINTS;
 
 export const PAGE_SIZE = 5;
 
+export const INSTRUCTIONS = [
+  "The quiz will auto-submit when the timer reaches zero",
+  "You can navigate between questions and change answers before submitting",
+  "You may leave and resume this attempt later if time has not expired",
+  "Once submitted, answers cannot be changed",
+];
+

@@ -17,6 +17,7 @@ async def test_get_all_categories(mocker):
     mock_categories = mocker.patch("app.repositories.category_repository.db.categories")
 
     mock_category_cursor = MagicMock()
+    mock_category_cursor.sort.return_value = mock_category_cursor
     mock_category_cursor.to_list = AsyncMock(
         return_value=[{
                 "_id": ObjectId(),
@@ -32,6 +33,7 @@ async def test_get_all_categories(mocker):
     assert len(response) == 1
 
     mock_categories.find.assert_called_once()
+    mock_category_cursor.sort.assert_called_once_with("_id", -1)
     mock_category_cursor.to_list.assert_awaited_once_with(length=None)
 
 

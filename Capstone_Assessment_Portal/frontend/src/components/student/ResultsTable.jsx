@@ -17,24 +17,50 @@ const ResultsTable = ({ title = "Recent Results", results = [], onViewAll }) => 
         <thead>
           <tr>
             <th>Quiz</th>
-            <th>Category</th>
+            <th>Marks</th>
             <th>Score</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          {results.map((result, index) => (
-            <tr key={index}>
-              <td>{result.quiz}</td>
-              <td>{result.category}</td>
-              <td>{result.score}</td>
-              <td>
-                <span className={result.status === "Pass" ? "status pass" : "status fail"}>
-                  {result.status}
-                </span>
+          {results.length === 0 ? (
+            <tr>
+              <td colSpan="4" className="no-results">
+                No recent results found.
               </td>
             </tr>
-          ))}
+          ) : (
+            results.map((result) => {
+              const percentage =
+                result.percentage != null
+                  ? Math.round(result.percentage)
+                  : Math.round((result.score / result.total_marks) * 100);
+
+              return (
+                <tr key={result.attempt_id}>
+                  <td>{result.quiz_title}</td>
+
+                  <td>
+                    {result.score} / {result.total_marks}
+                  </td>
+
+                  <td>{percentage}%</td>
+
+                  <td>
+                    <span
+                      className={
+                        result.is_pass
+                          ? "status pass"
+                          : "status fail"
+                      }
+                    >
+                      {result.is_pass ? "Pass" : "Fail"}
+                    </span>
+                  </td>
+                </tr>
+              );
+            })
+          )}
         </tbody>
       </table>
     </div>

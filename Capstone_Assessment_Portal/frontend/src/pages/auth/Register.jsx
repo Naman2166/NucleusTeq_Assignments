@@ -46,7 +46,6 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // frontend validation
     const validationErrors = validateRegisterForm(formData);
 
     if (Object.keys(validationErrors).length > 0) {
@@ -54,7 +53,6 @@ function Register() {
       return;
     }
 
-    // cleaning message before API call
     setErrors({});
 
     try {

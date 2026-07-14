@@ -70,6 +70,7 @@ async def test_get_questions_by_quiz(mocker):
     quiz_id = ObjectId()
 
     mock_question_cursor = MagicMock()
+    mock_question_cursor.sort.return_value = mock_question_cursor
     mock_question_cursor.to_list = AsyncMock(
         return_value=[
             {

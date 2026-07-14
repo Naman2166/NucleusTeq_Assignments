@@ -32,7 +32,7 @@
   padding: 0 18px;
   border: none;
   border-radius: 10px;
-  background: #2563eb;
+  background: #1f4dba;
   color: white;
   font-size: 0.9rem;
   font-weight: 600;
@@ -43,7 +43,7 @@
 }
 
 .add-question-btn:hover:not(:disabled) {
-  background: #1d4ed8;
+  background: rgb(13, 35, 95);
 }
 
 .add-question-btn:disabled {
@@ -65,7 +65,6 @@
   flex: 1;
   flex-wrap: wrap;
 }
-
 
 .filter-group {
   display: flex;
@@ -104,6 +103,26 @@
   cursor: not-allowed;
 }
 
+.question-marks-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin: 1rem 0;
+  padding: 0.9rem 1.2rem;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.question-marks-card span {
+  font-size: 0.95rem;
+  color: #5f6d80;
+  font-weight: 500;
+}
+
+.question-marks-card strong {
+  color: #1e293b;
+}
 
 .search-box {
   width: 300px;
@@ -181,10 +200,31 @@
   .filter-group {
     min-width: 100%;
   }
+
+   .question-marks-card {
+    gap: 0.6rem 1rem;
+    padding: 0.85rem 1rem;
+  }
+
+  .question-marks-card span {
+    flex: 1 1 45%;
+    font-size: 0.9rem;
+  }
 }
 
 @media (max-width: 480px) {
   .admin-questions-header h1 {
     font-size: 1.35rem;
+  }
+
+   .question-marks-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .question-marks-card span {
+    flex: 1 1 100%;
+    font-size: 0.9rem;
   }
 }

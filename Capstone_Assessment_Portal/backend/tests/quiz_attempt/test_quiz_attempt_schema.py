@@ -166,6 +166,7 @@ def test_attempt_question_response_schema():
         difficulty=DifficultyLevel.EASY,
         marks=2,
         selected_option=None,
+        time_remaining=1800,
     )
 
     assert response.id == "question123"
@@ -173,3 +174,4 @@ def test_attempt_question_response_schema():
     assert response.total_questions == 10
     assert response.question == "Python is interpreted?"
     assert response.selected_option is None
+    assert response.time_remaining == 1800

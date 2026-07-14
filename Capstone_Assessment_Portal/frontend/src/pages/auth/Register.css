@@ -43,7 +43,7 @@ body{
 
 .register-card h1{
     font-size:36px;
-    color:#7c3aed;
+    color:#122e6f;
     margin-bottom:5px;
 }
 
@@ -90,7 +90,7 @@ body{
     padding:15px;
     border:none;
     border-radius:8px;
-    background:linear-gradient(90deg,#c026d3,#7c3aed);
+    background: #123483 ;
     color:white;
     font-size:17px;
     cursor:pointer;
@@ -98,7 +98,8 @@ body{
 }
 
 .register-card button:hover{
-    opacity:.9;
+    background: #0e2968 ;
+    transform: scale(1.02);
 }
 
 .bottom-text{
@@ -107,7 +108,7 @@ body{
 }
 
 .bottom-text a{
-    color:#7c3aed;
+    color:#1a46af;
     text-decoration:none;
     font-weight:600;
 }

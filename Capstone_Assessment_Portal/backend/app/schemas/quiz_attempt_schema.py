@@ -136,4 +136,5 @@ class AttemptQuestionResponse(BaseModel):
     difficulty: DifficultyLevel
     marks: int
     selected_option: int | None = None
+    time_remaining: int
         

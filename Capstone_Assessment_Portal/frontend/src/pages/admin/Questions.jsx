@@ -85,7 +85,7 @@ const Questions = () => {
     try {
       const data = await getQuestionsByQuiz(quizId);
       setQuestions(data);
-    } 
+    }
     catch (error) {
       toast.error(getErrorMessage(error));
     }
@@ -110,7 +110,7 @@ const Questions = () => {
       toast.success("Question created successfully.");
       await fetchQuestions(selectedQuiz);
       setShowAddModal(false);
-    } 
+    }
     catch (error) {
       toast.error(getErrorMessage(error));
     }
@@ -146,7 +146,7 @@ const Questions = () => {
       await fetchQuestions(selectedQuiz);
       setShowEditModal(false);
       setSelectedQuestion(null);
-    } 
+    }
     catch (error) {
       toast.error(getErrorMessage(error));
     }
@@ -158,7 +158,7 @@ const Questions = () => {
       await deleteQuestion(question.id);
       toast.success("Question deleted successfully.");
       await fetchQuestions(selectedQuiz);
-    } 
+    }
     catch (error) {
       toast.error(getErrorMessage(error));
     }
@@ -173,6 +173,17 @@ const Questions = () => {
     marks: "",
     tags: "",
   };
+
+  const assignedMarks = questions.reduce(
+    (total, question) => total + question.marks, 0
+  );
+
+  const selectedQuizData = quizzes.find(
+    (quiz) => quiz.id === selectedQuiz
+  );
+
+  const totalMarks = selectedQuizData?.total_marks || 0;
+  const remainingMarks = totalMarks - assignedMarks;
 
 
   return (
@@ -261,6 +272,14 @@ const Questions = () => {
 
       </div>
 
+      {selectedQuizData && (
+        <div className="question-marks-card">
+          <span>Total Marks: <strong>{totalMarks}</strong></span> |
+          <span>Assigned Marks: <strong>{assignedMarks}</strong></span> |
+          <span>Remaining Marks: <strong>{remainingMarks}</strong></span>
+        </div>
+      )}
+
       {selectedQuiz && (
         <QuestionTable
           questions={paginatedQuestions}
@@ -283,7 +302,7 @@ const Questions = () => {
         open={showAddModal}
         title="Add Question"
         buttonText="Add Question"
-        initialData={EMPTY_QUESTION}
+        initialData={selectedQuestion || EMPTY_QUESTION}
         onSubmit={handleAddQuestion}
         onClose={() => setShowAddModal(false)}
       />
@@ -292,7 +311,7 @@ const Questions = () => {
         open={showEditModal}
         title="Update Question"
         buttonText="Update Question"
-        initialData={EMPTY_QUESTION}
+        initialData={selectedQuestion || EMPTY_QUESTION}
         onSubmit={handleUpdateQuestion}
         onClose={() => {
           setShowEditModal(false);

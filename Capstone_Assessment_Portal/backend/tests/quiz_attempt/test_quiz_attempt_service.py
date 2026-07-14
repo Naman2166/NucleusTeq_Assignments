@@ -2,7 +2,7 @@
 Test cases for QuizAttemptService
 """
 
-from datetime import datetime
+from datetime import datetime, UTC
 import pytest
 from unittest.mock import AsyncMock, MagicMock
 from bson import ObjectId
@@ -25,8 +25,8 @@ async def test_start_attempt_success(mocker):
         "_id": ObjectId(quiz_id),
         "title": "Python Quiz",
         "duration": 30,
-        "total_marks": 10,
-        "passing_marks": 4,
+        "total_marks": 5,
+        "passing_marks": 3,
         "max_attempts": 2,
     }
 
@@ -197,13 +197,13 @@ async def test_get_attempt_questions_success(mocker):
 
     attempt_id = str(ObjectId())
     student_id = str(ObjectId())
-
     question_id = str(ObjectId())
 
     attempt = {
         "_id": ObjectId(attempt_id),
         "student_id": ObjectId(student_id),
         "status": QuizAttemptStatus.IN_PROGRESS,
+        "started_at": datetime.now(),
         "answers": [{
                 "question_id": question_id,
                 "selected_option": 2,
@@ -242,6 +242,7 @@ async def test_get_attempt_questions_success(mocker):
     assert response.total_questions == 1
     assert response.question == "Python is?"
     assert response.selected_option == 2
+    assert response.time_remaining > 0
     assert response.marks == 5
 
 
@@ -260,7 +261,7 @@ async def test_submit_attempt_success(mocker):
         "_id": ObjectId(attempt_id),
         "student_id": ObjectId(student_id),
         "status": QuizAttemptStatus.IN_PROGRESS,
-        "started_at": datetime.utcnow(),
+        "started_at": datetime.now(UTC),
         "answers": [
             {
                 "question_id": question_id,
@@ -368,7 +369,7 @@ async def test_submit_attempt_time_expired(mocker):
         "_id": ObjectId(attempt_id),
         "student_id": ObjectId(student_id),
         "status": QuizAttemptStatus.IN_PROGRESS,
-        "started_at": datetime.utcnow(),
+        "started_at": datetime.now(UTC),
         "answers": [],
         "snapshot": {
             "duration": 30,
@@ -418,8 +419,8 @@ async def test_start_attempt_max_attempts_reached(mocker):
         "_id": ObjectId(quiz_id),
         "title": "Python Quiz",
         "duration": 30,
-        "total_marks": 20,
-        "passing_marks": 10,
+        "total_marks": 5,
+        "passing_marks": 3,
         "max_attempts": 2,
     }
 
@@ -486,8 +487,8 @@ async def test_start_attempt_already_in_progress(mocker):
             "_id": ObjectId(quiz_id),
             "title": "Quiz",
             "duration": 30,
-            "total_marks": 20,
-            "passing_marks": 10,
+            "total_marks": 5,
+            "passing_marks": 3,
             "max_attempts": 2,
         },
     )
@@ -584,6 +585,7 @@ async def test_get_attempt_questions_time_expired(mocker):
         "_id": ObjectId(attempt_id),
         "student_id": ObjectId(student_id),
         "status": QuizAttemptStatus.IN_PROGRESS,
+        "started_at": datetime.now(),
         "answers": [],
         "snapshot": {
             "duration": 30,
@@ -639,15 +641,15 @@ async def test_get_student_attempts_success(mocker):
             "quiz_id": ObjectId(quiz_id),
             "attempt_number": 1,
             "status": QuizAttemptStatus.SUBMITTED,
-            "started_at": datetime.utcnow(),
-            "submitted_at": datetime.utcnow(),
+            "started_at": datetime.now(UTC),
+            "submitted_at": datetime.now(UTC),
         },
         {
             "_id": ObjectId(),
             "quiz_id": ObjectId(quiz_id),
             "attempt_number": 2,
             "status": QuizAttemptStatus.IN_PROGRESS,
-            "started_at": datetime.utcnow(),
+            "started_at": datetime.now(UTC),
             "submitted_at": None,
         },
     ]
@@ -678,8 +680,7 @@ async def test_get_student_attempts_success(mocker):
     )
 
     response = await QuizAttemptService.get_student_attempts(
-        quiz_id,
-        {"user_id": student_id}
+        quiz_id, {"user_id": student_id}
     )
 
     assert len(response) == 2
@@ -705,6 +706,7 @@ async def test_get_attempt_questions_student_not_owner(mocker):
             "_id": ObjectId(attempt_id),
             "student_id": ObjectId(),
             "status": QuizAttemptStatus.IN_PROGRESS,
+            "started_at": datetime.now(UTC),
             "answers": [],
             "snapshot": {
                 "duration": 30,
@@ -777,7 +779,7 @@ async def test_get_student_all_attempts(mocker):
                 "student_id": student_id,
                 "attempt_number": 1,
                 "status": QuizAttemptStatus.IN_PROGRESS,
-                "started_at": datetime.now(),
+                "started_at": datetime.now(UTC),
                 "submitted_at": None,
             },
             {
@@ -786,8 +788,8 @@ async def test_get_student_all_attempts(mocker):
                 "student_id": student_id,
                 "attempt_number": 1,
                 "status": QuizAttemptStatus.SUBMITTED,
-                "started_at": datetime.now(),
-                "submitted_at": datetime.now(),
+                "started_at": datetime.now(UTC),
+                "submitted_at": datetime.now(UTC),
             },
         ],
     )

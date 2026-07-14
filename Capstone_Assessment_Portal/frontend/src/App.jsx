@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Login from "./pages/auth/Login";
@@ -15,6 +15,10 @@ import Results from "./pages/admin/Results";
 import StudentLayout from "./pages/student/StudentLayout";
 import StudentResults from "./pages/student/StudentResults";
 import StudentCategories from "./pages/student/StudentCategories";
+import StudentQuizList from "./pages/student/StudentQuizList";
+import QuizAttempt from "./pages/student/QuizAttempt";
+import QuizResult from "./pages/student/QuizResult";
+import { getRedirectPath } from "./utils/auth";
 
 
 function App() {
@@ -33,7 +37,7 @@ function App() {
       <Routes>
 
         {/* Auth Routes */}
-        <Route path="/" element={<Login />} />
+        <Route path="/"  element={<Navigate to={getRedirectPath()} replace />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/unauthorized" element={<Unauthorized />} />
@@ -51,11 +55,18 @@ function App() {
 
         {/* Student Routes */}
         <Route element={<ProtectedRoute allowedRole="student" />}>
+          
+          <Route path="/student/quiz/:attemptId" element={<QuizAttempt />}/>
+
           <Route path="/student" element={<StudentLayout />}>
             <Route path="dashboard" element={<StudentDashboard />} />
             <Route path="categories" element={<StudentCategories />} />
+            <Route path="categories/:categoryId/quizzes" element={<StudentQuizList />}/>
             <Route path="results" element={<StudentResults />} />
+            <Route path="quiz/:attemptId/result" element={<QuizResult />}
+            />
           </Route>
+
         </Route>
 
       </Routes>

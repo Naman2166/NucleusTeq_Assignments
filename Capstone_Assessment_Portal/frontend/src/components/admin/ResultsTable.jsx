@@ -1,7 +1,7 @@
 import { Eye } from "lucide-react";
 import "./ResultsTable.css";
 
-const ResultsTable = ({ title, results, currentPage,  itemsPerPage, onView, onViewAll }) => {
+const ResultsTable = ({ title, results, currentPage = 1,  itemsPerPage = results.length, onView, onViewAll }) => {
 
   return (
     <div className="results-table-card">
@@ -35,7 +35,6 @@ const ResultsTable = ({ title, results, currentPage,  itemsPerPage, onView, onVi
           <tbody>
             {results.length > 0 ? (
               [...results]
-                .sort((a, b) => new Date(b.submitted_at) - new Date(a.submitted_at))
                 .map((result, index) => (
                   <tr key={result.attempt_id}>
 
