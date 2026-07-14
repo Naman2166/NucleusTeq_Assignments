@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import api from "../../utils/api";
 import "./Login.css";
+import api from "../../utils/api";
+import { useNavigate, Link } from "react-router-dom";
 import API_ENDPOINTS from "../../utils/constants";
 import RegisterImage from "../../assets/RegisterImage.jpg";
 import { validateLoginForm } from "../../utils/validation";
 import { getErrorMessage } from "../../utils/errorHandler";
 import { encryptPassword } from "../../utils/encryption";
 import { toast } from "react-toastify";
+import { getRedirectPath } from "../../utils/auth";
 
 
 function Login() {
@@ -30,18 +31,26 @@ function Login() {
   }, []);
 
 
+  useEffect(() => {
+    const redirectPath = getRedirectPath();
+
+    if (redirectPath !== "/login") {
+      navigate(redirectPath, {replace: true});
+    }
+  }, [navigate]);
+
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setFormData({...formData, [name]: value });
-    setErrors({...errors, [name]: "" });
+    setFormData({ ...formData, [name]: value });
+    setErrors({ ...errors, [name]: "" });
   };
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // frontend validation
     const validationErrors = validateLoginForm(formData);
 
     if (Object.keys(validationErrors).length > 0) {
@@ -49,11 +58,9 @@ function Login() {
       return;
     }
 
-    // cleaning message before API call
     setErrors({});
 
     try {
-      // encrypting password using public key
       const encryptedPassword = encryptPassword(formData.password, publicKey);
 
       const payload = {
@@ -90,12 +97,10 @@ function Login() {
 
       <div className="login-box">
 
-        {/* left Portion: image */}
         <div className="login-left">
           <img src={RegisterImage} alt="Login" />
         </div>
 
-        {/* right Portion: form */}
         <div className="login-right">
 
           <div className="login-card">
@@ -113,8 +118,8 @@ function Login() {
                 value={formData.email}
                 onChange={handleChange}
               />
-              {errors.email && ( 
-                <span className="error-message"> {errors.email} </span> 
+              {errors.email && (
+                <span className="error-message"> {errors.email} </span>
               )}
 
               <label>Password :</label>
