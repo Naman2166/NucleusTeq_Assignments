@@ -77,7 +77,6 @@
   background: #646978;
 }
 
-
 .progress-circles {
   margin-top: 3rem;
   display: flex;
@@ -97,7 +96,7 @@
 
 .progress-fill {
   height: 100%;
-  background: #2563eb;
+  background: #122e6f;
   border-radius: 30px;
 }
 

@@ -1,40 +1,138 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./StudentDashboard.css";
 import { Layers, BookOpen, CheckCircle2, Clock } from "lucide-react";
 import StatCard from "../../components/common/StatCard";
 import CircularProgress from "../../components/common/CircularProgress";
 import ResultsTable from "../../components/student/ResultsTable";
-import "./StudentDashboard.css";
-import { useNavigate } from "react-router-dom";
+import { getStudentResultHistory } from "../../utils/services/resultService";
+import { toast } from "react-toastify";
+import { getErrorMessage } from "../../utils/errorHandler";
+import { getCategories } from "../../utils/services/categoryService";
+import { getQuizzes } from "../../utils/services/quizService";
 
 
 const StudentDashboard = () => {
-  
+
   const navigate = useNavigate();
 
-  const stats = [
-    { title: "Categories", value: 12, icon: Layers, color: "#7c3aed" },
-    { title: "Total Quizzes", value: 48, icon: BookOpen, color: "#d97706" },
-    { title: "Completed", value: 25, icon: CheckCircle2, color: "#16c56d" },
-    { title: "Pending", value: 3, icon: Clock, color: "#e23431" },
-  ];
+  const [stats, setStats] = useState([]);
+  const [overallProgress, setOverallProgress] = useState([]);
+  const [topCategories, setTopCategories] = useState([]);
+  const [recentResults, setRecentResults] = useState([]);
 
-  const overallProgress = [
-    { label: "Categories Covered", completed: 7, total: 12, color: "#2563eb" },
-    { label: "Quizzes Completed", completed: 25, total: 48, color: "#16a34a" },
-  ];
 
-  const topCategories = [
-    { name: "Programming", completed: 8, total: 10 },
-    { name: "Aptitude", completed: 6, total: 8 },
-    { name: "Database", completed: 5, total: 8 },
-    { name: "Operating System", completed: 2, total: 6 },
-  ];
+  const fetchDashboardData = async () => {
+    try {
+      const [categories, quizzes, history] = await Promise.all([
+        getCategories(),
+        getQuizzes(),
+        getStudentResultHistory(),
+      ]);
 
-  const recentResults = [
-    { quiz: "Java Basics", category: "Programming", score: "92%", status: "Pass" },
-    { quiz: "DBMS Fundamentals", category: "Database", score: "84%", status: "Pass" },
-    { quiz: "Operating System", category: "OS", score: "63%", status: "Pass" },
-    { quiz: "Aptitude Test", category: "Aptitude", score: "41%", status: "Fail" },
-  ];
+      setRecentResults(history.slice(0, 4));
+
+      const completedQuizCount = new Set(history.map((item) => item.quiz_id)).size;
+      const remainingQuizCount = Math.max(quizzes.length - completedQuizCount, 0);
+
+      setStats([
+        {
+          title: "Categories",
+          value: categories.length,
+          icon: Layers,
+          color: "#122e6f",
+        },
+        {
+          title: "Total Quizzes",
+          value: quizzes.length,
+          icon: BookOpen,
+          color: "#122e6f",
+        },
+        {
+          title: "Completed Quiz",
+          value: completedQuizCount,
+          icon: CheckCircle2,
+          color: "#122e6f",
+        },
+        {
+          title: "Remaning Quiz",
+          value: remainingQuizCount,
+          icon: Clock,
+          color: "#122e6f",
+        },
+      ]);
+
+
+      const passedQuizCount = new Set(
+        history
+        .filter((item) => item.is_pass)
+        .map((item) => item.quiz_id)
+      ).size;
+
+      setOverallProgress([
+        {
+          label: "Quiz Success",
+          completed: passedQuizCount,
+          total: completedQuizCount,
+          color: "#16a34a",
+        },
+        {
+          label: "Quizzes Completed",
+          completed: completedQuizCount,
+          total: quizzes.length,
+          color: "#2563eb",
+        },
+      ]);
+
+
+      const categoryMap = {};
+
+      categories.forEach((category) => {
+        categoryMap[category.id] = {
+          name: category.name,
+          completed: 0,
+          total: 0,
+        };
+      });
+
+      quizzes.forEach((quiz) => {
+        if (categoryMap[quiz.category_id]) {
+          categoryMap[quiz.category_id].total++;
+        }
+      });
+
+      const completedQuizIds = new Set(
+        history.map((item) => item.quiz_id)
+      );
+
+      quizzes.forEach((quiz) => {
+        if (completedQuizIds.has(quiz.id) && categoryMap[quiz.category_id]) {
+          categoryMap[quiz.category_id].completed++;
+        }
+      });
+
+      const topCategoriesData = Object.values(categoryMap)
+        .filter((item) => item.total > 0)
+        .sort((a, b) => {
+          if (b.completed !== a.completed) {
+            return b.completed - a.completed;
+          }
+          return b.total - a.total;
+        })
+        .slice(0, 4);
+
+      setTopCategories(topCategoriesData);
+    }
+    catch (err) {
+      toast.error(getErrorMessage(err));
+    }
+  };
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+
 
   return (
     <div className="student-dashboard">
@@ -59,7 +157,7 @@ const StudentDashboard = () => {
         ))}
       </div>
 
-  
+
       <div className="dashboard-grid">
 
         {/* Overall Progress*/}
@@ -79,10 +177,9 @@ const StudentDashboard = () => {
           </div>
         </div>
 
-        {/* Top Categories */}
         <div className="dashboard-card">
           <div className="card-header">
-            <h2>Top Categories</h2>
+            <h2>Category Progress</h2>
             <button onClick={() => navigate("/student/categories")} className="view-all-btn">View All</button>
           </div>
 
