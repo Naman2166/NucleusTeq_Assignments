@@ -28,12 +28,7 @@ const AdminDashboard = () => {
 
   const fetchDashboard = async () => {
     try {
-      const [
-        categoryData,
-        quizData,
-        resultData,
-        studentData,
-      ] = await Promise.all([
+      const [categoryData, quizData, resultData, studentData] = await Promise.all([
         getCategories(),
         getQuizzes(),
         getAllResults(),
@@ -61,25 +56,25 @@ const AdminDashboard = () => {
       title: "Total Categories",
       value: categories.length,
       icon: Layers,
-      color: "#3253cb",
+      color: "#122e6f",
     },
     {
       title: "Total Quizzes",
       value: quizzes.length,
       icon: BookOpen,
-      color: "#3253cb",
+      color: "#122e6f",
     },
     {
       title: "Total Students",
       value: totalStudents,
       icon: Users,
-      color: "#3253cb",
+      color: "#122e6f",
     },
     {
       title: "Students Attempted",
       value: studentsAttempted,
       icon: UserCheck,
-      color: "#3253cb",
+      color: "#122e6f",
     },
   ];
 
@@ -221,7 +216,7 @@ const AdminDashboard = () => {
                     className="admin-progress-fill"
                     style={{
                       width: `${totalAttempts ? (category.attempts / totalAttempts) * 100 : 0}%`,
-                      background: "#2563eb",
+                      background: "#122e6f",
                     }}
                   />
                 </div>

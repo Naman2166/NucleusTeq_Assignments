@@ -31,7 +31,7 @@
   gap: 8px;
   border: none;
   border-radius: 10px;
-  background: #2563eb;
+  background: #1f4dba;
   color: white;
   height: 42px;
   padding: 0 18px;
@@ -44,7 +44,7 @@
 }
 
 .add-quiz-btn:hover {
-  background: #1d4ed8;
+  background: rgb(14, 36, 96);
 }
 
 .quiz-search-box {
