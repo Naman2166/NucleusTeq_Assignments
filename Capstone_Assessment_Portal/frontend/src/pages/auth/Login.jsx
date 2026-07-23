@@ -3,7 +3,7 @@ import "./Login.css";
 import api from "../../utils/api";
 import { useNavigate, Link } from "react-router-dom";
 import API_ENDPOINTS from "../../utils/constants";
-import RegisterImage from "../../assets/RegisterImage.jpg";
+import RegisterImage from "../../assets/registerImage.jpg";
 import { validateLoginForm } from "../../utils/validation";
 import { getErrorMessage } from "../../utils/errorHandler";
 import { encryptPassword } from "../../utils/encryption";
