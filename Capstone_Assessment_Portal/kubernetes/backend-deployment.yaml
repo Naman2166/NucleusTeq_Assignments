@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: backend
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: backend
+
+  template:
+    metadata:
+      labels:
+        app: backend
+
+    spec:
+      containers:
+      - name: backend
+        image: namanpatelnucleusteq/capstone-assessment-portal-backend:latest
+
+        ports:
+          - containerPort: 8000
+
+        resources:
+          requests:
+            cpu: "100m"
+          limits:
+            cpu: "500m"
+          
+        env:
+          - name: MONGODB_URI
+            valueFrom:
+              secretKeyRef:
+                name: backend-secrets
+                key: MONGODB_URI
+          
+          - name: DATABASE_NAME
+            valueFrom:
+              secretKeyRef:
+                name: backend-secrets
+                key: DATABASE_NAME
+
+          - name: SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: backend-secrets
+                key: SECRET_KEY
+
+          - name: ALGORITHM
+            value: "HS256"
+
+          - name: ACCESS_TOKEN_EXPIRE_MINUTES
+            value: "15"
+
+          - name: REFRESH_TOKEN_EXPIRE_DAYS
+            value: "7"

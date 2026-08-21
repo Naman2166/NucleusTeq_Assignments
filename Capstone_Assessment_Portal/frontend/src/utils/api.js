@@ -3,7 +3,8 @@ import API_ENDPOINTS from "./constants";
 import { clearAuth } from "./auth";
 
 const api = axios.create({
-  baseURL: "http://127.0.0.1:8000",
+  // baseURL: "http://127.0.0.1:8000",
+  baseURL: "https://capstone-assessment-portal-backend.onrender.com",
 });
 
 
@@ -37,7 +38,8 @@ api.interceptors.response.use(
 
       try {
         if (refreshToken) {
-          const response = await axios.post("http://127.0.0.1:8000/auth/refresh", {
+          // const response = await axios.post("http://127.0.0.1:8000/auth/refresh", {
+          const response = await axios.post("https://capstone-assessment-portal-backend.onrender.com/auth/refresh", {
             refresh_token: refreshToken
           });
 
